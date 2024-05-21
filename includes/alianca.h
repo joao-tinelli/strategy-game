@@ -5,5 +5,5 @@ typedef struct alianca TAlianca;
 
 TAlianca *alianca_aloca(char *nome);
 
-#endif // !ALIANCA_H
+#endif 
 

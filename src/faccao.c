@@ -27,7 +27,7 @@ TFaccao *Tfaccao_aloca(const char *nome, const int x, const int y, const int pts
 {
     TFaccao *novo = (TFaccao*)malloc(sizeof(TFaccao));
     if(!novo){
-        printf("Falha ao alocar memoria.\n");
+        msg_erro("Falha ao criar a faccao.", "Tfaccao_aloca");
         return NULL;
     }
     strcpy(novo->nome, nome);
@@ -46,7 +46,7 @@ CFaccao *Cfaccao_cria(void)
     CFaccao *novo = (CFaccao*) malloc(sizeof(CFaccao)); 
 
     if(!novo){
-        msg_erro("Falha ao criar a faccao.\n", "faccao_cria");
+        msg_erro("Falha ao criar a faccao.", "faccao_cria");
         return NULL;
     }
 
@@ -65,7 +65,7 @@ void faccao_inserir(CFaccao *cabeca, const char *nome, const int x, const int y,
 {
     TFaccao *novo = Tfaccao_aloca(nome, x, y, pts_recurso, pts_poder);
     if(!novo){
-        msg_erro("Falha ao inserir faccao\n", "faccao_inserir");
+        msg_erro("Falha ao inserir faccao.", "faccao_inserir");
         return;
     }
     if (Tfaccao_vazia(cabeca)){
@@ -114,7 +114,7 @@ void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo)
 {
     FILE *arquivo = fopen(nome_arquivo, "r");
     if (!arquivo){
-        msg_erro("Erro ao abrir arquivo", "faccoes_converte_txt_lista");
+        msg_erro("Erro ao abrir arquivo.", "faccoes_converte_txt_lista");
         return;
     }
 
@@ -133,7 +133,7 @@ void faccoes_display(const CFaccao *cabeca)
 {
     if (Tfaccao_vazia(cabeca))
     {
-        msg_erro("Faccao vazia", "faccoes_display");
+        msg_erro("Faccao vazia.", "faccoes_display");
         return;
     }
     TFaccao *aux = cabeca->ini;

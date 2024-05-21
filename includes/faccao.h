@@ -12,4 +12,5 @@ void faccao_inserir(CFaccao *cabeca, const char *nome, const int x, const int y,
 int faccao_existe(const CFaccao *cabeca, const char *nome);
 void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo);
 void faccoes_display(const CFaccao *cabeca);
+
 #endif
