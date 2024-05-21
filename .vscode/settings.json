@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "faccao.h": "c"
+        "faccao.h": "c",
+        "edificio.h": "c"
     }
 }
