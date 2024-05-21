@@ -1,7 +1,8 @@
 #ifndef ALIANCA_H
 #define ALIANCA_H
 
-typedef struct alianca TAlianca;
+typedef struct _alianca TAlianca;
+typedef struct _calianca CAlianca;
 
 TAlianca *alianca_aloca(char *nome);
 

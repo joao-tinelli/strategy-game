@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "faccao.h"
-#include "unidade.h"
-#include "edificio.h"
 #include "alianca.h"
+#include "edificio.h"
+#include "unidade.h"
 #include "mensagens.h"
 
 // Estrutura para representar uma facção
@@ -13,9 +14,9 @@ typedef struct _faccao{
     int pts_recurso, pts_poder;
     int x, y; // posicao da faccao
     struct _faccao *prox;
-    TAlianca *proxalianca;
-    TEdificio *proxedificio;
-    TUnidade *proxunidade;
+    CAlianca *proxalianca;
+    CEdificio *proxedificio;
+    CUnidade *proxunidade;
 } TFaccao;
 
 typedef struct _cfaccao{
@@ -95,7 +96,6 @@ void faccao_desaloca(CFaccao **cabeca)
 {
     if (Tfaccao_vazia(*cabeca)) return;
     /*
-    desaloca_unidade(cabeca);
     desaloca_edificio(cabeca);
     desaloca_alianca(cabeca);
     */
@@ -103,6 +103,9 @@ void faccao_desaloca(CFaccao **cabeca)
    while(aux){
         temp = aux;
         aux = temp->prox;
+
+        //cunidade_desaloca(&aux->proxunidade);
+
         free(temp);
    }
 

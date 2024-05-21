@@ -20,13 +20,13 @@ app: clean_apps \
 	$(OUTPUT)/main \
 	$(OUTPUT)/teste_faccao \
 	$(OUTPUT)/teste_edificio \
+	$(OUTPUT)/teste_unidade \
 
 $(OBJ)/%.o: $(SRC)/%.c $(INCLUDE)/%.h
 	gcc $(FLAGS) -c $< -I $(INCLUDE) -o $@
 
-
 run:
-	$(OUTPUT)/teste_edificio.out
+	$(OUTPUT)/teste_faccao.out
 
 $(OUTPUT)/%: $(APPS)/%.c
 	gcc $(FLAGS) $< $(OBJ)/*.o -I $(INCLUDE) -o $@.out
