@@ -4,12 +4,12 @@
 #include "alianca.h"
 
 // Estrutura para representar uma alinça
-typedef struct alianca{
+typedef struct _alianca{
     char nome[15];
     struct alianca *prox;
 } TAlianca;
 
-typedef struct{
+typedef struct _calianca{
     TAlianca *ini, *fim;
     int tam;
 } CAlianca;
