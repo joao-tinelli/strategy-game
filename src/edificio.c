@@ -68,7 +68,7 @@ void edificio_inserir(CEdificio *cabeca, const int x, const int y, const int tip
 
 void edificio_desaloca(CEdificio **cabeca)
 {
-    if (Tedificio_vazio(*cabeca)) return;
+    if (*cabeca == NULL) return;
     
     TEdificio *aux = (*cabeca)->ini, *temp;
     while(aux){

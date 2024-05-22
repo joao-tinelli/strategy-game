@@ -53,7 +53,7 @@ int cunidade_vazia(const CUnidade *cabeca)
 
 void cunidade_desaloca(CUnidade **cabeca) 
 {
-   if (cunidade_vazia(*cabeca)) return;
+   if (*cabeca == NULL) return;
 
     CUnidade *C = *cabeca;
     TUnidade *aux = C->ini, *temp = NULL;
