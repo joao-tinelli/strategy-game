@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "alianca.h"
+#include "mensagens.h"
 
 // Estrutura para representar uma alinça
 typedef struct _alianca{
     char nome[15];
-    struct alianca *prox;
+    struct _alianca *prox;
 } TAlianca;
 
 typedef struct _calianca{
@@ -14,11 +15,11 @@ typedef struct _calianca{
     int tam;
 } CAlianca;
 
-TAlianca *talianca_aloca(char *nome)
+TAlianca *talianca_aloca(const char *nome)
 {
     TAlianca *novo = (TAlianca*)malloc(sizeof(TAlianca));
     if(!novo){
-        printf("Falha ao alocar memoria.\n");
+        msg_erro("Falha ao alocar memoria.\n", "talianca_aloca");
         return NULL;
     }
     strcpy(novo->nome, nome);
@@ -42,7 +43,7 @@ CAlianca *calianca_cria(void)
 
 void calianca_desaloca(CAlianca **cabeca)
 {
-    if (*cabeca==NULL) return;
+    if (*cabeca == NULL) return;
 
     CAlianca *C = *cabeca;
     TAlianca *aux = C->ini, *temp = NULL;

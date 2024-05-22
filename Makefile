@@ -22,7 +22,6 @@ app: clean_apps \
 	$(OUTPUT)/teste_faccao \
 	$(OUTPUT)/teste_edificio \
 	$(OUTPUT)/teste_unidade \
-
 	$(OUTPUT)/teste_alianca \
 	$(OUTPUT)/teste_mapa \
 
@@ -31,7 +30,6 @@ $(OBJ)/%.o: $(SRC)/%.c $(INCLUDE)/%.h
 
 run:
 	$(OUTPUT)/teste_alianca.out
-	$(OUTPUT)/teste_mapa.out
 
 $(OUTPUT)/%: $(APPS)/%.c
 	gcc $(FLAGS) $< $(OBJ)/*.o -I $(INCLUDE) -o $@.out
