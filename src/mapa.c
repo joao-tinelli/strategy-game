@@ -116,14 +116,14 @@ void mapa_display(int **mapa, Dimensao *d)
     }
 }
 
-void desaloca_mapa(int **mapa, Dimensao *d)
+void desaloca_mapa(int ***mapa, Dimensao *d)
 {
     for (int i = 0; i < d->n; i++)
-        free(mapa[i]);
-    free(mapa);
+        free((*mapa)[i]);
+    free(*mapa);
+    *mapa = NULL;
 }
 
-// Desalocar primeiro o mapa e depois a dimensao
 void desaloca_dimensao(Dimensao **d)
 {
     free(*d);
