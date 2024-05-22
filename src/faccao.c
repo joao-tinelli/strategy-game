@@ -94,7 +94,7 @@ int faccao_existe(const CFaccao *cabeca, const char *nome)
 
 void faccao_desaloca(CFaccao **cabeca)
 {
-    if (Tfaccao_vazia(*cabeca)) return;
+    if (*cabeca == NULL) return;
     /*
     desaloca_edificio(cabeca);
     desaloca_alianca(cabeca);
