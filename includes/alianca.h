@@ -4,7 +4,7 @@
 typedef struct _alianca TAlianca;
 typedef struct _calianca CAlianca;
 
-TAlianca *alianca_aloca(char *nome);
+TAlianca *talianca_aloca(const char *nome);
 CAlianca *calianca_cria(void);
 void calianca_desaloca(CAlianca **cabeca);
 
