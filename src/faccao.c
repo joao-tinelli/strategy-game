@@ -148,7 +148,7 @@ void faccoes_display(const CFaccao *cabeca)
     }
 }
 
-void faccoes_inicializar_mapa(const CFaccao *cabeca, int **mapa)
+void faccoes_inicializar_mapa(const CFaccao *cabeca, char **mapa)
 {
     if (Tfaccao_vazia(cabeca))
     {

@@ -10,6 +10,7 @@ int main(int argc, char const *argv[])
     Dimensao *d = mapa_le_dimensao("./input/config.txt");
     char **mapa = mapa_aloca(d);
     mapa_gera(mapa, d);
+    faccoes_inicializar_mapa(faccao, mapa);
     mapa_display(mapa, d);
        
     return 0;
