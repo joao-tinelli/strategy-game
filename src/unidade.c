@@ -4,11 +4,12 @@
 
 #include "unidade.h"
 #include "faccao.h"
+#include "mapa.h"
 #include "mensagens.h"
 
 // Estrutura para representar uma unidade
 typedef struct _unidade{
-    char nome[3]; // A1 / A2 / B1 / B2
+    char chave; // A1 / A2 / B1 / B2
     int x, y;
     int tipo; // 1-soldado, 2-explorador
     struct _unidade *prox;
@@ -19,7 +20,7 @@ typedef struct _cunidade{
     int tam;
 } CUnidade;
 
-TUnidade *tunidade_aloca(const char *nome, const int tipo, const int x, const int y)
+TUnidade *tunidade_aloca(const char chave, const int tipo, const int x, const int y)
 {
     TUnidade *novo = (TUnidade*)malloc(sizeof(TUnidade));
     if(!novo){
@@ -27,7 +28,7 @@ TUnidade *tunidade_aloca(const char *nome, const int tipo, const int x, const in
         return NULL;
     }
 
-    strcpy(novo->nome, nome);
+    novo->chave = chave;
     novo->x = x;  
     novo->y = y;
     novo->tipo = tipo;
@@ -71,8 +72,28 @@ void cunidade_desaloca(CUnidade **cabeca)
     *cabeca = NULL;
 }
 
-void unidade_insere(CUnidade *cabeca, const char *nome, const int tipo, const int x, const int y) {
-    TUnidade *novo = tunidade_aloca(nome, tipo, x, y);
+int unidade_existente(const CUnidade *cabeca, const char chave)
+{
+    if(unidade_vazia(cabeca)) return 0;
+    TUnidade *aux = cabeca->ini;
+    while(aux){
+        if(aux->chave == chave){
+            return 1;
+        }
+        aux = aux->prox;
+    }
+    return 0;
+}
+
+void unidade_insere(CUnidade *cabeca, const char chave, const int tipo, const int x, const int y)
+{
+    if(unidade_existente(cabeca, chave))
+    {
+        msg_erro("Unidade ja inserida", "unidade_insere");
+        return;
+    }
+    
+    TUnidade *novo = tunidade_aloca(chave, tipo, x, y);
     if(!novo){
         msg_erro("Falha ao inserir unidade.", "cunidade_insere");
         return;
@@ -96,10 +117,23 @@ void unidade_display(const CUnidade *cabeca)
     }
     TUnidade *aux = cabeca->ini;
     while(aux){
-        printf("pos: (%d, %d). Tipo: %d.\n", aux->x, aux->y, aux->tipo);
+        printf("chave: %c. \npos: (%d, %d). Tipo: %d.\n",aux->chave, aux->x, aux->y, aux->tipo);
         aux = aux->prox;
     }
 }
 
+void unidade_posiciona_mapa(char **mapa, CUnidade *cabeca, char chave)
+{
+    TUnidade *aux = cabeca->ini;
+    int x, y;
+    while(aux){
+        if (aux->chave == chave){
+            x = aux->x, y = aux->y;
+            mapa[x][y] = chave;
+            return;
+        }
+        aux = aux->prox;
+    }   
+}
 
 

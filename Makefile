@@ -29,7 +29,7 @@ $(OBJ)/%.o: $(SRC)/%.c $(INCLUDE)/%.h
 	gcc $(FLAGS) -c $< -I $(INCLUDE) -o $@
 
 run:
-	$(OUTPUT)/teste_unidade.out
+	$(OUTPUT)/main.out
 
 $(OUTPUT)/%: $(APPS)/%.c
 	gcc $(FLAGS) $< $(OBJ)/*.o -I $(INCLUDE) -o $@.out
