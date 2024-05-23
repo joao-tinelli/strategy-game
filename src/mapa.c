@@ -33,16 +33,16 @@ Dimensao *mapa_le_dimensao(const char *nome_arquivo)
     return d;
 }
 
-int **mapa_aloca(Dimensao *d)
+char **mapa_aloca(Dimensao *d)
 {
-    int **mapa = (int **)malloc(d->n * sizeof(int*));
+    char **mapa = (char **)malloc(d->n * sizeof(char*));
     if (mapa == NULL){
         msg_erro("Erro na alocação de memoria para linhas", "mapa_aloca");
         return NULL;
     }
     // Aloca memória para cada linha
     for (int i = 0; i < d->n; i++) {
-        mapa[i] = (int*)malloc(d->m * sizeof(int));
+        mapa[i] = (char*)malloc(d->m * sizeof(char));
         if (mapa[i] == NULL){
             msg_erro("Erro na alocação de memoria para coluna", "mapa_aloca");
             // Libera todas as linhas já alocadas
@@ -56,20 +56,32 @@ int **mapa_aloca(Dimensao *d)
     return mapa;
 }
 
-void mapa_gera(int **mapa, Dimensao *d)
+void mapa_gera(char **mapa, Dimensao *d)
 {
     srand(time(NULL));
    
     for (int i = 0; i < d->n; i++){
         for (int j = 0; j < d->m; j++){
             int tipo = 1 + (rand() % 3);
-            mapa[i][j] = tipo;
+            switch (tipo){
+            case 1:
+                mapa[i][j] = 'P';
+                break;
+            case 2:
+                mapa[i][j] = 'F';
+                break;
+            case 3:
+                mapa[i][j] = 'M';
+                break;;            
+            default:
+                break;
+            }            
         }
     }
 }
 
 // Função para verificar se uma matriz está vazia
-int mapa_vazio(int **matriz, int linhas, int colunas)
+int mapa_vazio(char **matriz, int linhas, int colunas)
 {
     if (matriz == NULL) {
         return 1; // Ponteiro da matriz é NULL
@@ -90,7 +102,7 @@ int mapa_vazio(int **matriz, int linhas, int colunas)
     return 1; // Todos os elementos são zero
 }
 
-void mapa_display(int **mapa, Dimensao *d)
+void mapa_display(char **mapa, Dimensao *d)
 {
     if(mapa_vazio(mapa, d->n, d->m) == 1)
     {
@@ -100,23 +112,13 @@ void mapa_display(int **mapa, Dimensao *d)
 
     for (int i = 0; i < d->n; i++){
         for (int j = 0; j < d->m; j++){
-            switch(mapa[i][j]){
-                case 1:
-                    printf("P ");
-                    break;
-                case 2:
-                    printf("F ");
-                    break;
-                case 3:
-                    printf("M ");
-                    break;
-            }
+            printf("%c ", mapa[i][j]);
         }
         printf("\n");
     }
 }
 
-void desaloca_mapa(int ***mapa, Dimensao *d)
+void desaloca_mapa(char ***mapa, Dimensao *d)
 {
     for (int i = 0; i < d->n; i++)
         free((*mapa)[i]);

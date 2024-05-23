@@ -6,6 +6,7 @@
 #include "alianca.h"
 #include "edificio.h"
 #include "unidade.h"
+#include "mapa.h"
 #include "mensagens.h"
 
 // Estrutura para representar uma facção
@@ -59,7 +60,7 @@ CFaccao *Cfaccao_cria(void)
 
 int Tfaccao_vazia(const CFaccao *cabeca)
 {
-    return(cabeca->tam == 0);
+    return(cabeca == NULL || cabeca->tam == 0);
 }
 
 void faccao_inserir(CFaccao *cabeca, const char *nome, const int x, const int y, const int pts_recurso, const int pts_poder)
@@ -94,7 +95,7 @@ int faccao_existe(const CFaccao *cabeca, const char *nome)
 
 void faccao_desaloca(CFaccao **cabeca)
 {
-    if (*cabeca == NULL) return;
+    if (!*cabeca) return;
     /*
     desaloca_edificio(cabeca);
     desaloca_alianca(cabeca);
@@ -111,6 +112,7 @@ void faccao_desaloca(CFaccao **cabeca)
 
     free(*cabeca);
     *cabeca = NULL;
+    return;
 }
 
 void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo)
@@ -145,4 +147,23 @@ void faccoes_display(const CFaccao *cabeca)
         aux = aux->prox;
     }
 }
+
+void faccoes_inicializar_mapa(const CFaccao *cabeca, int **mapa)
+{
+    if (Tfaccao_vazia(cabeca))
+    {
+        msg_erro("Faccao vazia.", "faccoes_inicializar_mapa");
+        return;
+    }
+    TFaccao *aux = cabeca->ini;
+    int i, j;
+    char c = 'A';
+    while(aux){
+        i = aux->x, j = aux->y;
+        mapa[i][j] = c++;
+        aux = aux->prox;
+    }
+}
+
+
 
