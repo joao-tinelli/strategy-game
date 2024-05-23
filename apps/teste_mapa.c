@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
     mapa_gera(mapa, d);
     mapa_display(mapa, d);
 
-    desaloca_mapa(mapa, d);
+    desaloca_mapa(&mapa, d);
      
     mapa_display(mapa, d);
 
