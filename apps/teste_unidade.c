@@ -5,8 +5,8 @@
 int main(int argc, char const *argv[])
 {
   Dimensao *d = mapa_le_dimensao("./input/config.txt");
-  char **mapa = mapa_aloca(d);
-  mapa_gera(mapa, d);
+  char **mapa_unidade = mapa_aloca(d);
+  mapa_gera(mapa_unidade, d);
 
   CUnidade *cunidade = cunidade_cria();
 
@@ -15,17 +15,21 @@ int main(int argc, char const *argv[])
 
   puts("Inserir:");
   
-  unidade_insere(cunidade, "B2", 2, 2, 3);
-  unidade_insere(cunidade, "A1", 1, 6, 1);
-  unidade_insere(cunidade, "A2", 2, 5, 7);
+  unidade_insere(cunidade, '1', 2, 2, 3);
+  unidade_insere(cunidade, '1', 1, 6, 1);
+  unidade_insere(cunidade, '3', 2, 5, 7);
 
   puts("Mostrar: ");
   unidade_display(cunidade);
 
-  mapa_display(mapa, d);
+  puts("unidades posicionadas no mapa:");
+  unidade_posiciona_mapa(mapa_unidade,cunidade, '1');
+  unidade_posiciona_mapa(mapa_unidade,cunidade, '3');
+
+  mapa_display(mapa_unidade, d);
 
   cunidade_desaloca(&cunidade);
-  desaloca_mapa(&mapa, d);
+  desaloca_mapa(&mapa_unidade, d);
   
   return 0;
 }
