@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "unidade.h"
+#include "faccao.h"
 #include "mensagens.h"
 
 // Estrutura para representar uma unidade
 typedef struct _unidade{
+    char nome[3]; // A1 / A2 / B1 / B2
     int x, y;
     int tipo; // 1-soldado, 2-explorador
     struct _unidade *prox;
@@ -16,7 +19,7 @@ typedef struct _cunidade{
     int tam;
 } CUnidade;
 
-TUnidade *tunidade_aloca(int x, int y, int tipo)
+TUnidade *tunidade_aloca(const char *nome, const int tipo, const int x, const int y)
 {
     TUnidade *novo = (TUnidade*)malloc(sizeof(TUnidade));
     if(!novo){
@@ -24,7 +27,8 @@ TUnidade *tunidade_aloca(int x, int y, int tipo)
         return NULL;
     }
 
-    novo->x = x; 
+    strcpy(novo->nome, nome);
+    novo->x = x;  
     novo->y = y;
     novo->tipo = tipo;
     novo->prox = NULL;
@@ -46,9 +50,9 @@ CUnidade *cunidade_cria(void)
     return novo;
 }
 
-int cunidade_vazia(const CUnidade *cabeca) 
+int unidade_vazia(const CUnidade *cabeca) 
 {
-    return(cabeca->tam == 0);
+    return(cabeca == NULL || cabeca->tam == 0);
 }
 
 void cunidade_desaloca(CUnidade **cabeca) 
@@ -67,13 +71,13 @@ void cunidade_desaloca(CUnidade **cabeca)
     *cabeca = NULL;
 }
 
-void cunidade_insere(CUnidade *cabeca, const int x, const int y, const int tipo) {
-    TUnidade *novo = tunidade_aloca(x, y, tipo);
+void unidade_insere(CUnidade *cabeca, const char *nome, const int tipo, const int x, const int y) {
+    TUnidade *novo = tunidade_aloca(nome, tipo, x, y);
     if(!novo){
         msg_erro("Falha ao inserir unidade.", "cunidade_insere");
         return;
     }
-    if (cunidade_vazia(cabeca)){
+    if (unidade_vazia(cabeca)){
         cabeca->ini = cabeca->fim = novo;
 
     } else {
@@ -83,9 +87,9 @@ void cunidade_insere(CUnidade *cabeca, const int x, const int y, const int tipo)
     cabeca->tam++;
 }
 
-void cunidade_display(const CUnidade *cabeca) 
+void unidade_display(const CUnidade *cabeca) 
 {
-    if (cunidade_vazia(cabeca))
+    if (unidade_vazia(cabeca))
     {
         msg_erro("Unidade vazia.", "cunidade_display");
         return;
@@ -96,3 +100,6 @@ void cunidade_display(const CUnidade *cabeca)
         aux = aux->prox;
     }
 }
+
+
+
