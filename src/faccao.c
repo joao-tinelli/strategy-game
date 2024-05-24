@@ -107,7 +107,7 @@ void faccao_desaloca(CFaccao **cabeca)
         aux = temp->prox;
 
         cunidade_desaloca(&aux_unidade);
-        edificio_desaloca(&aux_edificio);  
+        cedificio_desaloca(&aux_edificio);  
         calianca_desaloca(&aux_alianca);
 
         free(temp);

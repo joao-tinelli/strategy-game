@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
   puts("Inserir:");
   
   unidade_insere(cunidade, '1', 2, 2, 3);
-  unidade_insere(cunidade, '1', 1, 6, 1);
+  unidade_insere(cunidade, '2', 1, 6, 1);
   unidade_insere(cunidade, '3', 2, 5, 7);
 
   puts("Mostrar: ");
@@ -24,6 +24,7 @@ int main(int argc, char const *argv[])
 
   puts("unidades posicionadas no mapa:");
   unidade_posiciona_mapa(mapa_unidade,cunidade, '1');
+  unidade_posiciona_mapa(mapa_unidade,cunidade, '2');
   unidade_posiciona_mapa(mapa_unidade,cunidade, '3');
 
   mapa_display(mapa_unidade, d);

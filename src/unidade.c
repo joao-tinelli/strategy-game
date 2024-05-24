@@ -8,14 +8,16 @@
 #include "mensagens.h"
 
 // Estrutura para representar uma unidade
-typedef struct _unidade{
-    char chave; // A1 / A2 / B1 / B2
+typedef struct _unidade
+{
+    char chave; 
     int x, y;
     int tipo; // 1-soldado, 2-explorador
     struct _unidade *prox;
 } TUnidade;
 
-typedef struct _cunidade{
+typedef struct _cunidade
+{
     TUnidade *ini, *fim;
     int tam;
 } CUnidade;
@@ -29,9 +31,9 @@ TUnidade *tunidade_aloca(const char chave, const int tipo, const int x, const in
     }
 
     novo->chave = chave;
+    novo->tipo = tipo;
     novo->x = x;  
     novo->y = y;
-    novo->tipo = tipo;
     novo->prox = NULL;
 
     return novo;
@@ -56,22 +58,6 @@ int unidade_vazia(const CUnidade *cabeca)
     return(cabeca == NULL || cabeca->tam == 0);
 }
 
-void cunidade_desaloca(CUnidade **cabeca) 
-{
-   if (*cabeca == NULL) return;
-
-    CUnidade *C = *cabeca;
-    TUnidade *aux = C->ini, *temp = NULL;
-    while(aux){
-        temp = aux;
-        aux = aux->prox;
-        free(temp);
-    }
-
-    free(C);
-    *cabeca = NULL;
-}
-
 int unidade_existente(const CUnidade *cabeca, const char chave)
 {
     if(unidade_vazia(cabeca)) return 0;
@@ -94,8 +80,9 @@ void unidade_insere(CUnidade *cabeca, const char chave, const int tipo, const in
     }
     
     TUnidade *novo = tunidade_aloca(chave, tipo, x, y);
-    if(!novo){
-        msg_erro("Falha ao inserir unidade.", "cunidade_insere");
+    if(!novo)
+    {
+        msg_erro("Falha ao alocar unidade.", "tunidade_aloca");
         return;
     }
     if (unidade_vazia(cabeca)){
@@ -116,7 +103,8 @@ void unidade_display(const CUnidade *cabeca)
         return;
     }
     TUnidade *aux = cabeca->ini;
-    while(aux){
+    while(aux)
+    {
         printf("chave: %c. \npos: (%d, %d). Tipo: %d.\n",aux->chave, aux->x, aux->y, aux->tipo);
         aux = aux->prox;
     }
@@ -126,14 +114,49 @@ void unidade_posiciona_mapa(char **mapa, CUnidade *cabeca, char chave)
 {
     TUnidade *aux = cabeca->ini;
     int x, y;
-    while(aux){
-        if (aux->chave == chave){
+    while(aux)
+    {
+        if (aux->chave == chave)
+        {
             x = aux->x, y = aux->y;
             mapa[x][y] = chave;
             return;
         }
         aux = aux->prox;
     }   
+}
+
+void unidade_retira_mapa(char **mapa, char **mapa_oficial, CUnidade *cabeca, char chave)
+{
+    TUnidade *aux = cabeca->ini;
+    int x, y;
+    while(aux)
+    {
+        if (aux->chave == chave)
+        {
+            x = aux->x, y = aux->y;
+            mapa[x][y] = mapa_oficial[x][y];
+            return;
+        }
+        aux = aux->prox;
+    }   
+}
+
+void cunidade_desaloca(CUnidade **cabeca) 
+{
+   if (*cabeca == NULL) return;
+
+    CUnidade *C = *cabeca;
+    TUnidade *aux = C->ini, *temp = NULL;
+    while(aux)
+    {
+        temp = aux;
+        aux = aux->prox;
+        free(temp);
+    }
+
+    free(C);
+    *cabeca = NULL;
 }
 
 
