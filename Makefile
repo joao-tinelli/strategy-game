@@ -16,6 +16,7 @@ libed: \
 	$(OBJ)/mensagens.o \
 	$(OBJ)/unidade.o \
 	$(OBJ)/mapa.o \
+	$(OBJ)/bibliotecas.o \
 
 app: clean_apps \
 	$(OUTPUT)/main \
@@ -29,7 +30,7 @@ $(OBJ)/%.o: $(SRC)/%.c $(INCLUDE)/%.h
 	gcc $(FLAGS) -c $< -I $(INCLUDE) -o $@
 
 run:
-	$(OUTPUT)/teste_edificio.out
+	$(OUTPUT)/main.out
 
 $(OUTPUT)/%: $(APPS)/%.c
 	gcc $(FLAGS) $< $(OBJ)/*.o -I $(INCLUDE) -o $@.out

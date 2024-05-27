@@ -4,6 +4,7 @@
 
 int main(int argc, char const *argv[])
 {
+  /*
   Dimensao *d = mapa_le_dimensao("./input/config.txt");
   char **mapa_unidade = mapa_aloca(d);
   mapa_gera(mapa_unidade, d);
@@ -32,5 +33,6 @@ int main(int argc, char const *argv[])
   cunidade_desaloca(&cunidade);
   desaloca_mapa(&mapa_unidade, d);
   
+  */
   return 0;
 }
