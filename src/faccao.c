@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "faccao.h"
 #include "alianca.h"
@@ -166,6 +167,12 @@ void faccoes_posicionar_mapa(const CFaccao *cabeca, char **mapa)
         mapa[i][j] = c++;
         aux = aux->prox;
     }
+}
+
+char obter_chave(char *S)
+{
+    S[1] = tolower(S[1]);
+    return S[1];
 }
 
 
