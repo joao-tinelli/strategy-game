@@ -1,22 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "unidade.h"
+#include "faccao.h"
+#include "mapa.h"
 #include "mensagens.h"
 
 // Estrutura para representar uma unidade
-typedef struct _unidade{
+typedef struct _unidade
+{
+    char chave; 
     int x, y;
     int tipo; // 1-soldado, 2-explorador
     struct _unidade *prox;
 } TUnidade;
 
-typedef struct _cunidade{
+typedef struct _cunidade
+{
     TUnidade *ini, *fim;
     int tam;
 } CUnidade;
 
-TUnidade *tunidade_aloca(int x, int y, int tipo)
+TUnidade *tunidade_aloca(const char chave, const int tipo, const int x, const int y)
 {
     TUnidade *novo = (TUnidade*)malloc(sizeof(TUnidade));
     if(!novo){
@@ -24,9 +30,10 @@ TUnidade *tunidade_aloca(int x, int y, int tipo)
         return NULL;
     }
 
-    novo->x = x; 
-    novo->y = y;
+    novo->chave = chave;
     novo->tipo = tipo;
+    novo->x = x;  
+    novo->y = y;
     novo->prox = NULL;
 
     return novo;
@@ -46,34 +53,39 @@ CUnidade *cunidade_cria(void)
     return novo;
 }
 
-int cunidade_vazia(const CUnidade *cabeca) 
+int unidade_vazia(const CUnidade *cabeca) 
 {
-    return(cabeca->tam == 0);
+    return(cabeca == NULL || cabeca->tam == 0);
 }
 
-void cunidade_desaloca(CUnidade **cabeca) 
+int unidade_existente(const CUnidade *cabeca, const char chave)
 {
-   if (*cabeca == NULL) return;
-
-    CUnidade *C = *cabeca;
-    TUnidade *aux = C->ini, *temp = NULL;
+    if(unidade_vazia(cabeca)) return 0;
+    TUnidade *aux = cabeca->ini;
     while(aux){
-        temp = aux;
+        if(aux->chave == chave){
+            return 1;
+        }
         aux = aux->prox;
-        free(temp);
     }
-
-    free(C);
-    *cabeca = NULL;
+    return 0;
 }
 
-void cunidade_insere(CUnidade *cabeca, const int x, const int y, const int tipo) {
-    TUnidade *novo = tunidade_aloca(x, y, tipo);
-    if(!novo){
-        msg_erro("Falha ao inserir unidade.", "cunidade_insere");
+void unidade_insere(CUnidade *cabeca, const char chave, const int tipo, const int x, const int y)
+{
+    if(unidade_existente(cabeca, chave))
+    {
+        msg_erro("Unidade ja inserida", "unidade_insere");
         return;
     }
-    if (cunidade_vazia(cabeca)){
+    
+    TUnidade *novo = tunidade_aloca(chave, tipo, x, y);
+    if(!novo)
+    {
+        msg_erro("Falha ao alocar unidade.", "tunidade_aloca");
+        return;
+    }
+    if (unidade_vazia(cabeca)){
         cabeca->ini = cabeca->fim = novo;
 
     } else {
@@ -83,16 +95,68 @@ void cunidade_insere(CUnidade *cabeca, const int x, const int y, const int tipo)
     cabeca->tam++;
 }
 
-void cunidade_display(const CUnidade *cabeca) 
+void unidade_display(const CUnidade *cabeca) 
 {
-    if (cunidade_vazia(cabeca))
+    if (unidade_vazia(cabeca))
     {
         msg_erro("Unidade vazia.", "cunidade_display");
         return;
     }
     TUnidade *aux = cabeca->ini;
-    while(aux){
-        printf("pos: (%d, %d). Tipo: %d.\n", aux->x, aux->y, aux->tipo);
+    while(aux)
+    {
+        printf("chave: %c. \npos: (%d, %d). Tipo: %d.\n",aux->chave, aux->x, aux->y, aux->tipo);
         aux = aux->prox;
     }
 }
+
+void unidade_posiciona_mapa(char **mapa, CUnidade *cabeca, char chave)
+{
+    TUnidade *aux = cabeca->ini;
+    int x, y;
+    while(aux)
+    {
+        if (aux->chave == chave)
+        {
+            x = aux->x, y = aux->y;
+            mapa[x][y] = chave;
+            return;
+        }
+        aux = aux->prox;
+    }   
+}
+
+void unidade_retira_mapa(char **mapa, char **mapa_oficial, CUnidade *cabeca, char chave)
+{
+    TUnidade *aux = cabeca->ini;
+    int x, y;
+    while(aux)
+    {
+        if (aux->chave == chave)
+        {
+            x = aux->x, y = aux->y;
+            mapa[x][y] = mapa_oficial[x][y];
+            return;
+        }
+        aux = aux->prox;
+    }   
+}
+
+void cunidade_desaloca(CUnidade **cabeca) 
+{
+   if (*cabeca == NULL) return;
+
+    CUnidade *C = *cabeca;
+    TUnidade *aux = C->ini, *temp = NULL;
+    while(aux)
+    {
+        temp = aux;
+        aux = aux->prox;
+        free(temp);
+    }
+
+    free(C);
+    *cabeca = NULL;
+}
+
+

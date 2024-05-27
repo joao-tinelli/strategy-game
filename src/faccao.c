@@ -96,19 +96,22 @@ int faccao_existe(const CFaccao *cabeca, const char *nome)
 void faccao_desaloca(CFaccao **cabeca)
 {
     if (!*cabeca) return;
-    /*
-    desaloca_edificio(cabeca);
-    desaloca_alianca(cabeca);
-    */
-   TFaccao *aux = (*cabeca)->ini, *temp;
-   while(aux){
+    
+    TFaccao *aux = (*cabeca)->ini, *temp;
+    CUnidade *aux_unidade = (*cabeca)->ini->proxunidade;
+    CEdificio *aux_edificio = (*cabeca)->ini->proxedificio;
+    CAlianca *aux_alianca = (*cabeca)->ini->proxalianca;
+
+    while(aux){
         temp = aux;
         aux = temp->prox;
 
-        //cunidade_desaloca(&aux->proxunidade);
+        cunidade_desaloca(&aux_unidade);
+        cedificio_desaloca(&aux_edificio);  
+        calianca_desaloca(&aux_alianca);
 
         free(temp);
-   }
+    }
 
     free(*cabeca);
     *cabeca = NULL;
@@ -148,7 +151,7 @@ void faccoes_display(const CFaccao *cabeca)
     }
 }
 
-void faccoes_inicializar_mapa(const CFaccao *cabeca, char **mapa)
+void faccoes_posicionar_mapa(const CFaccao *cabeca, char **mapa)
 {
     if (Tfaccao_vazia(cabeca))
     {
@@ -164,6 +167,8 @@ void faccoes_inicializar_mapa(const CFaccao *cabeca, char **mapa)
         aux = aux->prox;
     }
 }
+
+
 
 
 

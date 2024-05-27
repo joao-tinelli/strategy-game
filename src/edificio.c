@@ -1,40 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "mensagens.h"
+#include <string.h>
+
 #include "edificio.h"
+#include "faccao.h"
+#include "mapa.h"
+#include "mensagens.h"
 
 // Estrutura para representar uma edifício
-typedef struct edificio{
+typedef struct edificio
+{
+    char chave;
     int x, y;
     int tipo; // 1-edifício de recursos, 2-campo de treinamento 3-laboratório de pesquisa
     struct edificio *prox;
 } TEdificio;
 
-typedef struct _cedificio{
+typedef struct _cedificio
+{
     TEdificio *ini, *fim;
     int tam;
 } CEdificio;
 
-TEdificio *Tedificio_aloca(const int x, const int y, const int tipo)
+TEdificio *tedificio_aloca(const char chave, const int tipo, const int x, const int y)
 {
     TEdificio *novo = (TEdificio*)malloc(sizeof(TEdificio));
-    if(!novo){
+    if(!novo)
+    {
         msg_erro("Falha ao criar edificio.", "Tedificio_aloca");
         return NULL;
     }
-    novo->x = x; 
-    novo->y = y;
+    novo->chave = chave;
     novo->tipo = tipo;
+    novo->x = x; 
+    novo->y = y;    
     novo->prox = NULL;
     return novo;
 }
 
-CEdificio *CEdificio_cria(void)
+CEdificio *cedificio_cria(void)
 {
     CEdificio *novo = (CEdificio*)malloc(sizeof(CEdificio));
 
-    if(!novo){
-        msg_erro("Falha ao criar o edificio.", "CEdificio_cria");
+    if(!novo)
+    {
+        msg_erro("Falha ao criar o edificio cabeca.", "cedificio_cria");
         return NULL;
     }
 
@@ -44,19 +54,41 @@ CEdificio *CEdificio_cria(void)
     return novo;
 }
 
-int Tedificio_vazio(const CEdificio *cabeca)
+int edificio_vazio(const CEdificio *cabeca) 
 {
-    return(cabeca->tam == 0);
+    return(cabeca == NULL || cabeca->tam == 0);
 }
 
-void edificio_inserir(CEdificio *cabeca, const int x, const int y, const int tipo)
+int edificio_existente(const CEdificio *cabeca, const char chave)
 {
-    TEdificio *novo = Tedificio_aloca(x, y, tipo);
-    if(!novo){
-        msg_erro("Falha ao inserir edificio.", "edificio_inserir");
+    if(edificio_vazio(cabeca)) return 0;
+    TEdificio *aux = cabeca->ini;
+    while(aux)
+    {
+        if(aux->chave == chave)
+        {
+            return 1;
+        }
+        aux = aux->prox;
+    }
+    return 0;
+}
+
+void edificio_insere(CEdificio *cabeca, const char chave, const int tipo, const int x, const int y)
+{
+    if(edificio_existente(cabeca, chave))
+    {
+        msg_erro("Edificio ja inserido", "edificio_insere");
         return;
     }
-    if (Tedificio_vazio(cabeca)){
+    
+    TEdificio *novo = tedificio_aloca(chave, tipo, x, y);
+    if(!novo)
+    {
+        msg_erro("Falha ao alocar edificio.", "tedificio_aloca");
+        return;
+    }
+    if (edificio_vazio(cabeca)){
         cabeca->ini = cabeca->fim = novo;
 
     } else {
@@ -66,32 +98,68 @@ void edificio_inserir(CEdificio *cabeca, const int x, const int y, const int tip
     cabeca->tam++;
 }
 
-void edificio_desaloca(CEdificio **cabeca)
-{
-    if (*cabeca == NULL) return;
-    
-    TEdificio *aux = (*cabeca)->ini, *temp;
-    while(aux){
-        temp = aux;
-        aux = temp->prox;
-        free(temp);
-    }
-
-    free(*cabeca);
-    *cabeca = NULL;
-}
-
 void edificio_display(const CEdificio *cabeca)
 {
-    if (Tedificio_vazio(cabeca))
+    if (edificio_vazio(cabeca))
     {
         msg_erro("Edificio vazio.", "edificio_display");
         return;
     }
     TEdificio *aux = cabeca->ini;
-    while(aux){
-        printf("posicao '%d,%d, tipo: %d\n", aux->x, aux->y, aux->tipo);
+    while(aux)
+    {
+        printf("chave: %c, posicao '%d,%d, tipo: %d\n", aux->chave, aux->x, aux->y, aux->tipo);
         aux = aux->prox;
     }
 }
+
+void edificio_posiciona_mapa(char **mapa, CEdificio *cabeca, char chave)
+{
+    TEdificio *aux = cabeca->ini;
+    int x, y;
+    while(aux)
+    {
+        if (aux->chave == chave)
+        {
+            x = aux->x, y = aux->y;
+            mapa[x][y] = chave;
+            return;
+        }
+        aux = aux->prox;
+    }   
+}
+
+void edificio_retira_mapa(char **mapa, char **mapa_oficial, CEdificio *cabeca, char chave)
+{
+    TEdificio *aux = cabeca->ini;
+    int x, y;
+    while(aux)
+    {
+        if (aux->chave == chave)
+        {
+            x = aux->x, y = aux->y;
+            mapa[x][y] = mapa_oficial[x][y];
+            return;
+        }
+        aux = aux->prox;
+    }   
+}
+
+void cedificio_desaloca(CEdificio **cabeca) 
+{
+   if (*cabeca == NULL) return;
+
+    CEdificio *C = *cabeca;
+    TEdificio *aux = C->ini, *temp = NULL;
+    while(aux)
+    {
+        temp = aux;
+        aux = aux->prox;
+        free(temp);
+    }
+
+    free(C);
+    *cabeca = NULL;
+}
+
 

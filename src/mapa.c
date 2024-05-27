@@ -118,9 +118,20 @@ void mapa_display(char **mapa, Dimensao *d)
     }
 }
 
+void mapa_replica(char **mapa_oficial, char **mapa_copia, Dimensao *d)
+{
+    int i, j;
+    for (i = 0; i < d->n; i++){
+        for (j = 0; j < d->m; j++){
+            mapa_copia[i][j] = mapa_oficial[i][j];
+        }
+    }
+}
+
 void desaloca_mapa(char ***mapa, Dimensao *d)
 {
-    for (int i = 0; i < d->n; i++)
+    int i;
+    for (i = 0; i < d->n; i++)
         free((*mapa)[i]);
     free(*mapa);
     *mapa = NULL;
