@@ -161,8 +161,7 @@ void faccoes_posicionar_mapa(const CFaccao *cabeca, char **mapa)
 
 char obter_chave(char *S)
 {
-    S[1] = tolower(S[1]);
-    return S[1];
+    return tolower(S[1]);
 }
 
 

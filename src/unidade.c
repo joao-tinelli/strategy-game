@@ -1,10 +1,11 @@
 #include "bibliotecas.h"
+
 // Estrutura para representar uma unidade
 typedef struct _unidade
 {
-    char chave[3]; 
-    int tipo; // 1-soldado, 2-explorador
+    char chave; 
     int x, y;
+    int tipo; // 1-soldado, 2-explorador
     struct _unidade *prox;
 } TUnidade;
 
@@ -14,15 +15,15 @@ typedef struct _cunidade
     int tam;
 } CUnidade;
 
-TUnidade *tunidade_aloca(const char *chave, const int tipo, const int x, const int y)
+TUnidade *tunidade_aloca(const char chave, const int tipo, const int x, const int y)
 {
-    TUnidade *novo = (TUnidade*)malloc(sizeof(TUnidade));
+    TUnidade *novo = (TUnidade*) malloc(sizeof(TUnidade));
     if(!novo){
         msg_erro("Falha ao alocar memoria.\n", "tunidade_aloca");
         return NULL;
     }
 
-    strcpy(novo->chave, chave);
+    novo->chave = chave;
     novo->tipo = tipo;
     novo->x = x;  
     novo->y = y;
@@ -34,7 +35,8 @@ TUnidade *tunidade_aloca(const char *chave, const int tipo, const int x, const i
 CUnidade *cunidade_cria(void) 
 {
     CUnidade *novo = (CUnidade*) malloc(sizeof(CUnidade));
-    if(!novo){
+    if(!novo)
+    {
         msg_erro("Falha ao alocar memoria.\n", "cunidade_cria");
         return NULL;
     }
@@ -67,33 +69,8 @@ int unidade_vazia(const CUnidade *cabeca)
     return(cabeca == NULL || cabeca->tam == 0);
 }
 
-int unidade_existente(const CUnidade *cabeca, const char *chave)
+void unidade_insere(CUnidade *cabeca, TUnidade *novo)
 {
-    if(unidade_vazia(cabeca)) return 0;
-    TUnidade *aux = cabeca->ini;
-    while(aux){
-        if(strcmp(aux->chave, chave) == 0){
-            return 1;
-        }
-        aux = aux->prox;
-    }
-    return 0;
-}
-
-void unidade_insere(CUnidade *cabeca, const char *chave, const int tipo, const int x, const int y)
-{
-    if(unidade_existente(cabeca, chave))
-    {
-        msg_erro("Unidade ja inserida", "unidade_insere");
-        return;
-    }
-    
-    TUnidade *novo = tunidade_aloca(chave, tipo, x, y);
-    if(!novo)
-    {
-        msg_erro("Falha ao alocar unidade.", "tunidade_aloca");
-        return;
-    }
     if (unidade_vazia(cabeca)){
         cabeca->ini = cabeca->fim = novo;
 
@@ -114,23 +91,35 @@ void unidade_display(const CUnidade *cabeca)
     TUnidade *aux = cabeca->ini;
     while(aux)
     {
-        printf("chave: %s. \npos: (%d, %d). Tipo: %d.\n",aux->chave, aux->x, aux->y, aux->tipo);
+        printf("chave: %c. \npos: (%d, %d). Tipo: %d.\n",aux->chave, aux->x, aux->y, aux->tipo);
         aux = aux->prox;
     }
 }
 
-void unidade_posiciona_mapa(char **mapa, CUnidade *cabeca, char *chave, const int tipo, const int x, const int y)
+void unidade_posiciona_mapa(char **mapa_unidade, TUnidade *novo)
 {
-       
+    int x = novo->x, y = novo->y;
+    mapa_unidade[x][y] = novo->chave;
 }
 
-void unidade_move(char **mapa, TUnidade *unidade, const char *chave)
-
+void unidade_retira_mapa(char **mapa_unidade, char **mapa_oficial, TUnidade *unidade)
 {
-
+    int x = unidade->x, y = unidade->y;
+    mapa_unidade[x][y] = mapa_oficial[x][y];  
 }
 
-void unidade_retira_mapa(char **mapa, char **mapa_oficial, TUnidade *unidade, const char *chave, const int tipo, const int x, const int y)
+// Funcao principal de posicionamento
+void unidade_posiciona(char *nome_faccao, CUnidade *cabeca, int tipo, int x, int y, char **mapa_unidade)
 {
-     
+    char chave = obter_chave(nome_faccao); // a, b, ..., z
+    TUnidade *nova_unidade = tunidade_aloca(chave, tipo, x, y);
+    unidade_insere(cabeca, nova_unidade);
+    unidade_posiciona_mapa(mapa_unidade, nova_unidade);  
+}
+
+// Funcao principal de movimento
+void unidade_move(TUnidade *unidade, int x, int y, char **mapa_unidade, char **mapa_oficial)
+{
+    unidade_retira_mapa(mapa_unidade, mapa_oficial, unidade);
+    mapa_unidade[x][y] = unidade->chave;
 }
