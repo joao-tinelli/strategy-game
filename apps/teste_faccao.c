@@ -4,15 +4,19 @@
 
 int main(int argc, char const *argv[])
 {
-    CFaccao *faccao = Cfaccao_cria();
+    CFaccao *cfaccao = Cfaccao_cria();
+    faccoes_converte_txt_lista(cfaccao, "./input/faccoes.txt");
+    
+    puts("display 1");
+    faccoes_display(cfaccao);
 
-    faccoes_converte_txt_lista(faccao, "./input/faccoes.txt");
-    Dimensao *d = mapa_le_dimensao("./input/config.txt");
-    char **mapa = mapa_aloca(d);
-    mapa_gera(mapa, d);
-    faccoes_posicionar_mapa(faccao, mapa);
-    mapa_display(mapa, d);
+    faccao_coleta(cfaccao, 'a', 1, 20);
+    faccao_coleta(cfaccao, 'b', 2, 20);
+
+    puts("display 2");
+    faccoes_display(cfaccao);
        
-    faccao_desaloca(&faccao);
+    faccao_desaloca(&cfaccao);
+
     return 0;
 }

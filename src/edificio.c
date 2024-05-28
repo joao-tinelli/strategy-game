@@ -1,10 +1,4 @@
 #include "bibliotecas.h"
-
-char alfabeto[26] = {
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-    };
-
 // Estrutura para representar uma edifício
 typedef struct edificio
 {
@@ -58,24 +52,10 @@ int edificio_vazio(const CEdificio *cabeca)
     return(cabeca == NULL || cabeca->tam == 0);
 }
 
-int edificio_existente(const CEdificio *cabeca, const char chave)
-{
-    if(edificio_vazio(cabeca)) return 0;
-    TEdificio *aux = cabeca->ini;
-    while(aux)
-    {
-        if(aux->chave == chave)
-        {
-            return 1;
-        }
-        aux = aux->prox;
-    }
-    return 0;
-}
-
 void edificio_insere(CEdificio *cabeca, TEdificio *novo)
 {   
-    if (edificio_vazio(cabeca)){
+    if (edificio_vazio(cabeca))
+    {
         cabeca->ini = cabeca->fim = novo;
 
     } else {
@@ -99,30 +79,6 @@ void edificio_display(const CEdificio *cabeca)
         aux = aux->prox;
     }
 }
-
- void edificio_posiciona_mapa(char **mapa_edificio, TEdificio *novo)
-{
-
-    int x = novo->x, y = novo->y;
-    mapa_edificio[x][y] = novo->chave;
-}
-
-void edificio_retira_mapa(char **mapa, char **mapa_oficial, CEdificio *cabeca, char chave)
-{
-    TEdificio *aux = cabeca->ini;
-    int x, y;
-    while(aux)
-    {
-        if (aux->chave == chave)
-        {
-            x = aux->x, y = aux->y;
-            mapa[x][y] = mapa_oficial[x][y];
-            return;
-        }
-        aux = aux->prox;
-    }   
-}
-
 void cedificio_desaloca(CEdificio **cabeca) 
 {
    if (*cabeca == NULL) return;
@@ -140,14 +96,11 @@ void cedificio_desaloca(CEdificio **cabeca)
     *cabeca = NULL;
 }
 
-void edificio_constroi(char *nome_faccao, CEdificio *cabeca, int qtd, int tipo, int x, int y, char **mapa_edificio)
+void edificio_constroi(CEdificio *cabeca, char *identificador, int qtd, int tipo, int x, int y)
 {
-    char chave = obter_chave(nome_faccao); // a, b, ..., z
+    char chave = tolower(identificador[1]); // a, b, ..., z
     TEdificio *novo_edificio = tedificio_aloca(chave, tipo, qtd, x, y);    
-    edificio_insere(cabeca, novo_edificio);
-    int i;
-    for (i = 0; i < qtd; i++)
-        edificio_posiciona_mapa(mapa_edificio, novo_edificio);  
+    edificio_insere(cabeca, novo_edificio);  
 }
 
 
