@@ -1,14 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-#include "faccao.h"
-#include "alianca.h"
-#include "edificio.h"
-#include "unidade.h"
-#include "mapa.h"
-#include "mensagens.h"
+#include "bibliotecas.h"
 
 // Estrutura para representar uma facção
 typedef struct _faccao{
@@ -171,8 +161,7 @@ void faccoes_posicionar_mapa(const CFaccao *cabeca, char **mapa)
 
 char obter_chave(char *S)
 {
-    S[1] = tolower(S[1]);
-    return S[1];
+    return tolower(S[1]);
 }
 
 

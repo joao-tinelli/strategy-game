@@ -1,16 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "unidade.h"
-#include "faccao.h"
-#include "mapa.h"
-#include "mensagens.h"
+#include "bibliotecas.h"
 
 // Estrutura para representar uma unidade
 typedef struct _unidade
 {
-    char chave; 
+    char chave;
+    int id; 
     int x, y;
     int tipo; // 1-soldado, 2-explorador
     struct _unidade *prox;
@@ -22,7 +16,7 @@ typedef struct _cunidade
     int tam;
 } CUnidade;
 
-TUnidade *tunidade_aloca(const char chave, const int tipo, const int x, const int y)
+TUnidade *tunidade_aloca(const char chave, const int id, const int tipo, const int x, const int y)
 {
     TUnidade *novo = (TUnidade*)malloc(sizeof(TUnidade));
     if(!novo){
@@ -31,6 +25,7 @@ TUnidade *tunidade_aloca(const char chave, const int tipo, const int x, const in
     }
 
     novo->chave = chave;
+    novo->id = id;
     novo->tipo = tipo;
     novo->x = x;  
     novo->y = y;
@@ -42,7 +37,8 @@ TUnidade *tunidade_aloca(const char chave, const int tipo, const int x, const in
 CUnidade *cunidade_cria(void) 
 {
     CUnidade *novo = (CUnidade*) malloc(sizeof(CUnidade));
-    if(!novo){
+    if(!novo)
+    {
         msg_erro("Falha ao alocar memoria.\n", "cunidade_cria");
         return NULL;
     }
@@ -58,33 +54,8 @@ int unidade_vazia(const CUnidade *cabeca)
     return(cabeca == NULL || cabeca->tam == 0);
 }
 
-int unidade_existente(const CUnidade *cabeca, const char chave)
+void unidade_insere(CUnidade *cabeca, TUnidade *novo)
 {
-    if(unidade_vazia(cabeca)) return 0;
-    TUnidade *aux = cabeca->ini;
-    while(aux){
-        if(aux->chave == chave){
-            return 1;
-        }
-        aux = aux->prox;
-    }
-    return 0;
-}
-
-void unidade_insere(CUnidade *cabeca, const char chave, const int tipo, const int x, const int y)
-{
-    if(unidade_existente(cabeca, chave))
-    {
-        msg_erro("Unidade ja inserida", "unidade_insere");
-        return;
-    }
-    
-    TUnidade *novo = tunidade_aloca(chave, tipo, x, y);
-    if(!novo)
-    {
-        msg_erro("Falha ao alocar unidade.", "tunidade_aloca");
-        return;
-    }
     if (unidade_vazia(cabeca)){
         cabeca->ini = cabeca->fim = novo;
 
@@ -105,42 +76,11 @@ void unidade_display(const CUnidade *cabeca)
     TUnidade *aux = cabeca->ini;
     while(aux)
     {
-        printf("chave: %c. \npos: (%d, %d). Tipo: %d.\n",aux->chave, aux->x, aux->y, aux->tipo);
+        printf("chave: %c, id: %d => pos: (%d, %d).\n",aux->chave, aux->id, aux->x, aux->y);
         aux = aux->prox;
     }
 }
 
-void unidade_posiciona_mapa(char **mapa, CUnidade *cabeca, char chave)
-{
-    TUnidade *aux = cabeca->ini;
-    int x, y;
-    while(aux)
-    {
-        if (aux->chave == chave)
-        {
-            x = aux->x, y = aux->y;
-            mapa[x][y] = chave;
-            return;
-        }
-        aux = aux->prox;
-    }   
-}
-
-void unidade_retira_mapa(char **mapa, char **mapa_oficial, CUnidade *cabeca, char chave)
-{
-    TUnidade *aux = cabeca->ini;
-    int x, y;
-    while(aux)
-    {
-        if (aux->chave == chave)
-        {
-            x = aux->x, y = aux->y;
-            mapa[x][y] = mapa_oficial[x][y];
-            return;
-        }
-        aux = aux->prox;
-    }   
-}
 
 void cunidade_desaloca(CUnidade **cabeca) 
 {
@@ -159,4 +99,35 @@ void cunidade_desaloca(CUnidade **cabeca)
     *cabeca = NULL;
 }
 
+TUnidade *unidade_buscar(CUnidade *cabeca, const int id)
+{
+    TUnidade *aux = cabeca->ini;
+    while(aux)
+    {
+        if (aux->id == id)
+        {
+            return aux;
+        }
+        aux = aux->prox;
+    }
+    return NULL;
+}
 
+// Funcao principal de posicionamento
+void unidade_posiciona(CUnidade *cabeca, char *identificador, const int tipo, const int x, const int y)
+{
+    char chave = tolower(identificador[0]); 
+    int id = (int) identificador[1] - 48; 
+    TUnidade *nova_unidade = tunidade_aloca(chave, id, tipo, x, y);
+    unidade_insere(cabeca, nova_unidade);
+}
+
+// Funcao principal de movimento
+void unidade_move(CUnidade *cabeca, char *identificador, const int tipo, const int novo_x, const int novo_y)
+{
+    int id = (int)identificador[1] - 48;
+
+    TUnidade *unidade = unidade_buscar(cabeca, id);
+    unidade->x = novo_x;
+    unidade->y = novo_y;
+}

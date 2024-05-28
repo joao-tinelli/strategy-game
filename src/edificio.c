@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "edificio.h"
-#include "faccao.h"
-#include "mapa.h"
-#include "mensagens.h"
+#include "bibliotecas.h"
 
 char alfabeto[26] = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
