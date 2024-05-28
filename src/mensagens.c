@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "mensagens.h"
+#include "bibliotecas.h"
 
 void msg_erro(char *S, char *funcao)
 {

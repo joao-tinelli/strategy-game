@@ -1,18 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "bibliotecas.h"
 
-#include "edificio.h"
-#include "faccao.h"
-#include "mapa.h"
-#include "mensagens.h"
+char alfabeto[26] = {
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+    };
 
 // Estrutura para representar uma edifício
 typedef struct edificio
 {
     char chave;
     int x, y;
-    int tipo; // 1-edifício de recursos, 2-campo de treinamento 3-laboratório de pesquisa
+    int tipo, qtd; // 1-edifício de recursos, 2-campo de treinamento 3-laboratório de pesquisa
     struct edificio *prox;
 } TEdificio;
 
@@ -22,7 +20,7 @@ typedef struct _cedificio
     int tam;
 } CEdificio;
 
-TEdificio *tedificio_aloca(const char chave, const int tipo, const int x, const int y)
+TEdificio *tedificio_aloca(const char chave, const int tipo, const int qtd, const int x, const int y)
 {
     TEdificio *novo = (TEdificio*)malloc(sizeof(TEdificio));
     if(!novo)
@@ -32,6 +30,7 @@ TEdificio *tedificio_aloca(const char chave, const int tipo, const int x, const 
     }
     novo->chave = chave;
     novo->tipo = tipo;
+    novo->qtd = qtd;
     novo->x = x; 
     novo->y = y;    
     novo->prox = NULL;
@@ -74,20 +73,8 @@ int edificio_existente(const CEdificio *cabeca, const char chave)
     return 0;
 }
 
-void edificio_insere(CEdificio *cabeca, const char chave, const int tipo, const int x, const int y)
-{
-    if(edificio_existente(cabeca, chave))
-    {
-        msg_erro("Edificio ja inserido", "edificio_insere");
-        return;
-    }
-    
-    TEdificio *novo = tedificio_aloca(chave, tipo, x, y);
-    if(!novo)
-    {
-        msg_erro("Falha ao alocar edificio.", "tedificio_aloca");
-        return;
-    }
+void edificio_insere(CEdificio *cabeca, TEdificio *novo)
+{   
     if (edificio_vazio(cabeca)){
         cabeca->ini = cabeca->fim = novo;
 
@@ -108,25 +95,16 @@ void edificio_display(const CEdificio *cabeca)
     TEdificio *aux = cabeca->ini;
     while(aux)
     {
-        printf("chave: %c, posicao '%d,%d, tipo: %d\n", aux->chave, aux->x, aux->y, aux->tipo);
+        printf("chave: %c, qtd: %d, posicao '%d,%d, tipo: %d\n", aux->chave, aux->qtd, aux->x, aux->y, aux->tipo);
         aux = aux->prox;
     }
 }
 
-void edificio_posiciona_mapa(char **mapa, CEdificio *cabeca, char chave)
+ void edificio_posiciona_mapa(char **mapa_edificio, TEdificio *novo)
 {
-    TEdificio *aux = cabeca->ini;
-    int x, y;
-    while(aux)
-    {
-        if (aux->chave == chave)
-        {
-            x = aux->x, y = aux->y;
-            mapa[x][y] = chave;
-            return;
-        }
-        aux = aux->prox;
-    }   
+
+    int x = novo->x, y = novo->y;
+    mapa_edificio[x][y] = novo->chave;
 }
 
 void edificio_retira_mapa(char **mapa, char **mapa_oficial, CEdificio *cabeca, char chave)
@@ -160,6 +138,16 @@ void cedificio_desaloca(CEdificio **cabeca)
 
     free(C);
     *cabeca = NULL;
+}
+
+void edificio_constroi(char *nome_faccao, CEdificio *cabeca, int qtd, int tipo, int x, int y, char **mapa_edificio)
+{
+    char chave = obter_chave(nome_faccao); // a, b, ..., z
+    TEdificio *novo_edificio = tedificio_aloca(chave, tipo, qtd, x, y);    
+    edificio_insere(cabeca, novo_edificio);
+    int i;
+    for (i = 0; i < qtd; i++)
+        edificio_posiciona_mapa(mapa_edificio, novo_edificio);  
 }
 
 

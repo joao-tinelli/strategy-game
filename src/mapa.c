@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include "mensagens.h"
+#include "bibliotecas.h"
 
 typedef struct _Dimensao
 {

@@ -13,5 +13,6 @@ int faccao_existe(const CFaccao *cabeca, const char *nome);
 void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo);
 void faccoes_display(const CFaccao *cabeca);
 void faccoes_posicionar_mapa(const CFaccao *cabeca, char **mapa);
+char obter_chave(char *S);
 
 #endif
