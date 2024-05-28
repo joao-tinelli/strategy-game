@@ -3,7 +3,8 @@
 // Estrutura para representar uma unidade
 typedef struct _unidade
 {
-    char chave; 
+    char chave;
+    int id; 
     int x, y;
     int tipo; // 1-soldado, 2-explorador
     struct _unidade *prox;
@@ -15,15 +16,16 @@ typedef struct _cunidade
     int tam;
 } CUnidade;
 
-TUnidade *tunidade_aloca(const char chave, const int tipo, const int x, const int y)
+TUnidade *tunidade_aloca(const char chave, const int id, const int tipo, const int x, const int y)
 {
-    TUnidade *novo = (TUnidade*) malloc(sizeof(TUnidade));
+    TUnidade *novo = (TUnidade*)malloc(sizeof(TUnidade));
     if(!novo){
         msg_erro("Falha ao alocar memoria.\n", "tunidade_aloca");
         return NULL;
     }
 
     novo->chave = chave;
+    novo->id = id;
     novo->tipo = tipo;
     novo->x = x;  
     novo->y = y;
@@ -45,23 +47,6 @@ CUnidade *cunidade_cria(void)
     novo->tam = 0;
 
     return novo;
-}
-
-void cunidade_desaloca(CUnidade **cabeca) 
-{
-   if (*cabeca == NULL) return;
-
-    CUnidade *C = *cabeca;
-    TUnidade *aux = C->ini, *temp = NULL;
-    while(aux)
-    {
-        temp = aux;
-        aux = aux->prox;
-        free(temp);
-    }
-
-    free(C);
-    *cabeca = NULL;
 }
 
 int unidade_vazia(const CUnidade *cabeca) 
@@ -91,35 +76,58 @@ void unidade_display(const CUnidade *cabeca)
     TUnidade *aux = cabeca->ini;
     while(aux)
     {
-        printf("chave: %c. \npos: (%d, %d). Tipo: %d.\n",aux->chave, aux->x, aux->y, aux->tipo);
+        printf("chave: %c, id: %d => pos: (%d, %d).\n",aux->chave, aux->id, aux->x, aux->y);
         aux = aux->prox;
     }
 }
 
-void unidade_posiciona_mapa(char **mapa_unidade, TUnidade *novo)
+
+void cunidade_desaloca(CUnidade **cabeca) 
 {
-    int x = novo->x, y = novo->y;
-    mapa_unidade[x][y] = novo->chave;
+   if (*cabeca == NULL) return;
+
+    CUnidade *C = *cabeca;
+    TUnidade *aux = C->ini, *temp = NULL;
+    while(aux)
+    {
+        temp = aux;
+        aux = aux->prox;
+        free(temp);
+    }
+
+    free(C);
+    *cabeca = NULL;
 }
 
-void unidade_retira_mapa(char **mapa_unidade, char **mapa_oficial, TUnidade *unidade)
+TUnidade *unidade_buscar(CUnidade *cabeca, const int id)
 {
-    int x = unidade->x, y = unidade->y;
-    mapa_unidade[x][y] = mapa_oficial[x][y];  
+    TUnidade *aux = cabeca->ini;
+    while(aux)
+    {
+        if (aux->id == id)
+        {
+            return aux;
+        }
+        aux = aux->prox;
+    }
+    return NULL;
 }
 
 // Funcao principal de posicionamento
-void unidade_posiciona(char *nome_faccao, CUnidade *cabeca, int tipo, int x, int y, char **mapa_unidade)
+void unidade_posiciona(CUnidade *cabeca, char *identificador, const int tipo, const int x, const int y)
 {
-    char chave = obter_chave(nome_faccao); // a, b, ..., z
-    TUnidade *nova_unidade = tunidade_aloca(chave, tipo, x, y);
+    char chave = tolower(identificador[0]); 
+    int id = (int) identificador[1] - 48; 
+    TUnidade *nova_unidade = tunidade_aloca(chave, id, tipo, x, y);
     unidade_insere(cabeca, nova_unidade);
-    unidade_posiciona_mapa(mapa_unidade, nova_unidade);  
 }
 
 // Funcao principal de movimento
-void unidade_move(TUnidade *unidade, int x, int y, char **mapa_unidade, char **mapa_oficial)
+void unidade_move(CUnidade *cabeca, char *identificador, const int tipo, const int novo_x, const int novo_y)
 {
-    unidade_retira_mapa(mapa_unidade, mapa_oficial, unidade);
-    mapa_unidade[x][y] = unidade->chave;
+    int id = (int)identificador[1] - 48;
+
+    TUnidade *unidade = unidade_buscar(cabeca, id);
+    unidade->x = novo_x;
+    unidade->y = novo_y;
 }

@@ -4,21 +4,19 @@
 
 int main(int argc, char const *argv[])
 {
-  
-  Dimensao *d = mapa_le_dimensao("./input/config.txt");
-  char **mapa_oficial = mapa_aloca(d);
-  char **mapa_unidade = mapa_aloca(d);
-  mapa_gera(mapa_oficial, d);
-  mapa_replica(mapa_oficial, mapa_unidade, d);
 
   CUnidade *cunidade = cunidade_cria();
 
-  unidade_posiciona("FA", cunidade, 1, 1, 1, mapa_unidade);
+  unidade_posiciona(cunidade, "A1", 1, 1, 1);
+  unidade_posiciona(cunidade, "A2", 2, 8, 8);
 
-  unidade_posiciona("FB", cunidade, 2, 9, 2, mapa_unidade);
+  unidade_display(cunidade);
 
-  mapa_display(mapa_unidade, d);
+  puts("MOVE: ");
 
+  unidade_move(cunidade, "A1", 1, 9, 9);
+
+  unidade_display(cunidade);
 
   cunidade_desaloca(&cunidade);
   return 0;
