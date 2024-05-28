@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "alianca.h"
-#include "mensagens.h"
+#include "bibliotecas.h"
 
 // Estrutura para representar uma alinça
 typedef struct _alianca{

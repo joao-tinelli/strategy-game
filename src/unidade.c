@@ -1,12 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "unidade.h"
-#include "faccao.h"
-#include "mapa.h"
-#include "mensagens.h"
-
+#include "bibliotecas.h"
 // Estrutura para representar uma unidade
 typedef struct _unidade
 {
