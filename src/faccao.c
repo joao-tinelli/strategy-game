@@ -28,9 +28,9 @@ TFaccao *Tfaccao_aloca(const char *nome, const int x, const int y)
     novo->y = y;
     novo->pts_recurso = 0;
     novo->pts_poder = 0;
-    novo->proxunidade = NULL;
-    novo->proxedificio = NULL;
-    novo->proxalianca = NULL;   
+    novo->proxunidade = cunidade_cria();
+    novo->proxedificio = cedificio_cria();
+    novo->proxalianca = calianca_cria();   
     return novo;
 }
 
@@ -248,13 +248,50 @@ void faccao_combate(CFaccao *cabeca, char *f1, char *f2)
     }
 }
 
+// Remover depois esta funcao
 void faccao_teste(CFaccao *cabeca)
 {
     TFaccao *aux = cabeca->ini;
     aux->pts_poder += 10; // FC
     aux->prox->pts_poder += 5; // FB
     aux->prox->prox->pts_poder += 10; // FA
-    
+}
+
+void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
+{
+    if(Cfaccao_vazia(cabeca))
+    {
+        msg_erro("Nao ha nehuma faccao.", "faccao_alianca");
+        return;
+    }
+    TFaccao *faccao_1 = faccao_buscar(cabeca, f1);
+    TFaccao *faccao_2 = faccao_buscar(cabeca, f2);
+
+    if (!faccao_1 || !faccao_2)
+    {
+        msg_erro("Alguma faccao nao existe", "faccao_alianca");
+        return;
+    }
+
+    if (faccao_1->pts_poder >= faccao_2->pts_poder) // f1 recebe tudo de f2 e se tornam uma faccao so
+    { 
+        faccao_1->pts_poder += faccao_2->pts_poder;
+        faccao_1->pts_recurso += faccao_2->pts_recurso;
+        calianca_insere(faccao_1->proxalianca, f2);
+        edificio_merge(faccao_1->proxedificio, faccao_2->proxedificio);
+        unidade_merge(faccao_1->proxunidade, faccao_2->proxunidade);
+
+        tfaccao_desaloca(cabeca, faccao_2->nome);
+
+    } else { // f2 recebe tudo de f1 e se tornam uma faccao so
+        faccao_2->pts_poder += faccao_1->pts_poder;
+        faccao_2->pts_recurso += faccao_1->pts_recurso;
+        calianca_insere(faccao_2->proxalianca, f1);
+        edificio_merge(faccao_2->proxedificio, faccao_1->proxedificio);
+        unidade_merge(faccao_2->proxunidade, faccao_1->proxunidade);
+
+        tfaccao_desaloca(cabeca, faccao_1->nome);
+    }
 }
 
 

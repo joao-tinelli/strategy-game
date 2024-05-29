@@ -16,6 +16,7 @@ void unidade_display(const CUnidade *cabeca);
 TUnidade *unidade_buscar(CUnidade *cabeca, const int id);
 void unidade_posiciona(CUnidade *cabeca, char *identificador, const int tipo, const int x, const int y);
 void unidade_move(CUnidade *cabeca, char *identificador, const int tipo, const int novo_x, const int novo_y);
+void unidade_merge(CUnidade *cabeca_1, CUnidade *cabeca_2);
 
 #endif
 

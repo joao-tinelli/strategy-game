@@ -18,5 +18,6 @@ TFaccao *faccao_buscar(CFaccao *cabeca, char *nome);
 void faccao_coleta(CFaccao *cabeca, const char identificador, const int tipo, const int qtd);
 void faccao_combate(CFaccao *cabeca, char *f1, char *f2);
 void faccao_teste(CFaccao *cabeca);
+void faccao_alianca(CFaccao *cabeca, char *f1, char *f2);
 
 #endif

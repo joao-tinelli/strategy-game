@@ -14,7 +14,8 @@ typedef struct _calianca{
 TAlianca *talianca_aloca(const char *nome)
 {
     TAlianca *novo = (TAlianca*)malloc(sizeof(TAlianca));
-    if(!novo){
+    if(!novo)
+    {
         msg_erro("Falha ao alocar memoria.\n", "talianca_aloca");
         return NULL;
     }
@@ -62,7 +63,8 @@ int calianca_vazia(const CAlianca *cabeca)
 void calianca_insere(CAlianca *cabeca, const char *nome)
 {
     TAlianca *novo = talianca_aloca(nome);
-    if(!novo){
+    if(!novo)
+    {
         msg_erro("Falha ao inserir uma alianca.", "calianca_insere");
         return;
     }
@@ -89,5 +91,6 @@ void calianca_display(const CAlianca *cabeca)
         aux = aux->prox;
     }
 }
+
 
 
