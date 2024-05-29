@@ -47,14 +47,14 @@ CEdificio *cedificio_cria(void)
     return novo;
 }
 
-int edificio_vazio(const CEdificio *cabeca) 
+int cedificio_vazio(const CEdificio *cabeca) 
 {
     return(cabeca == NULL || cabeca->tam == 0);
 }
 
 void edificio_insere(CEdificio *cabeca, TEdificio *novo)
 {   
-    if (edificio_vazio(cabeca))
+    if (cedificio_vazio(cabeca))
     {
         cabeca->ini = cabeca->fim = novo;
 
@@ -67,7 +67,7 @@ void edificio_insere(CEdificio *cabeca, TEdificio *novo)
 
 void edificio_display(const CEdificio *cabeca)
 {
-    if (edificio_vazio(cabeca))
+    if (cedificio_vazio(cabeca))
     {
         msg_erro("Edificio vazio.", "edificio_display");
         return;
@@ -104,3 +104,14 @@ void edificio_constroi(CEdificio *cabeca, char *identificador, int qtd, int tipo
 }
 
 
+void edificio_merge(CEdificio *cabeca_1, CEdificio *cabeca_2) 
+{
+    TEdificio *aux_2 = cabeca_2->ini;
+
+    while (aux_2)
+    {
+        edificio_insere(cabeca_1, aux_2);
+        aux_2 = aux_2->prox;
+    }
+    
+}

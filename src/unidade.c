@@ -131,3 +131,14 @@ void unidade_move(CUnidade *cabeca, char *identificador, const int tipo, const i
     unidade->x = novo_x;
     unidade->y = novo_y;
 }
+
+void unidade_merge(CUnidade *cabeca_1, CUnidade *cabeca_2) 
+{
+    TUnidade *aux_2 = cabeca_2->ini;
+
+    while (aux_2)
+    {
+        unidade_insere(cabeca_1, aux_2);
+        aux_2 = aux_2->prox;
+    }
+}
