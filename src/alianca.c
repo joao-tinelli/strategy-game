@@ -52,7 +52,6 @@ void calianca_desaloca(CAlianca **cabeca)
 
     free(C);
     *cabeca = NULL;
-    printf("Aliança desalocada.\n");
 }
 
 int calianca_vazia(const CAlianca *cabeca)
