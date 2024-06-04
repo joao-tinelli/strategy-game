@@ -77,6 +77,22 @@ void mapa_gera(char **mapa, Dimensao *d)
     }
 }
 
+void desaloca_mapa(char ***mapa, Dimensao *d)
+{
+    int i;
+    for (i = 0; i < d->n; i++)
+        free((*mapa)[i]);
+    free(*mapa);
+    *mapa = NULL;
+}
+
+void desaloca_dimensao(Dimensao **d)
+{
+    free(*d);
+    *d = NULL;
+}
+
+
 // Função para verificar se uma matriz está vazia
 int mapa_vazio(char **matriz, int linhas, int colunas)
 {
@@ -125,17 +141,3 @@ void mapa_replica(char **mapa_oficial, char **mapa_copia, Dimensao *d)
     }
 }
 
-void desaloca_mapa(char ***mapa, Dimensao *d)
-{
-    int i;
-    for (i = 0; i < d->n; i++)
-        free((*mapa)[i]);
-    free(*mapa);
-    *mapa = NULL;
-}
-
-void desaloca_dimensao(Dimensao **d)
-{
-    free(*d);
-    *d = NULL;
-}

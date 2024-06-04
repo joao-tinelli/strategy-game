@@ -16,7 +16,7 @@ TAlianca *talianca_aloca(const char *nome)
     TAlianca *novo = (TAlianca*)malloc(sizeof(TAlianca));
     if(!novo)
     {
-        msg_erro("Falha ao alocar memoria.\n", "talianca_aloca");
+        msg_erro("Falha ao alocar memoria.", "talianca_aloca");
         return NULL;
     }
     strcpy(novo->nome, nome);
@@ -28,7 +28,7 @@ CAlianca *calianca_cria(void)
 {
     CAlianca *novo = (CAlianca*) malloc(sizeof(CAlianca));
     if(!novo){
-        msg_erro("Falha ao alocar memoria.\n", "calianca_cria");
+        msg_erro("Falha ao alocar memoria.", "calianca_cria");
         return NULL;
     }
 

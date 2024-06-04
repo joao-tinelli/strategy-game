@@ -49,25 +49,6 @@ CFaccao *Cfaccao_cria(void)
     return novo;
 }
 
-int Cfaccao_vazia(const CFaccao *cabeca)
-{
-    return(cabeca == NULL || cabeca->tam == 0);
-}
-
-int faccao_verifica_posicao(CFaccao *cabeca, const int x, const int y) 
-{
-    if (Cfaccao_vazia(cabeca)) return 0;
-
-    TFaccao *aux = cabeca->ini;
-    while (aux)
-    {
-        if ((aux->x = x) && (aux->y == y))
-            return 1;
-        aux = aux->prox;
-    }
-    return 0;
-}
-
 void cfaccao_desaloca(CFaccao **cabeca)
 {
     if (!*cabeca) return;
@@ -91,37 +72,6 @@ void cfaccao_desaloca(CFaccao **cabeca)
     free(*cabeca);
     *cabeca = NULL;
     return;
-}
-
-void faccao_inserir(CFaccao *cabeca, const char *nome, const int x, const int y)
-{
-    TFaccao *novo = Tfaccao_aloca(nome, x, y);
-    if(!novo)
-    {
-        msg_erro("\nFalha ao inserir faccao.", "faccao_inserir");
-        return;
-    }
-    if (Cfaccao_vazia(cabeca)){
-        cabeca->ini = cabeca->fim = novo;
-
-    } else {
-        novo->prox = cabeca->ini;
-        cabeca->ini = novo;
-    }
-    cabeca->tam++;
-}
-
-int faccao_existe(const CFaccao *cabeca, const char *nome)
-{
-    if(Cfaccao_vazia(cabeca)) return 0;
-    TFaccao *aux = cabeca->ini;
-    while(aux){
-        if(strcmp(aux->nome, nome) == 0){
-            return 1;
-        }
-        aux = aux->prox;
-    }
-    return 0;
 }
 
 void tfaccao_desaloca(CFaccao *cabeca, char *nome_faccao)
@@ -153,6 +103,56 @@ void tfaccao_desaloca(CFaccao *cabeca, char *nome_faccao)
         }
         msg_erro("Faccao nao encontrada!", "tfaccao_desaloca");
     }
+}
+
+int Cfaccao_vazia(const CFaccao *cabeca)
+{
+    return(cabeca == NULL || cabeca->tam == 0);
+}
+
+int faccao_existe(const CFaccao *cabeca, const char *nome)
+{
+    if(Cfaccao_vazia(cabeca)) return 0;
+    TFaccao *aux = cabeca->ini;
+    while(aux){
+        if(strcmp(aux->nome, nome) == 0){
+            return 1;
+        }
+        aux = aux->prox;
+    }
+    return 0;
+}
+
+int faccao_verifica_posicao(CFaccao *cabeca, const int x, const int y) 
+{
+    if (Cfaccao_vazia(cabeca)) return 0;
+
+    TFaccao *aux = cabeca->ini;
+    while (aux)
+    {
+        if ((aux->x = x) && (aux->y == y))
+            return 1;
+        aux = aux->prox;
+    }
+    return 0;
+}
+
+void faccao_inserir(CFaccao *cabeca, const char *nome, const int x, const int y)
+{
+    TFaccao *novo = Tfaccao_aloca(nome, x, y);
+    if(!novo)
+    {
+        msg_erro("\nFalha ao inserir faccao.", "faccao_inserir");
+        return;
+    }
+    if (Cfaccao_vazia(cabeca)){
+        cabeca->ini = cabeca->fim = novo;
+
+    } else {
+        novo->prox = cabeca->ini;
+        cabeca->ini = novo;
+    }
+    cabeca->tam++;
 }
 
 void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo)

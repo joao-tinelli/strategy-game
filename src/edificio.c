@@ -47,38 +47,6 @@ CEdificio *cedificio_cria(void)
     return novo;
 }
 
-int cedificio_vazio(const CEdificio *cabeca) 
-{
-    return(cabeca == NULL || cabeca->tam == 0);
-}
-
-void edificio_insere(CEdificio *cabeca, TEdificio *novo)
-{   
-    if (cedificio_vazio(cabeca))
-    {
-        cabeca->ini = cabeca->fim = novo;
-
-    } else {
-        novo->prox = cabeca->ini;
-        cabeca->ini = novo;
-    }
-    cabeca->tam++;
-}
-
-void edificio_display(const CEdificio *cabeca)
-{
-    if (cedificio_vazio(cabeca))
-    {
-        msg_erro("Edificio vazio.", "edificio_display");
-        return;
-    }
-    TEdificio *aux = cabeca->ini;
-    while(aux)
-    {
-        printf("chave: %c, qtd: %d, posicao '%d,%d, tipo: %d\n", aux->chave, aux->qtd, aux->x, aux->y, aux->tipo);
-        aux = aux->prox;
-    }
-}
 void cedificio_desaloca(CEdificio **cabeca) 
 {
    if (*cabeca == NULL) return;
@@ -96,13 +64,44 @@ void cedificio_desaloca(CEdificio **cabeca)
     *cabeca = NULL;
 }
 
+int cedificio_vazio(const CEdificio *cabeca) 
+{
+    return(cabeca == NULL || cabeca->tam == 0);
+}
+
+void edificio_insere(CEdificio *cabeca, TEdificio *novo)
+{   
+    if (cedificio_vazio(cabeca))
+    {
+        cabeca->ini = cabeca->fim = novo;
+    } else {
+        novo->prox = cabeca->ini;
+        cabeca->ini = novo;
+    }
+    cabeca->tam++;
+}
+
+void edificio_display(const CEdificio *cabeca)
+{
+    if (cedificio_vazio(cabeca))
+    {
+        msg_erro("Edificio vazio.", "edificio_display");
+        return;
+    }
+    TEdificio *aux = cabeca->ini;
+    while(aux)
+    {
+        printf("CHAVE: %c\nQTD: %d\nPOS: (%d, %d) \nTIPO: %d\n", aux->chave, aux->qtd, aux->x, aux->y, aux->tipo);
+        aux = aux->prox;
+    }
+}
+
 void edificio_constroi(CEdificio *cabeca, char *identificador, int qtd, int tipo, int x, int y)
 {
     char chave = tolower(identificador[1]); // a, b, ..., z
     TEdificio *novo_edificio = tedificio_aloca(chave, tipo, qtd, x, y);    
     edificio_insere(cabeca, novo_edificio);  
 }
-
 
 void edificio_merge(CEdificio *cabeca_1, CEdificio *cabeca_2) 
 {
