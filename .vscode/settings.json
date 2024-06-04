@@ -2,6 +2,7 @@
     "files.associations": {
         "faccao.h": "c",
         "edificio.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "mapa.h": "c"
     }
 }
