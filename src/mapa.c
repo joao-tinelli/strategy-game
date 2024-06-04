@@ -30,6 +30,14 @@ Dimensao *mapa_le_dimensao(const char *nome_arquivo)
     return d;
 }
 
+Dimensao *seta_dimensao(const int n, const int m)
+{
+    Dimensao *aux = (Dimensao*)malloc(sizeof(Dimensao));
+    aux->n = n;
+    aux->m = m;
+    return aux;
+}
+
 char **mapa_aloca(Dimensao *d)
 {
     char **mapa = (char **)malloc(d->n * sizeof(char*));
@@ -77,21 +85,37 @@ void mapa_gera(char **mapa, Dimensao *d)
     }
 }
 
-// Função para verificar se uma matriz está vazia
-int mapa_vazio(char **matriz, int linhas, int colunas)
+void desaloca_mapa(char ***mapa, Dimensao *d)
 {
-    if (matriz == NULL) {
+    int i;
+    for (i = 0; i < d->n; i++)
+        free((*mapa)[i]);
+    free(*mapa);
+    *mapa = NULL;
+}
+
+void desaloca_dimensao(Dimensao **d)
+{
+    free(*d);
+    *d = NULL;
+}
+
+
+// Função para verificar se uma matriz está vazia
+int mapa_vazio(char **mapa, Dimensao *dimensao)
+{
+    if (mapa == NULL) {
         return 1; // Ponteiro da matriz é NULL
     }
-    if (linhas == 0 || colunas == 0) {
+    if (dimensao->n == 0 || dimensao->m == 0) {
         return 1; // Número de linhas ou colunas é zero
     }
-    for (int i = 0; i < linhas; i++) {
-        if (matriz[i] == NULL) {
+    for (int i = 0; i < dimensao->n; i++) {
+        if (mapa[i] == NULL) {
             return 1; // Linha da matriz é NULL
         }
-        for (int j = 0; j < colunas; j++) {
-            if (matriz[i][j] != 0) {
+        for (int j = 0; j < dimensao->m; j++) {
+            if (mapa[i][j] != 0) {
                 return 0; // Encontrou um elemento diferente de zero
             }
         }
@@ -101,7 +125,7 @@ int mapa_vazio(char **matriz, int linhas, int colunas)
 
 void mapa_display(char **mapa, Dimensao *d)
 {
-    if(mapa_vazio(mapa, d->n, d->m) == 1)
+    if(mapa_vazio(mapa, d))
     {
         msg_erro("Mapa vazio", "mapa_display");
         return;
@@ -125,17 +149,3 @@ void mapa_replica(char **mapa_oficial, char **mapa_copia, Dimensao *d)
     }
 }
 
-void desaloca_mapa(char ***mapa, Dimensao *d)
-{
-    int i;
-    for (i = 0; i < d->n; i++)
-        free((*mapa)[i]);
-    free(*mapa);
-    *mapa = NULL;
-}
-
-void desaloca_dimensao(Dimensao **d)
-{
-    free(*d);
-    *d = NULL;
-}
