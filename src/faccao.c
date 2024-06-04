@@ -38,7 +38,8 @@ CFaccao *Cfaccao_cria(void)
 {
     CFaccao *novo = (CFaccao*) malloc(sizeof(CFaccao)); 
 
-    if(!novo){
+    if(!novo)
+    {
         msg_erro("Falha ao criar a faccao.", "faccao_cria");
         return NULL;
     }
@@ -171,8 +172,7 @@ void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo)
         if (!faccao_verifica_posicao(cabeca, aux.x, aux.y))
             faccao_inserir(cabeca, aux.nome, aux.x, aux.y);
     }
-    fclose(arquivo);
-    
+    fclose(arquivo);    
 }
 
 void faccoes_display(const CFaccao *cabeca)
@@ -306,6 +306,22 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
         unidade_merge(faccao_2->proxunidade, faccao_1->proxunidade);
 
         tfaccao_desaloca(cabeca, faccao_1->nome);
+    }
+}
+
+void mapa_faccao_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao)
+{
+    if(Cfaccao_vazia(cabeca) || mapa_vazio(mapa_faccao, dimensao))
+    {
+        msg_erro("Cfaccao vazia ou mapa vazio.", "mapa_faccao_atualiza");
+        return;
+    }
+    TFaccao *aux = cabeca->ini;
+    while(aux)
+    {
+        int x = aux->x, y = aux->y;
+        mapa_faccao[x][y] = aux->nome[1];
+        aux = aux->prox;
     }
 }
 
