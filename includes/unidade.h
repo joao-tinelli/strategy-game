@@ -41,10 +41,10 @@ void cunidade_desaloca(CUnidade **cabeca);
 int unidade_vazia(const CUnidade *cabeca);
 /**
  * @brief Insere uma nova unidade na lista;
- * @param cabeca, novo;
+ * @param cabeca, chave, id, tipo, x, y;
  * @return void;
 */
-void unidade_insere(CUnidade *cabeca, TUnidade *novo);
+void unidade_inserir(CUnidade *cabeca, const char chave, const char id, const int tipo, const int x, const int y);
 /**
  * @brief Mostra o conteúdo da lista, caso não esteja vazia;
  * @param cabeca;
@@ -75,6 +75,7 @@ void unidade_move(CUnidade *cabeca, char *identificador, const int tipo, const i
  * @return void;
 */
 void unidade_merge(CUnidade *cabeca_1, CUnidade *cabeca_2);
+void mapa_unidade_atualiza(CUnidade *cabeca, char **mapa_unidade);
 
 #endif
 

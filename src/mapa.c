@@ -70,13 +70,13 @@ void mapa_gera(char **mapa, Dimensao *d)
             int tipo = 1 + (rand() % 3);
             switch (tipo){
             case 1:
-                mapa[i][j] = 'p';
+                mapa[i][j] = 'P';
                 break;
             case 2:
-                mapa[i][j] = 'f';
+                mapa[i][j] = 'F';
                 break;
             case 3:
-                mapa[i][j] = 'm';
+                mapa[i][j] = 'M';
                 break;;            
             default:
                 break;

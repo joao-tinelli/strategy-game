@@ -54,8 +54,15 @@ int unidade_vazia(const CUnidade *cabeca)
     return(cabeca == NULL || cabeca->tam == 0);
 }
 
-void unidade_insere(CUnidade *cabeca, TUnidade *novo)
+
+void unidade_inserir(CUnidade *cabeca, const char chave, const char id, const int tipo, const int x, const int y)
 {
+    TUnidade *novo = tunidade_aloca(chave, id, tipo, x, y);
+    if(!novo)
+    {
+        msg_erro("\nFalha ao inserir unidade.", "unidade_inserir");
+        return;
+    }
     if (unidade_vazia(cabeca)){
         cabeca->ini = cabeca->fim = novo;
 
@@ -118,8 +125,7 @@ void unidade_posiciona(CUnidade *cabeca, char *identificador, const int tipo, co
 {
     char chave = tolower(identificador[0]); 
     int id = (int) identificador[1] - 48; 
-    TUnidade *nova_unidade = tunidade_aloca(chave, id, tipo, x, y);
-    unidade_insere(cabeca, nova_unidade);
+    unidade_inserir(cabeca, chave, id, tipo, x, y);
 }
 
 // Funcao principal de movimento
@@ -138,7 +144,18 @@ void unidade_merge(CUnidade *cabeca_1, CUnidade *cabeca_2)
 
     while (aux_2)
     {
-        unidade_insere(cabeca_1, aux_2);
+        unidade_inserir(cabeca_1, aux_2->chave, aux_2->id, aux_2->tipo, aux_2->x, aux_2->y);
         aux_2 = aux_2->prox;
     }
+}
+
+void mapa_unidade_atualiza(CUnidade *cabeca, char **mapa_unidade) 
+{
+    TUnidade *aux = cabeca->ini;
+    while (aux)
+    {
+        int x = aux->x, y = aux->y;
+        mapa_unidade[x][y] = aux->chave;
+        aux = aux->prox;
+    }    
 }
