@@ -52,7 +52,12 @@ CFaccao *Cfaccao_cria(void)
 
 void cfaccao_desaloca(CFaccao **cabeca)
 {
-    if (!*cabeca) return;
+    if ((*cabeca)->ini == NULL)
+    {
+        free(*cabeca);
+        *cabeca = NULL;
+        return;
+    } 
     
     TFaccao *aux = (*cabeca)->ini, *temp;
     CUnidade *aux_unidade = (*cabeca)->ini->proxunidade;
@@ -321,6 +326,28 @@ void mapa_faccao_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensa
     {
         int x = aux->x, y = aux->y;
         mapa_faccao[x][y] = aux->nome[1];
+        aux = aux->prox;
+    }
+}
+
+void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, const int tipo, const int x, const int y)
+{    
+    unidade_inserir(faccao->proxunidade, chave, id, tipo, x, y);
+    unidade_display(faccao->proxunidade);
+}
+
+void mapa_faccao_unidade_atualiza(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao)
+{
+    if(Cfaccao_vazia(cabeca) || mapa_vazio(mapa_unidade, dimensao))
+    {
+        msg_erro("Nao ha faccoes ou o mapa unidade nao foi criado.", "mapa_unidade_atualiza");
+        return;
+    }
+    
+    TFaccao *aux = cabeca->ini;
+    while(aux){
+        CUnidade *cunidade_aux = aux->proxunidade;        
+        mapa_unidade_atualiza(cunidade_aux, mapa_unidade);
         aux = aux->prox;
     }
 }
