@@ -75,13 +75,15 @@ int main(int argc, char const *argv[])
         //ataca - vence - ganha - defende - perde
         */    
     }
-
+    //Fechando o arquivo
     fclose(arq);
+
+    puts("\nMAPA FACCAO");
     mapa_display(mapa_faccao, dimensao);
-    puts("");
+    puts("\nMAPA UNIDADE");
     mapa_display(mapa_unidade, dimensao);
     
-    // ok
+    /*  Area de desalocação */
     desaloca_mapa(&mapa_oficial, dimensao);
     desaloca_mapa(&mapa_faccao, dimensao);
     desaloca_mapa(&mapa_edificio, dimensao);
