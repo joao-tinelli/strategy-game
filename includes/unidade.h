@@ -28,8 +28,8 @@ TUnidade *tunidade_aloca(const char chave, const int id, const int tipo, const i
 CUnidade *cunidade_cria(void);
 /**
  * @brief Desaloca toda lista, incluindo a cabeça;
- * @param void;
- * @return CUnidade;
+ * @param cabeca;
+ * @return void;
 */
 void cunidade_desaloca(CUnidade **cabeca);
 
