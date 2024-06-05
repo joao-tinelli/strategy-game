@@ -83,7 +83,7 @@ void unidade_display(const CUnidade *cabeca)
     TUnidade *aux = cabeca->ini;
     while(aux)
     {
-        printf("chave: %c, id: %d => pos: (%d, %d).\n",aux->chave, aux->id, aux->x, aux->y);
+        printf("chave: %c, id: %d, tipo: %d => pos: (%d, %d).\n",aux->chave, aux->id, aux->tipo, aux->x, aux->y);
         aux = aux->prox;
     }
 }

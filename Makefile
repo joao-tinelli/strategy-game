@@ -9,6 +9,11 @@ FLAGS = -o3 -Wall
 
 all: libed app 
 
+create: 
+	mkdir output
+	mkdir obj
+	mkdir lib
+
 libed: \
 	$(OBJ)/alianca.o \
 	$(OBJ)/edificio.o \
