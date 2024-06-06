@@ -121,17 +121,17 @@ TUnidade *unidade_buscar(CUnidade *cabeca, const int id)
 }
 
 // Funcao principal de posicionamento
-void unidade_posiciona(CUnidade *cabeca, char *identificador, const int tipo, const int x, const int y)
+void unidade_posiciona(CUnidade *cabeca, char *nome, const int tipo, const int x, const int y)
 {
-    char chave = tolower(identificador[0]); 
-    int id = (int) identificador[1] - 48; 
+    char chave = tolower(nome[0]); 
+    int id = (int) nome[1] - 48; 
     unidade_inserir(cabeca, chave, id, tipo, x, y);
 }
 
 // Funcao principal de movimento
-void unidade_move(CUnidade *cabeca, char *identificador, const int tipo, const int novo_x, const int novo_y)
+void unidade_move(CUnidade *cabeca, char *nome, const int tipo, const int novo_x, const int novo_y)
 {
-    int id = (int)identificador[1] - 48;
+    int id = (int)nome[1] - 48;
 
     TUnidade *unidade = unidade_buscar(cabeca, id);
     unidade->x = novo_x;

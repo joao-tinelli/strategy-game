@@ -59,16 +59,16 @@ void unidade_display(const CUnidade *cabeca);
 TUnidade *unidade_buscar(CUnidade *cabeca, const int id);
 /**
  * @brief Função principal de posicionamento. Ela chama as funções: tunidade_aloca e unidade_insere;
- * @param cabeca, identificador, tipo, x, y;
+ * @param cabeca, nome, tipo, x, y;
  * @return void;
 */
-void unidade_posiciona(CUnidade *cabeca, char *identificador, const int tipo, const int x, const int y);
+void unidade_posiciona(CUnidade *cabeca, char *nome, const int tipo, const int x, const int y);
 /**
  * @brief Função para mover uma unidade;
- * @param cabeca, identificador, tipo, novo_x, novo_y;
+ * @param cabeca, nome, tipo, novo_x, novo_y;
  * @return void;
 */
-void unidade_move(CUnidade *cabeca, char *identificador, const int tipo, const int novo_x, const int novo_y);
+void unidade_move(CUnidade *cabeca, char *nome, const int tipo, const int novo_x, const int novo_y);
 /**
  * @brief Função para juntar duas unidades;
  * @param cabeca_1, cabeca_2;

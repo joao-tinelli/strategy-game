@@ -333,7 +333,7 @@ void mapa_faccao_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensa
 void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, const int tipo, const int x, const int y)
 {    
     unidade_inserir(faccao->proxunidade, chave, id, tipo, x, y);
-    unidade_display(faccao->proxunidade);
+    //unidade_display(faccao->proxunidade);
 }
 
 void mapa_faccao_unidade_atualiza(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao)
@@ -352,6 +352,13 @@ void mapa_faccao_unidade_atualiza(CFaccao *cabeca, char **mapa_unidade, Dimensao
     }
 }
 
+void faccao_unidade_move(CFaccao *cabeca, char *nome, const int tipo, const int x, const int y) 
+{
+    TFaccao *fac_aux = faccao_buscar(cabeca, nome);
+
+    if (fac_aux) unidade_move(fac_aux->proxunidade, nome, tipo, x, y);
+    else return;
+}
 
 
 
