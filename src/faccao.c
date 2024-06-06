@@ -26,8 +26,8 @@ TFaccao *Tfaccao_aloca(const char *nome, const int x, const int y)
     strcpy(novo->nome, nome);
     novo->x = x;
     novo->y = y;
-    novo->pts_recurso = 0;
-    novo->pts_poder = 0;
+    novo->pts_recurso = 20;
+    novo->pts_poder = 20;
     novo->proxunidade = cunidade_cria();
     novo->proxedificio = cedificio_cria();
     novo->proxalianca = calianca_cria();   
@@ -225,15 +225,17 @@ TFaccao *faccao_buscar(CFaccao *cabeca, char *nome)
     return NULL;
 }
 
-void faccao_coleta(CFaccao *cabeca, const char chave, const int tipo, const int qtd)
+void faccao_coleta(CFaccao *cabeca, const char chave, const int qtd)
 {
-    char aux[3]; aux[0] = 'F'; aux[1] = toupper(chave); aux[2] = '\0';
+    char aux[3]; aux[0] = 'F'; aux[1] = chave; aux[2] = '\0';
 
     TFaccao *faccao = faccao_buscar(cabeca, aux);
-    if (faccao)
+
+    if (faccao)        
         faccao->pts_recurso += qtd;
-    else
+    else 
         msg_erro("Erro ao encontrar faccao", "faccao_buscar");    
+     
 }
 
 void faccao_combate(CFaccao *cabeca, char *f1, char *f2)
@@ -333,16 +335,18 @@ void mapa_faccao_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensa
 void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, const int tipo, const int x, const int y)
 {    
     unidade_inserir(faccao->proxunidade, chave, id, tipo, x, y);
-    //unidade_display(faccao->proxunidade);
+    if (tipo == 2) faccao->pts_poder += 10; // a cada soldado criado a faccao ganha 10 pts de poder    
 }
 
-void mapa_faccao_unidade_atualiza(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao)
+void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao)
 {
     if(Cfaccao_vazia(cabeca) || mapa_vazio(mapa_unidade, dimensao))
     {
         msg_erro("Nao ha faccoes ou o mapa unidade nao foi criado.", "mapa_unidade_atualiza");
         return;
     }
+
+    mapa_replica(mapa_oficial, mapa_unidade, dimensao);
     
     TFaccao *aux = cabeca->ini;
     while(aux){
@@ -352,11 +356,25 @@ void mapa_faccao_unidade_atualiza(CFaccao *cabeca, char **mapa_unidade, Dimensao
     }
 }
 
-void faccao_unidade_move(CFaccao *cabeca, char *nome, const int tipo, const int x, const int y) 
+void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao, char *nome, const int tipo, const int x, const int y) 
 {
-    TFaccao *fac_aux = faccao_buscar(cabeca, nome);
+    char nome_unidade[3];
+    strcpy(nome_unidade, nome);
 
-    if (fac_aux) unidade_move(fac_aux->proxunidade, nome, tipo, x, y);
+    nome[1] = nome[0];    
+    nome[0] = 'F';
+
+    TFaccao *fac_aux = faccao_buscar(cabeca, nome);   
+
+    char tipo_terreno = mapa_tipo_terreno(mapa_unidade, dimensao, x, y);
+
+    // Coleta de recursos ao explorar novo territorio
+    if (tipo_terreno == 'P')
+        fac_aux->pts_recurso += 10;
+    else if (tipo_terreno == 'F')
+        fac_aux->pts_recurso += 20;    
+
+    if (fac_aux) unidade_move(fac_aux->proxunidade, nome_unidade, tipo, x, y);
     else return;
 }
 

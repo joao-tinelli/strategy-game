@@ -7,7 +7,7 @@ A1 pos 1 1 1
 A1 move 1 1 2
 A1 coleta 1 10
 A2 pos 2 1 1
-A2 move 2  2 1
+A2 move 2 2 1
 A2 coleta 2 10
 FA constroi 1 1 1 1
 B1 pos 1 8 8
@@ -74,7 +74,7 @@ FA constroi 1 3 6 1
 B1 move 1 2 8
 B1 coleta 1 10
 B2 move 2 8 2
-B2 coleta 10 2
+B2 coleta 2 10
 B4 pos 1 7 8
 A1 move 1 6 3
 A1 coleta 1 10
@@ -107,12 +107,13 @@ FB ganha 5
 FB ganha 5
 A2 move 2 9 2
 A2 coleta 2 10
+A4 pos 2 3 7
 A4 move 2 2 2
 B1 move 1 1 6
 B1 coleta 1 10
 B4 move 2 5 7
 B4 coleta 2 10
-A2 move 2 10 2
+A2 move 2 9 2
 A2 coleta 2 10
 A4 move 2 2 3
 A4 coleta 2 20

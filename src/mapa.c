@@ -149,3 +149,14 @@ void mapa_replica(char **mapa_oficial, char **mapa_copia, Dimensao *d)
     }
 }
 
+char mapa_tipo_terreno(char **mapa, Dimensao *dimensao, const int x, const int y)
+{
+    if (mapa_vazio(mapa, dimensao))
+    {
+        msg_erro("Mapa vazio ou posicao invalida.", "mapa_tipo_terreno");
+        return '\0';
+    }
+
+    return mapa[x][y];
+}
+

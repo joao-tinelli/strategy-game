@@ -117,6 +117,7 @@ TUnidade *unidade_buscar(CUnidade *cabeca, const int id)
         }
         aux = aux->prox;
     }
+    puts("NAO ACHOU");
     return NULL;
 }
 

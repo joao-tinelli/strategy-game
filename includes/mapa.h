@@ -70,4 +70,7 @@ void mapa_display(char **mapa, Dimensao *d);
 */
 void mapa_replica(char **mapa_oficial, char **mapa_copia, Dimensao *d);
 
+char mapa_tipo_terreno(char **mapa, Dimensao *dimensao, const int x, const int y);
+
+
 #endif 

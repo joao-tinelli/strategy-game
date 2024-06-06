@@ -88,10 +88,10 @@ void faccoes_posicionar_mapa(const CFaccao *cabeca, char **mapa);
 TFaccao *faccao_buscar(CFaccao *cabeca, char *nome);
 /**
  * @brief Aumenta a quantidade de recursos ao serem coletados;
- * @param cabeca, identificador tipo, qtd;
+ * @param cabeca, chave, qtd;
  * @return void;
 */
-void faccao_coleta(CFaccao *cabeca, const char chave, const int tipo, const int qtd);
+void faccao_coleta(CFaccao *cabeca, const char chave, const int qtd);
 /**
  * @brief Realiza o combate entre duas facções;
  * @param cabeca, f1, f2;
@@ -117,7 +117,7 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2);
 */
 void mapa_faccao_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao);
 void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, const int tipo, const int x, const int y);
-void mapa_faccao_unidade_atualiza(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao);
-void faccao_unidade_move(CFaccao *cabeca, char *nome, const int tipo, const int x, const int y);
+void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao);
+void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao, char *nome, const int tipo, const int x, const int y);
 
 #endif

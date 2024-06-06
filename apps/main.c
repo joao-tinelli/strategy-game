@@ -36,8 +36,8 @@ int main(int argc, char const *argv[])
                 //  Insere a facção na lista e atualiza 'mapa_faccao'
                 faccao_inserir(cfaccao, linha_peca, linha_x, linha_y); 
                 mapa_faccao_atualiza(cfaccao, mapa_faccao, dimensao);
+
             } else { // posicionamento de unidade
-                ///printf("%s\n", linha_peca);
                 id = ((int) linha_peca[1])-48;
                 //  Monta o nome da facção e faz a busca ela na lista
                 linha_peca[1] = linha_peca[0];
@@ -47,29 +47,29 @@ int main(int argc, char const *argv[])
                 sscanf(linha_arquivo, "%*s %*s %d %d %d", &linha_tipo, &linha_x, &linha_y);
                 //  Insere a unidade e atualiza 'mapa_unidade'
                 faccao_unidade_inserir(faccao_aux, tolower(linha_peca[1]), id, linha_tipo, linha_x, linha_y);   
-                mapa_faccao_unidade_atualiza(cfaccao, mapa_unidade, dimensao); 
+                faccao_mapa_unidade_atualiza(cfaccao, mapa_oficial, mapa_unidade, dimensao); 
             }
         }
         if(strcmp(linha_acao,"move") == 0)
         {
             sscanf(linha_arquivo, "%*s %*s %d %d %d", &linha_tipo, &linha_x, &linha_y);
-            printf("\n%d %d %d", linha_tipo, linha_x, linha_y);
             
-            linha_peca[1] = linha_peca[0];    
-            linha_peca[0] = 'F';
-
-            faccao_unidade_move(cfaccao, linha_peca, linha_tipo, linha_x, linha_y);
-            mapa_faccao_unidade_atualiza(cfaccao, mapa_unidade, dimensao); 
-
-            puts("\nMAPA UNIDADE");
-            mapa_display(mapa_unidade, dimensao);
+            faccao_unidade_move(cfaccao, mapa_unidade, dimensao, linha_peca, linha_tipo, linha_x, linha_y);
+            faccao_mapa_unidade_atualiza(cfaccao, mapa_oficial, mapa_unidade, dimensao); 
         }
-        /*
-         if(strcmp(linha_acao,"coleta")==0)
+
+        if(strcmp(linha_acao,"coleta")==0) // !!!!!!!!!!
         {
-           fscanf(arq,"%d %d", &linha_x, &linha_y);
-           printf("\n%d %d",linha_x,linha_y);
+            sscanf(linha_arquivo, "%*s %*s %d %d", &linha_tipo, &linha_qtde);
+
+            faccao_coleta(cfaccao, linha_peca[0], linha_qtde);
+
         }
+
+        
+
+        /*
+        
          if(strcmp(linha_acao,"constroi")==0)
         {
            fscanf(arq,"%d %d %d %d", &linha_x, &linha_y, &linha_tipo,&linha_qtde);
@@ -87,8 +87,12 @@ int main(int argc, char const *argv[])
     //Fechando o arquivo
     fclose(arq);
 
+    faccoes_display(cfaccao);
+
     //puts("\nMAPA FACCAO");
     //mapa_display(mapa_faccao, dimensao);
+    //puts("\nMAPA UNIDADE");
+    //mapa_display(mapa_unidade, dimensao);
     
     
     /*  Area de desalocação */
