@@ -118,5 +118,6 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2);
 void mapa_faccao_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao);
 void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, const int tipo, const int x, const int y);
 void mapa_faccao_unidade_atualiza(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao);
+void faccao_unidade_move(CFaccao *cabeca, char *nome, const int tipo, const int x, const int y);
 
 #endif
