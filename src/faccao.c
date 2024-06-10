@@ -180,7 +180,7 @@ void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo)
     fclose(arquivo);    
 }
 
-void faccoes_display(const CFaccao *cabeca)
+void faccao_display(const CFaccao *cabeca)
 {
     if (Cfaccao_vazia(cabeca))
     {
@@ -190,6 +190,8 @@ void faccoes_display(const CFaccao *cabeca)
     TFaccao *aux = cabeca->ini;
     while(aux){
         printf("Faccao '%s', posicao '%d,%d', pts_poder '%d', pts_recurso '%d\n", aux->nome, aux->x, aux->y, aux->pts_poder, aux->pts_recurso);
+        puts("UNIDADES:");
+        unidade_display(aux->proxunidade);
         aux = aux->prox;
     }
 }
@@ -238,7 +240,7 @@ void faccao_coleta(CFaccao *cabeca, const char chave, const int qtd)
      
 }
 
-void faccao_combate(CFaccao *cabeca, char *f1, char *f2)
+void faccao_ataca(CFaccao *cabeca, char *f1, char *f2) // Combate de faccoes
 {
     TFaccao *faccao_atacante = faccao_buscar(cabeca, f1);
     TFaccao *faccao_defensora = faccao_buscar(cabeca, f2);
@@ -270,14 +272,21 @@ void faccao_combate(CFaccao *cabeca, char *f1, char *f2)
     }
 }
 
-// Remover depois esta funcao
-void faccao_teste(CFaccao *cabeca)
+void faccao_unidade_combate(CFaccao *cabeca, char *unidade_defensora)
 {
-    TFaccao *aux = cabeca->ini;
-    aux->pts_poder += 10; // FC
-    aux->prox->pts_poder += 5; // FB
-    aux->prox->prox->pts_poder += 10; // FA
+    int id = (int) (unidade_defensora[1]-48);
+    char f_defensora[3];
+    TFaccao *aux_faccao = NULL;
+
+    strcpy(f_defensora, unidade_defensora);
+    unidade_para_faccao(f_defensora);
+
+    aux_faccao = faccao_buscar(cabeca, f_defensora);
+
+    // Unidade atacante sempre vence
+    //tunidade_desaloca(aux_faccao->proxunidade, id);
 }
+
 
 void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
 {
@@ -378,5 +387,21 @@ void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensa
     else return;
 }
 
+void faccao_edificio_constroi(CFaccao *cabeca, char **mapa_edificio, char *identificador, int qtd, int tipo, int x, int y)
+{
+    TFaccao *fac_aux = faccao_buscar(cabeca, identificador);   
 
+    if (tipo == 1) { // Edificio recurso: -3 pts
+        fac_aux->pts_recurso -= (qtd * 3);
+    } else if (tipo == 2) { //Edificio campo: -4 pts
+        fac_aux->pts_recurso -= (qtd * 4);
+    } else { // Edificio lab: -5 pts
+        fac_aux->pts_recurso -= (qtd * 5);
+    }
+
+    // Adiciona no mapa
+    mapa_edificio[x][y] = tolower(identificador[1]);
+
+    edificio_constroi(fac_aux->proxedificio, identificador, qtd, tipo, x, y);
+}
 

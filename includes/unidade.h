@@ -32,6 +32,7 @@ CUnidade *cunidade_cria(void);
  * @return void;
 */
 void cunidade_desaloca(CUnidade **cabeca);
+void tunidade_desaloca(CUnidade *cabeca, const int id);
 
 /**
  * @brief Verifica se a lista está vazia;

@@ -14,7 +14,7 @@ typedef struct _cedificio
     int tam;
 } CEdificio;
 
-TEdificio *tedificio_aloca(const char chave, const int tipo, const int qtd, const int x, const int y)
+TEdificio *tedificio_aloca(const char chave, const int qtd, const int tipo, const int x, const int y)
 {
     TEdificio *novo = (TEdificio*)malloc(sizeof(TEdificio));
     if(!novo)
@@ -91,7 +91,7 @@ void edificio_display(const CEdificio *cabeca)
     TEdificio *aux = cabeca->ini;
     while(aux)
     {
-        printf("CHAVE: %c\nQTD: %d\nPOS: (%d, %d) \nTIPO: %d\n", aux->chave, aux->qtd, aux->x, aux->y, aux->tipo);
+        printf("CHAVE: %c\nQTD: %d\nPOS: (%d, %d) \nTIPO: %d\n\n", aux->chave, aux->qtd, aux->x, aux->y, aux->tipo);
         aux = aux->prox;
     }
 }
@@ -99,7 +99,7 @@ void edificio_display(const CEdificio *cabeca)
 void edificio_constroi(CEdificio *cabeca, char *identificador, int qtd, int tipo, int x, int y)
 {
     char chave = tolower(identificador[1]); // a, b, ..., z
-    TEdificio *novo_edificio = tedificio_aloca(chave, tipo, qtd, x, y);    
+    TEdificio *novo_edificio = tedificio_aloca(chave, qtd, tipo, x, y);    
     edificio_insere(cabeca, novo_edificio);  
 }
 
