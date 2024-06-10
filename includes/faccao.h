@@ -119,5 +119,6 @@ void mapa_faccao_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensa
 void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, const int tipo, const int x, const int y);
 void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao);
 void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao, char *nome, const int tipo, const int x, const int y);
+void faccao_edificio_constroi(CFaccao *cabeca, char **mapa_edificio, char *identificador, int qtd, int tipo, int x, int y);
 
 #endif

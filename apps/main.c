@@ -50,7 +50,7 @@ int main(int argc, char const *argv[])
                 faccao_mapa_unidade_atualiza(cfaccao, mapa_oficial, mapa_unidade, dimensao); 
             }
         }
-        if(strcmp(linha_acao,"move") == 0)
+        if (strcmp(linha_acao,"move") == 0)
         {
             sscanf(linha_arquivo, "%*s %*s %d %d %d", &linha_tipo, &linha_x, &linha_y);
             
@@ -58,23 +58,22 @@ int main(int argc, char const *argv[])
             faccao_mapa_unidade_atualiza(cfaccao, mapa_oficial, mapa_unidade, dimensao); 
         }
 
-        if(strcmp(linha_acao,"coleta")==0) // !!!!!!!!!!
+        if (strcmp(linha_acao, "coleta") == 0) // !!!!!!!!!!
         {
             sscanf(linha_arquivo, "%*s %*s %d %d", &linha_tipo, &linha_qtde);
 
             faccao_coleta(cfaccao, linha_peca[0], linha_qtde);
 
         }
-
         
-
-        /*
-        
-         if(strcmp(linha_acao,"constroi")==0)
+        if (strcmp(linha_acao, "constroi") == 0)
         {
-           fscanf(arq,"%d %d %d %d", &linha_x, &linha_y, &linha_tipo,&linha_qtde);
-           printf("\n%d %d %d %d",linha_x,linha_y,linha_tipo,linha_qtde);
+           sscanf(linha_arquivo, "%*s %*s %d %d %d %d", &linha_qtde, &linha_tipo, &linha_x, &linha_y);
+           //printf("\n(%d, %d) => %d %d",linha_x,linha_y,linha_tipo,linha_qtde);
+
+           faccao_edificio_constroi(cfaccao, mapa_edificio, linha_peca, linha_qtde, linha_tipo, linha_x,linha_y);
         }
+        /*
          if(strcmp(linha_acao,"combate")==0)
         {
            char s3[3];
@@ -87,13 +86,14 @@ int main(int argc, char const *argv[])
     //Fechando o arquivo
     fclose(arq);
 
-    faccoes_display(cfaccao);
+   // faccoes_display(cfaccao);
 
     //puts("\nMAPA FACCAO");
     //mapa_display(mapa_faccao, dimensao);
     //puts("\nMAPA UNIDADE");
     //mapa_display(mapa_unidade, dimensao);
-    
+    puts("\nMAPA EDIFICIO");
+    mapa_display(mapa_edificio, dimensao);
     
     /*  Area de desalocação */
     desaloca_mapa(&mapa_oficial, dimensao);

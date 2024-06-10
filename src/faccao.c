@@ -378,5 +378,21 @@ void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensa
     else return;
 }
 
+void faccao_edificio_constroi(CFaccao *cabeca, char **mapa_edificio, char *identificador, int qtd, int tipo, int x, int y)
+{
+    TFaccao *fac_aux = faccao_buscar(cabeca, identificador);   
 
+    if (tipo == 1) { // Edificio recurso: -3 pts
+        fac_aux->pts_recurso -= (qtd * 3);
+    } else if (tipo == 2) { //Edificio campo: -4 pts
+        fac_aux->pts_recurso -= (qtd * 4);
+    } else { // Edificio lab: -5 pts
+        fac_aux->pts_recurso -= (qtd * 5);
+    }
+
+    // Adiciona no mapa
+    mapa_edificio[x][y] = tolower(identificador[1]);
+
+    edificio_constroi(fac_aux->proxedificio, identificador, qtd, tipo, x, y);
+}
 

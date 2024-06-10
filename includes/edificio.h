@@ -19,7 +19,7 @@ typedef struct _cedificio CEdificio;
  * @param chave, tipo, qtd, x, y;
  * @return TEdificio;
 */
-TEdificio *tedificio_aloca(const char chave, const int tipo, const int qtd, const int x, const int y);
+TEdificio *tedificio_aloca(const char chave, const int qtd, const int tipo, const int x, const int y);
 /**
  * @brief Aloca uma struct do tipo CFaccao;
  * @param nome, x, y;
