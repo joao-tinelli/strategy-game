@@ -6,6 +6,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include <assert.h>
 
 #include "faccao.h"
 #include "alianca.h"
@@ -13,5 +14,6 @@
 #include "unidade.h"
 #include "mapa.h"
 #include "mensagens.h"
+#include "utilitario.h"
 
 #endif

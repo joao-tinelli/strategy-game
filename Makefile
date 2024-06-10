@@ -21,15 +21,11 @@ libed: \
 	$(OBJ)/mensagens.o \
 	$(OBJ)/unidade.o \
 	$(OBJ)/mapa.o \
+	$(OBJ)/utilitario.o \
 	$(OBJ)/bibliotecas.o \
 
 app: clean_apps \
-	$(OUTPUT)/main \
-	$(OUTPUT)/teste_faccao \
-	$(OUTPUT)/teste_edificio \
-	$(OUTPUT)/teste_unidade \
-	$(OUTPUT)/teste_alianca \
-	$(OUTPUT)/teste_mapa \
+	$(OUTPUT)/main 
 
 $(OBJ)/%.o: $(SRC)/%.c $(INCLUDE)/%.h
 	gcc $(FLAGS) -c $< -I $(INCLUDE) -o $@

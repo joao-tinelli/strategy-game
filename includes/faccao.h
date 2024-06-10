@@ -73,7 +73,7 @@ void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo);
  * @param cabeca, nome;
  * @return (0 ou 1);
 */
-void faccoes_display(const CFaccao *cabeca);
+void faccao_display(const CFaccao *cabeca);
 /**
  * @brief Posiciona as facções no mapa;
  * @param cabeca, mapa;
@@ -97,18 +97,13 @@ void faccao_coleta(CFaccao *cabeca, const char chave, const int qtd);
  * @param cabeca, f1, f2;
  * @return void;
 */
-void faccao_combate(CFaccao *cabeca, char *f1, char *f2);
+void faccao_ataca(CFaccao *cabeca, char *f1, char *f2);
 /**
  * @brief Função para testar as funcionalidades das facções;
  * @param cabeca;
  * @return void;
 */
-void faccao_teste(CFaccao *cabeca);
-/**
- * @brief Realiaza a aliança e junta os recursos de cada facção;
- * @param cabeca, f1, f2;
- * @return void;
-*/
+
 void faccao_alianca(CFaccao *cabeca, char *f1, char *f2);
 /**
  * @brief Atualiza o mapa das faccoes;
@@ -120,5 +115,7 @@ void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, co
 void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao);
 void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao, char *nome, const int tipo, const int x, const int y);
 void faccao_edificio_constroi(CFaccao *cabeca, char **mapa_edificio, char *identificador, int qtd, int tipo, int x, int y);
+void faccao_unidade_combate(CFaccao *cabeca, char * unidade_defensora);
+
 
 #endif

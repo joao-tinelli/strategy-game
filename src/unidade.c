@@ -106,6 +106,39 @@ void cunidade_desaloca(CUnidade **cabeca)
     *cabeca = NULL;
 }
 
+void tunidade_desaloca(CUnidade *cabeca, const int id)
+{
+    assert(cabeca);
+    if (unidade_vazia(cabeca))
+    {
+        msg_erro("Unidade nao existe.", "tunidade_desaloca");
+        return;
+    }
+
+    TUnidade *aux = cabeca->ini, *temp;
+
+    if(aux->id == id){ // Primeiro caso: a primeira unidade ja eh a que queremos
+        cabeca->ini = aux->prox;
+        free(aux);
+        printf("unidade desalocada: %d\n", id);
+    } else {
+        temp = aux;
+        aux = aux->prox;
+        while(aux)
+        {
+            if(aux->id == id){
+                temp->prox = aux->prox;
+                free(aux);
+                printf("unidade desalocada: %d\n", id);
+                return;
+            }
+            temp = aux;
+            aux = aux->prox;            
+        }
+        msg_erro("Unidade nao encontrada!", "tunidade_desaloca");
+    }
+}
+
 TUnidade *unidade_buscar(CUnidade *cabeca, const int id)
 {
     TUnidade *aux = cabeca->ini;
@@ -117,7 +150,8 @@ TUnidade *unidade_buscar(CUnidade *cabeca, const int id)
         }
         aux = aux->prox;
     }
-    puts("NAO ACHOU");
+    msg_erro("Não foi possível localizar a unidade.", "unidade_buscar");
+
     return NULL;
 }
 
