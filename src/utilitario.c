@@ -34,13 +34,17 @@ void gera_log(const char *acao, const char *peca, const char *peca2, const int t
     {
         fprintf(arq_log, "%s %d %s %s %d\n", peca, tipo, acao, peca2, tipo2);
     }
-    if (strcmp(acao, "ataca") == 0)
-    {
-        fprintf(arq_log, "%s %s %s\n", peca, acao, peca2);
-    }
     if (strcmp(acao, "alianca") == 0)
     {
         fprintf(arq_log, "%s %s %s\n", peca, acao, peca2);
+    }
+    if (strcmp(acao, "ataca") == 0)
+    {
+        fprintf(arq_log, "%s %s %s %d %d\n", peca, acao, peca2, x, y);
+    }
+    if (strcmp(acao, "defende") == 0)
+    {
+        fprintf(arq_log, "%s %s %s %d %d\n", peca2, acao, peca, x, y);
     }
 
     fclose(arq_log);

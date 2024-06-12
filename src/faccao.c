@@ -190,8 +190,7 @@ void faccao_display(const CFaccao *cabeca)
     TFaccao *aux = cabeca->ini;
     while(aux){
         printf("Faccao '%s', posicao '%d,%d', pts_poder '%d', pts_recurso '%d\n", aux->nome, aux->x, aux->y, aux->pts_poder, aux->pts_recurso);
-        puts("UNIDADES:");
-        unidade_display(aux->proxunidade);
+        
         aux = aux->prox;
     }
 }
@@ -249,20 +248,22 @@ void faccao_ataca(CFaccao *cabeca, char *f1, char *f2) // Combate de faccoes
         msg_erro("Alguma faccao nao encontrada.", "faccao_combate");
         return;
     }
-
-    // Faccao vencedora perde 20% dos pontos de poder e ganha 20% de pontos de recurso
+    
+    // Faccao vencedora perde 20% dos pontos de poder e ganha 70% de pontos de recurso da fac. defensora
+    // Faccao perdedora metade dos postos de poder e perde 70% de pontos de recurso
     if (faccao_atacante->pts_poder > faccao_defensora->pts_poder){
-        printf("Faccao atacante venceu! Faccao defensora destruida.\n");
-        faccao_atacante->pts_poder *= 0.8; 
-        faccao_atacante->pts_recurso *= 1.2;
-        tfaccao_desaloca(cabeca, f2);
+        faccao_defensora->pts_poder /= 2;
+        faccao_defensora->pts_recurso *= 0.3;
 
+        faccao_atacante->pts_poder *= 0.8; 
+        faccao_atacante->pts_recurso += (faccao_defensora->pts_recurso * 0.7);
     } else if (faccao_atacante->pts_poder < faccao_defensora->pts_poder){
         printf("Faccao defensora venceu! Faccao atacante destruida.\n");
         faccao_defensora->pts_poder *= 0.8;
         faccao_defensora->pts_recurso *= 1.2;
-        tfaccao_desaloca(cabeca, f1);
 
+        faccao_atacante->pts_poder = (faccao_defensora->pts_poder) - (faccao_atacante->pts_poder);
+        faccao_atacante->pts_recurso *= 0*2;
     } else {
         printf("Empate! Ambas perdem recursos e poder.\n");
         faccao_atacante->pts_poder *= 0.5;
@@ -284,7 +285,7 @@ void faccao_unidade_combate(CFaccao *cabeca, char *unidade_defensora)
     aux_faccao = faccao_buscar(cabeca, f_defensora);
 
     // Unidade atacante sempre vence
-    //tunidade_desaloca(aux_faccao->proxunidade, id);
+    tunidade_desaloca(aux_faccao->proxunidade, id);
 }
 
 

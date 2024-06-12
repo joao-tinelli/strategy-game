@@ -56,7 +56,6 @@ int main(int argc, char const *argv[])
         }
         if (strcmp(linha_acao,"move") == 0)
         {
-            printf("%s", linha_arquivo);
             sscanf(linha_arquivo, "%*s %*s %d %d %d", &linha_tipo, &linha_x, &linha_y);
             
             faccao_unidade_move(cfaccao, mapa_unidade, dimensao, linha_peca, linha_tipo, linha_x, linha_y);
@@ -85,24 +84,25 @@ int main(int argc, char const *argv[])
 
         if(strcmp(linha_acao, "combate") == 0)
         {
-            sscanf(linha_arquivo, "%*s %*s %*d %s %*d", linha_peca2);
-            //faccao_display(cfaccao);
-            //printf("%s", linha_peca2);
+            int linha_tipo2;
+            sscanf(linha_arquivo, "%*s %*s %d %s %d", &linha_tipo, linha_peca2, &linha_tipo2);
+
             faccao_unidade_combate(cfaccao, linha_peca2);
+
+            gera_log(linha_acao, linha_peca, linha_peca2, linha_tipo, linha_tipo2, 0, 0, 0);
         }
-        /*
+        
         if(strcmp(linha_acao, "ataca") == 0)
         {
-            sscanf(linha_arquivo, "%*s %*s %d %s", &linha_tipo, linha_peca2);
-            unidade_para_faccao(linha_peca);
-            unidade_para_faccao(linha_peca2);
-
+            sscanf(linha_arquivo, "%*s %*s %s %d %d", linha_peca2, &linha_x, &linha_y);
             printf("%s, %s\n", linha_peca, linha_peca2);
             
-            faccao_ataca(cfaccao, linha_peca, linha_peca2);           
+            faccao_ataca(cfaccao, linha_peca, linha_peca2); 
+            gera_log(linha_acao, linha_peca, linha_peca2, 0, 0, 0, linha_x, linha_y);       
+            gera_log("defende", linha_peca, linha_peca2, 0, 0, 0, linha_x, linha_y);       
         }
-        */
-        //ataca - vence - ganha - defende - perde    
+        
+        //vence - ganha - defende - perde    
     }
     //Fechando o arquivo
     fclose(arq);
