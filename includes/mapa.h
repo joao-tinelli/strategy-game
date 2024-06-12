@@ -68,7 +68,10 @@ void mapa_display(char **mapa, Dimensao *d);
  * @param mapa_oficial, mapa_copia, d;
  * @return void;
 */
+
 void mapa_replica(char **mapa_oficial, char **mapa_copia, Dimensao *d);
+
+void construir_mapas(char ***mapa_oficial, char ***mapa_faccao, char ***mapa_edificio, char ***mapa_unidade, Dimensao *dimensao);
 
 char mapa_tipo_terreno(char **mapa, Dimensao *dimensao, const int x, const int y);
 

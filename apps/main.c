@@ -1,7 +1,5 @@
 #include "bibliotecas.h"
 
-FILE *abrir_arquivo(char *path_arquivo, char *operacao);
-void construir_mapas(char ***mapa_oficial, char ***mapa_faccao, char ***mapa_edificio, char ***mapa_unidade, Dimensao *dimensao);
 
 int main(int argc, char const *argv[])
 {
@@ -95,26 +93,32 @@ int main(int argc, char const *argv[])
         if(strcmp(linha_acao, "ataca") == 0)
         {
             sscanf(linha_arquivo, "%*s %*s %s %d %d", linha_peca2, &linha_x, &linha_y);
-            printf("%s, %s\n", linha_peca, linha_peca2);
             
-            faccao_ataca(cfaccao, linha_peca, linha_peca2); 
-            gera_log(linha_acao, linha_peca, linha_peca2, 0, 0, 0, linha_x, linha_y);       
-            gera_log("defende", linha_peca, linha_peca2, 0, 0, 0, linha_x, linha_y);       
+            faccao_ataca(cfaccao, linha_peca, linha_peca2, linha_x, linha_y);     
         }
-        
-        //vence - ganha - defende - perde    
+
+        if(strcmp(linha_acao, "ganha") == 0)
+        {
+            sscanf(linha_arquivo, "%*s %*s %d", &linha_qtde);
+            
+            faccao_ganha_postos_poder(cfaccao, linha_peca, linha_qtde);
+
+            gera_log(linha_acao, linha_peca, "", 0, 0, linha_qtde, 0, 0);
+        }  
     }
     //Fechando o arquivo
     fclose(arq);
 
-   // faccoes_display(cfaccao);
+    /*  Visualizaçãp final dos mapas */
+    puts("\nMAPA FACCAO");
+    mapa_display(mapa_faccao, dimensao);
+    puts("\nMAPA UNIDADE");
+    mapa_display(mapa_unidade, dimensao);
+    puts("\nMAPA EDIFICIO");
+    mapa_display(mapa_edificio, dimensao);
 
-    //puts("\nMAPA FACCAO");
-    //mapa_display(mapa_faccao, dimensao);
-    //puts("\nMAPA UNIDADE");
-    //mapa_display(mapa_unidade, dimensao);
-    //puts("\nMAPA EDIFICIO");
-    //mapa_display(mapa_edificio, dimensao);
+    /*  verifica a faccao ganhadora */
+    faccao_verifica_vencedor(cfaccao);
     
     /*  Area de desalocação */
     desaloca_mapa(&mapa_oficial, dimensao);
@@ -124,32 +128,4 @@ int main(int argc, char const *argv[])
     cfaccao_desaloca(&cfaccao);
 
     return 0;
-}
-
-
-FILE *abrir_arquivo(char *path_arquivo, char *operacao) 
-{
-    FILE *arq = fopen(path_arquivo, operacao);
-    if (arq == NULL)
-    {
-        msg_erro("Erro ao abrir arquivo.", "abrir_arquivo");
-        return NULL;
-    }  
-
-    return arq;
-}
-
-void construir_mapas(char ***mapa_oficial, char ***mapa_faccao, char ***mapa_edificio, char ***mapa_unidade, Dimensao *dimensao)
-{
-    *mapa_oficial = mapa_aloca(dimensao);    
-    mapa_gera(*mapa_oficial, dimensao);
-
-    *mapa_faccao = mapa_aloca(dimensao);
-    mapa_replica(*mapa_oficial, *mapa_faccao, dimensao);
-
-    *mapa_edificio = mapa_aloca(dimensao);
-    mapa_replica(*mapa_oficial, *mapa_edificio, dimensao);
-
-    *mapa_unidade = mapa_aloca(dimensao);
-    mapa_replica(*mapa_oficial, *mapa_unidade, dimensao);
 }

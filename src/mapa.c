@@ -149,6 +149,21 @@ void mapa_replica(char **mapa_oficial, char **mapa_copia, Dimensao *d)
     }
 }
 
+void construir_mapas(char ***mapa_oficial, char ***mapa_faccao, char ***mapa_edificio, char ***mapa_unidade, Dimensao *dimensao)
+{
+    *mapa_oficial = mapa_aloca(dimensao);    
+    mapa_gera(*mapa_oficial, dimensao);
+
+    *mapa_faccao = mapa_aloca(dimensao);
+    mapa_replica(*mapa_oficial, *mapa_faccao, dimensao);
+
+    *mapa_edificio = mapa_aloca(dimensao);
+    mapa_replica(*mapa_oficial, *mapa_edificio, dimensao);
+
+    *mapa_unidade = mapa_aloca(dimensao);
+    mapa_replica(*mapa_oficial, *mapa_unidade, dimensao);
+}
+
 char mapa_tipo_terreno(char **mapa, Dimensao *dimensao, const int x, const int y)
 {
     if (mapa_vazio(mapa, dimensao))

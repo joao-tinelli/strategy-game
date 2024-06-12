@@ -97,10 +97,10 @@ void faccao_coleta(CFaccao *cabeca, const char chave, const int qtd);
  * @param cabeca, f1, f2;
  * @return void;
 */
-void faccao_ataca(CFaccao *cabeca, char *f1, char *f2);
+void faccao_ataca(CFaccao *cabeca, char *f1, char *f2, const int x, const int y);
 /**
  * @brief Função para testar as funcionalidades das facções;
- * @param cabeca;
+ * @param cabeca, f1, f2, x, y;
  * @return void;
 */
 
@@ -110,12 +110,14 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2);
  * @param cabeca, mapa_faccao, dimensao;
  * @return void;
 */
+
+void faccao_ganha_postos_poder(CFaccao *cabeca,  char *nome_faccao, const int qtd_pts_poder);
 void mapa_faccao_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao);
 void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, const int tipo, const int x, const int y);
 void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao);
 void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao, char *nome, const int tipo, const int x, const int y);
 void faccao_edificio_constroi(CFaccao *cabeca, char **mapa_edificio, char *identificador, int qtd, int tipo, int x, int y);
 void faccao_unidade_combate(CFaccao *cabeca, char * unidade_defensora);
-
+void faccao_verifica_vencedor(const CFaccao *cabeca);
 
 #endif
