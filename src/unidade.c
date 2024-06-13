@@ -120,7 +120,6 @@ void tunidade_desaloca(CUnidade *cabeca, const int id)
     if(aux->id == id){ // Primeiro caso: a primeira unidade ja eh a que queremos
         cabeca->ini = aux->prox;
         free(aux);
-        printf("unidade desalocada: %d\n", id);
     } else {
         temp = aux;
         aux = aux->prox;
@@ -129,7 +128,6 @@ void tunidade_desaloca(CUnidade *cabeca, const int id)
             if(aux->id == id){
                 temp->prox = aux->prox;
                 free(aux);
-                printf("unidade desalocada: %d\n", id);
                 return;
             }
             temp = aux;

@@ -1,5 +1,17 @@
 #include "bibliotecas.h"
 
+FILE *abrir_arquivo(char *path_arquivo, char *operacao) 
+{
+    FILE *arq = fopen(path_arquivo, operacao);
+    if (arq == NULL)
+    {
+        msg_erro("Erro ao abrir arquivo.", "abrir_arquivo");
+        return NULL;
+    }  
+
+    return arq;
+}
+
 void unidade_para_faccao(char *nome) // Ex: A1 --> FA
 {
     nome[1] = nome[0];
@@ -34,13 +46,29 @@ void gera_log(const char *acao, const char *peca, const char *peca2, const int t
     {
         fprintf(arq_log, "%s %d %s %s %d\n", peca, tipo, acao, peca2, tipo2);
     }
-    if (strcmp(acao, "ataca") == 0)
-    {
-        fprintf(arq_log, "%s %s %s\n", peca, acao, peca2);
-    }
     if (strcmp(acao, "alianca") == 0)
     {
         fprintf(arq_log, "%s %s %s\n", peca, acao, peca2);
+    }
+    if (strcmp(acao, "ataca") == 0)
+    {
+        fprintf(arq_log, "%s %s %s %d %d\n", peca, acao, peca2, x, y);
+    }
+    if (strcmp(acao, "defende") == 0)
+    {
+        fprintf(arq_log, "%s %s %s %d %d\n", peca, acao, peca2, x, y);
+    }
+    if (strcmp(acao, "perde") == 0)
+    {
+        fprintf(arq_log, "%s %s %s\n", peca, acao, peca2);
+    }
+    if (strcmp(acao, "ganha") == 0)
+    {
+        fprintf(arq_log, "%s %s %d\n", peca, acao, qtd);
+    }
+    if (strcmp(acao, "vence") == 0)
+    {
+        fprintf(arq_log, "%s %s\n", peca, acao);
     }
 
     fclose(arq_log);

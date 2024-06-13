@@ -190,8 +190,7 @@ void faccao_display(const CFaccao *cabeca)
     TFaccao *aux = cabeca->ini;
     while(aux){
         printf("Faccao '%s', posicao '%d,%d', pts_poder '%d', pts_recurso '%d\n", aux->nome, aux->x, aux->y, aux->pts_poder, aux->pts_recurso);
-        puts("UNIDADES:");
-        unidade_display(aux->proxunidade);
+        
         aux = aux->prox;
     }
 }
@@ -240,7 +239,7 @@ void faccao_coleta(CFaccao *cabeca, const char chave, const int qtd)
      
 }
 
-void faccao_ataca(CFaccao *cabeca, char *f1, char *f2) // Combate de faccoes
+void faccao_ataca(CFaccao *cabeca, char *f1, char *f2, const int x, const int y) // Combate de faccoes
 {
     TFaccao *faccao_atacante = faccao_buscar(cabeca, f1);
     TFaccao *faccao_defensora = faccao_buscar(cabeca, f2);
@@ -250,26 +249,34 @@ void faccao_ataca(CFaccao *cabeca, char *f1, char *f2) // Combate de faccoes
         return;
     }
 
-    // Faccao vencedora perde 20% dos pontos de poder e ganha 20% de pontos de recurso
-    if (faccao_atacante->pts_poder > faccao_defensora->pts_poder){
-        printf("Faccao atacante venceu! Faccao defensora destruida.\n");
-        faccao_atacante->pts_poder *= 0.8; 
-        faccao_atacante->pts_recurso *= 1.2;
-        tfaccao_desaloca(cabeca, f2);
+    gera_log("ataca", f1, f2, 0, 0, 0, x, y);       
+    gera_log("defende", f2, f1, 0, 0, 0, x, y); 
 
+    // Faccao vencedora perde 20% dos pontos de poder e ganha 70% de pontos de recurso da fac. defensora
+    // Faccao perdedora metade dos postos de poder e perde 70% de pontos de recurso
+    if (faccao_atacante->pts_poder > faccao_defensora->pts_poder){
+        faccao_defensora->pts_poder /= 2;
+        faccao_defensora->pts_recurso *= 0.3;
+
+        faccao_atacante->pts_poder *= 0.8; 
+        faccao_atacante->pts_recurso += (faccao_defensora->pts_recurso * 0.7);
+
+        gera_log("perde", f2, f1, 0, 0, 0, x, y); 
     } else if (faccao_atacante->pts_poder < faccao_defensora->pts_poder){
         printf("Faccao defensora venceu! Faccao atacante destruida.\n");
         faccao_defensora->pts_poder *= 0.8;
         faccao_defensora->pts_recurso *= 1.2;
-        tfaccao_desaloca(cabeca, f1);
 
+        faccao_atacante->pts_poder = (faccao_defensora->pts_poder) - (faccao_atacante->pts_poder);
+        faccao_atacante->pts_recurso *= 0*2;
+        gera_log("perde", f1, f2, 0, 0, 0, x, y); 
     } else {
         printf("Empate! Ambas perdem recursos e poder.\n");
         faccao_atacante->pts_poder *= 0.5;
         faccao_atacante->pts_recurso *= 0.5;
         faccao_defensora->pts_poder *= 0.5;
         faccao_defensora->pts_recurso *= 0.5;
-    }
+    } 
 }
 
 void faccao_unidade_combate(CFaccao *cabeca, char *unidade_defensora)
@@ -284,9 +291,15 @@ void faccao_unidade_combate(CFaccao *cabeca, char *unidade_defensora)
     aux_faccao = faccao_buscar(cabeca, f_defensora);
 
     // Unidade atacante sempre vence
-    //tunidade_desaloca(aux_faccao->proxunidade, id);
+    tunidade_desaloca(aux_faccao->proxunidade, id);
 }
 
+void faccao_ganha_postos_poder(CFaccao *cabeca, char *nome_faccao, const int qtd_pts_poder)
+{
+    TFaccao *faccao = faccao_buscar(cabeca, nome_faccao);
+
+    faccao->pts_poder += qtd_pts_poder;
+}
 
 void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
 {
@@ -405,3 +418,22 @@ void faccao_edificio_constroi(CFaccao *cabeca, char **mapa_edificio, char *ident
     edificio_constroi(fac_aux->proxedificio, identificador, qtd, tipo, x, y);
 }
 
+void faccao_verifica_vencedor(const CFaccao *cabeca)
+{
+    TFaccao *faccoes = cabeca->ini, *aux = cabeca->ini;
+
+    while (faccoes->prox)
+    {
+        faccoes = faccoes->prox;
+
+        if (aux->pts_poder < faccoes->pts_poder) {
+            aux = faccoes;
+        }
+        if (aux->pts_poder == faccoes->pts_poder) {
+            if (aux->pts_recurso < faccoes->pts_recurso)
+                aux = faccoes;
+        }
+    }
+    printf("vencedor: %s\n", aux->nome);
+    gera_log("vence", aux->nome, "", -1, -1, -1, -1, -1);
+}
