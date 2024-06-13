@@ -1,0 +1,48 @@
+15 15
+3
+FA pos 1 5
+FB pos 6 10
+FC pos 0 14
+A1 pos 1 1 3
+A2 pos 1 4 9
+A3 pos 2 3 10
+A4 pos 2 4 5
+B1 pos 2 3 12
+B2 pos 1 2 4
+B3 pos 1 5 5
+C1 pos 1 1 1
+C2 pos 2 4 8
+A1 move 1 1 4
+A2 move 1 4 10
+A3 move 2 3 11
+A4 move 2 4 6
+B1 move 2 4 13
+B2 move 1 3 4
+B3 move 1 6 5
+C1 move 1 2 2
+C2 move 2 5 9
+A1 coleta 1 10
+A3 coleta 2 20
+A4 coleta 2 10
+B1 coleta 2 20
+B2 coleta 1 20
+C1 coleta 1 20
+FA constroi 1 2 2 1
+FA controi 2 1 2 2
+FA constroi 1 3 3 4
+FB constroi 1 1 1 5
+FB constroi 1 2 2 8
+FC constroi 3 1 1 6
+FB alianca FC
+B2 combate 1 A3 2 
+A4 combate 2 C2 2 
+FA ganha 10
+FB ganha 5
+FC ganha 10
+B2 move 1 3 5
+A4 move 2 4 7
+C1 move 2 5 10
+C1 combate 1 A1 1
+FA constroi 1 2 7 10
+FB constroi 1 3 9 12
+FA ataca FB 6 10
