@@ -1,0 +1,76 @@
+20 20
+4
+FA pos 0 0
+FB pos 5 5
+FC pos 10 10
+FD pos 19 19
+A1 pos 1 2 4
+A2 pos 1 5 10
+A3 pos 2 4 11
+A4 pos 2 4 5
+B1 pos 2 6 9
+B2 pos 1 5 1
+B3 pos 1 8 2
+C1 pos 1 1 10
+C2 pos 2 4 18
+D1 pos 1 2 5
+D2 pos 2 12 18
+D3 pos 2 14 14
+D4 pos 1 4 13
+A1 move 1 3 5
+A2 move 1 6 11
+A3 move 2 5 12
+A4 move 2 5 6
+B1 move 2 6 10
+B2 move 1 5 2
+B3 move 1 8 3
+C1 move 1 3 12
+C2 move 2 6 19
+D1 move 1 5 8
+D2 move 2 15 18
+D3 move 2 15 14
+D4 move 1 3 13
+A1 coleta 1 10
+A2 coleta 1 10
+A4 coleta 2 20
+B1 coleta 2 10
+B3 coleta 1 10
+C1 coleta 1 20
+C2 coleta 2 20
+D1 coleta 1 10
+D2 coleta 2 10
+D4 coleta 1 10
+FA constroi 2 3 2 1
+FA controi 1 1 2 2
+FA constroi 1 2 6 12
+FB constroi 2 2 1 5
+FB constroi 3 1 2 8
+FC constroi 3 1 1 6
+FC constroi 2 1 1 9
+FD constroi 1 1 4 19
+FD constroi 2 2 4 18
+FD constroi 1 3 4 17
+FA alianca FB
+FC alianca FD
+A1 combate 1 C1 1
+C2 combate 2 A3 2
+D4 combate 1 B1 2
+B2 combate 1 C2 2
+D3 combate 2 B2 1
+FA ganha 5
+FB ganha 5
+FC ganha 5
+FD ganha 10
+A4 move 2 6 6
+A4 coleta 2 20
+D2 move 2 15 19
+D2 coleta 2 20
+B3 combate 1 D3 2
+D2 combate 2 B3 1
+FA constroi 1 2 3 1
+FB constroi 2 1 1 7
+FC constroi 2 3 1 10
+FD constroi 1 2 4 16
+FA ataca FC 10 10
+FD ataca FB 5 5
+FD ataca FA 10 10
