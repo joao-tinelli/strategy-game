@@ -49,6 +49,8 @@ void calianca_insere(CAlianca *cabeca, const char *nome);
  * @return void;
 */
 void calianca_display(const CAlianca *cabeca);
+void alianca_aliados(const CAlianca *cabeca);
+
 
 #endif 
 

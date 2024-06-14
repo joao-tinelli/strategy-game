@@ -77,6 +77,7 @@ void calianca_insere(CAlianca *cabeca, const char *nome)
     cabeca->tam++;
 }
 
+// pode remover essa funcao
 void calianca_display(const CAlianca *cabeca)
 {
     if (calianca_vazia(cabeca))
@@ -88,6 +89,21 @@ void calianca_display(const CAlianca *cabeca)
     while(aux){
         printf("Nome: (%s).\n", aux->nome);
         aux = aux->prox;
+    }
+}
+
+void alianca_aliados(const CAlianca *cabeca)
+{
+    TAlianca *aux = cabeca->ini;
+    if (aux)
+    {
+        printf("Faccoes aliadas: ");
+        while(aux)
+        {
+            printf("%s ", aux->nome);
+            aux = aux->prox;
+        }
+        printf("\n");
     }
 }
 

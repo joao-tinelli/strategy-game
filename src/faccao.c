@@ -418,7 +418,13 @@ void faccao_edificio_constroi(CFaccao *cabeca, char **mapa_edificio, char *ident
     edificio_constroi(fac_aux->proxedificio, identificador, qtd, tipo, x, y);
 }
 
-void faccao_verifica_vencedor(const CFaccao *cabeca)
+CAlianca *faccao_retorna_calianca(CFaccao *cabeca, char *identificador)
+{
+    TFaccao *aux = faccao_buscar(cabeca, identificador);
+    return aux->proxalianca;
+}
+
+void faccao_verifica_vencedor(CFaccao *cabeca)
 {
     TFaccao *faccoes = cabeca->ini, *aux = cabeca->ini;
 
@@ -434,6 +440,10 @@ void faccao_verifica_vencedor(const CFaccao *cabeca)
                 aux = faccoes;
         }
     }
-    printf("vencedor: %s\n", aux->nome);
+    printf("Faccao vencedora: %s\n", aux->nome);
+    
+    CAlianca *aux1 = faccao_retorna_calianca(cabeca, aux->nome);
+    alianca_aliados(aux1);
+
     gera_log("vence", aux->nome, "", -1, -1, -1, -1, -1);
 }

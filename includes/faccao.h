@@ -14,6 +14,8 @@ typedef struct _faccao TFaccao;
 */
 typedef struct _cfaccao CFaccao;
 
+typedef struct _calianca CAlianca;
+
 /**
  * @brief Aloca uma struct do tipo TFaccao;
  * @param nome, x, y;
@@ -118,6 +120,8 @@ void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **m
 void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao, char *nome, const int tipo, const int x, const int y);
 void faccao_edificio_constroi(CFaccao *cabeca, char **mapa_edificio, char *identificador, int qtd, int tipo, int x, int y);
 void faccao_unidade_combate(CFaccao *cabeca, char * unidade_defensora);
-void faccao_verifica_vencedor(const CFaccao *cabeca);
+CAlianca *faccao_retorna_calianca(CFaccao *cabeca, char *identificador);
+void faccao_verifica_vencedor(CFaccao *cabeca);
+
 
 #endif

@@ -62,7 +62,7 @@ int main(int argc, char const *argv[])
             gera_log(linha_acao, linha_peca, "", linha_tipo, 0, 0, linha_x, linha_y);
         }
 
-        if (strcmp(linha_acao, "coleta") == 0) // !!!!!!!!!!
+        if (strcmp(linha_acao, "coleta") == 0) 
         {
             sscanf(linha_arquivo, "%*s %*s %d %d", &linha_tipo, &linha_qtde);
 
@@ -89,6 +89,17 @@ int main(int argc, char const *argv[])
 
             gera_log(linha_acao, linha_peca, linha_peca2, linha_tipo, linha_tipo2, 0, 0, 0);
         }
+
+        if(strcmp(linha_acao, "alianca") == 0)
+        {
+            sscanf(linha_arquivo, "%*s %*s %s", linha_peca2);
+
+            CAlianca *aux1 = faccao_retorna_calianca(cfaccao, linha_peca);
+            CAlianca *aux2 = faccao_retorna_calianca(cfaccao, linha_peca2);
+
+            calianca_insere(aux1, linha_peca2);
+            calianca_insere(aux2, linha_peca);           
+        } 
         
         if(strcmp(linha_acao, "ataca") == 0)
         {
