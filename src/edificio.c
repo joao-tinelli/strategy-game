@@ -1,10 +1,10 @@
 #include "bibliotecas.h"
-// Estrutura para representar uma edifício
+// Estrutura para representar um edifício
 typedef struct edificio
 {
     char chave;
     int x, y;
-    int tipo, qtd; // 1-edifício de recursos, 2-campo de treinamento 3-laboratório de pesquisa
+    int tipo, qtd;
     struct edificio *prox;
 } TEdificio;
 
@@ -80,21 +80,6 @@ void edificio_insere(CEdificio *cabeca, TEdificio *novo)
         cabeca->ini = novo;
     }
     cabeca->tam++;
-}
-
-void edificio_display(const CEdificio *cabeca)
-{
-    if (cedificio_vazio(cabeca))
-    {
-        msg_erro("Edificio vazio.", "edificio_display");
-        return;
-    }
-    TEdificio *aux = cabeca->ini;
-    while(aux)
-    {
-        printf("CHAVE: %c\nQTD: %d\nPOS: (%d, %d) \nTIPO: %d\n\n", aux->chave, aux->qtd, aux->x, aux->y, aux->tipo);
-        aux = aux->prox;
-    }
 }
 
 void edificio_constroi(CEdificio *cabeca, char *identificador, int qtd, int tipo, int x, int y)

@@ -8,11 +8,10 @@ FILE *abrir_arquivo(char *path_arquivo, char *operacao)
         msg_erro("Erro ao abrir arquivo.", "abrir_arquivo");
         return NULL;
     }  
-
     return arq;
 }
 
-void unidade_para_faccao(char *nome) // Ex: A1 --> FA
+void unidade_para_faccao(char *nome)
 {
     nome[1] = nome[0];
     nome[0] = 'F';
@@ -21,7 +20,7 @@ void unidade_para_faccao(char *nome) // Ex: A1 --> FA
 void gera_log(const char *acao, const char *peca, const char *peca2, const int tipo, const int tipo2, const int qtd, const int x, const int y)
 {
     FILE *arq_log = fopen("./output/saida.txt", "a");
-    if (arq_log == NULL) {
+    if (arq_log == NULL){
         msg_erro("Erro ao abrir o arquivo.", "gera_log");
         return;
     }

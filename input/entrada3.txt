@@ -50,8 +50,6 @@ FC constroi 2 1 1 9
 FD constroi 1 1 4 19
 FD constroi 2 2 4 18
 FD constroi 1 3 4 17
-FA alianca FB
-FC alianca FD
 A1 combate 1 C1 1
 C2 combate 2 A3 2
 D4 combate 1 B1 2
@@ -71,6 +69,6 @@ FA constroi 1 2 3 1
 FB constroi 2 1 1 7
 FC constroi 2 3 1 10
 FD constroi 1 2 4 16
-FA ataca FC 10 10
-FD ataca FB 5 5
-FD ataca FA 10 10
+FA alianca FB
+FC alianca FD
+FD ataca FA 0 0

@@ -45,12 +45,6 @@ int cedificio_vazio(const CEdificio *cabeca);
 */
 void edificio_insere(CEdificio *cabeca, TEdificio *novo);
 /**
- * @brief Imprime a lista dos edifícios;
- * @param cabeca;
- * @return void;
-*/
-void edificio_display(const CEdificio *cabeca);
-/**
  * @brief Utilizada quando um novo edificio for construído;
  * @param cabeca, identificador, qtd, tipo, x, y;
  * @return void;

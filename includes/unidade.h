@@ -47,12 +47,6 @@ int unidade_vazia(const CUnidade *cabeca);
 */
 void unidade_inserir(CUnidade *cabeca, const char chave, const char id, const int tipo, const int x, const int y);
 /**
- * @brief Mostra o conteúdo da lista, caso não esteja vazia;
- * @param cabeca;
- * @return void;
-*/
-void unidade_display(const CUnidade *cabeca);
-/**
  * @brief Busca uma unidade na lista;
  * @param cabeca, id;
  * @return TUnidade;

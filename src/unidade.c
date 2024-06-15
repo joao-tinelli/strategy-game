@@ -6,7 +6,7 @@ typedef struct _unidade
     char chave;
     int id; 
     int x, y;
-    int tipo; // 1-soldado, 2-explorador
+    int tipo;
     struct _unidade *prox;
 } TUnidade;
 
@@ -54,7 +54,6 @@ int unidade_vazia(const CUnidade *cabeca)
     return(cabeca == NULL || cabeca->tam == 0);
 }
 
-
 void unidade_inserir(CUnidade *cabeca, const char chave, const char id, const int tipo, const int x, const int y)
 {
     TUnidade *novo = tunidade_aloca(chave, id, tipo, x, y);
@@ -72,22 +71,6 @@ void unidade_inserir(CUnidade *cabeca, const char chave, const char id, const in
     }
     cabeca->tam++;
 }
-
-void unidade_display(const CUnidade *cabeca) 
-{
-    if (unidade_vazia(cabeca))
-    {
-        msg_erro("Unidade vazia.", "cunidade_display");
-        return;
-    }
-    TUnidade *aux = cabeca->ini;
-    while(aux)
-    {
-        printf("chave: %c, id: %d, tipo: %d => pos: (%d, %d).\n",aux->chave, aux->id, aux->tipo, aux->x, aux->y);
-        aux = aux->prox;
-    }
-}
-
 
 void cunidade_desaloca(CUnidade **cabeca) 
 {
@@ -118,9 +101,10 @@ void tunidade_desaloca(CUnidade *cabeca, const int id)
 
     TUnidade *aux = cabeca->ini, *temp;
 
-    if(aux->id == id){ // Primeiro caso: a primeira unidade ja eh a que queremos
+    if(aux->id == id){ 
         cabeca->ini = aux->prox;
         free(aux);
+
     } else {
         temp = aux;
         aux = aux->prox;
@@ -154,7 +138,6 @@ TUnidade *unidade_buscar(CUnidade *cabeca, const int id)
     return NULL;
 }
 
-// Funcao principal de movimento
 void unidade_move(CUnidade *cabeca, char *nome, const int tipo, const int novo_x, const int novo_y)
 {
     int id = (int)nome[1] - 48;

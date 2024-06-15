@@ -4,7 +4,7 @@
 typedef struct _faccao{
     char nome[15];
     int pts_recurso, pts_poder;
-    int x, y; // posicao da faccao
+    int x, y; 
     struct _faccao *prox;
     CAlianca *proxalianca;
     CEdificio *proxedificio;
@@ -91,7 +91,7 @@ void tfaccao_desaloca(CFaccao *cabeca, char *nome_faccao)
 
     TFaccao *aux = cabeca->ini, *temp;
 
-    if(strcmp(aux->nome, nome_faccao) == 0){ // Primeiro caso: a primeira faccao ja eh a que queremos
+    if(strcmp(aux->nome, nome_faccao) == 0){
         cabeca->ini = aux->prox;
         free(aux);
 
@@ -130,19 +130,6 @@ int faccao_existe(const CFaccao *cabeca, const char *nome)
     return 0;
 }
 
-int faccao_verifica_posicao(CFaccao *cabeca, const int x, const int y) 
-{
-    if (cfaccao_vazia(cabeca)) return 0;
-
-    TFaccao *aux = cabeca->ini;
-    while (aux)
-    {
-        if ((aux->x = x) && (aux->y == y))
-            return 1;
-        aux = aux->prox;
-    }
-    return 0;
-}
 
 void faccao_inserir(CFaccao *cabeca, const char *nome, const int x, const int y)
 {
@@ -174,26 +161,10 @@ void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo)
 
     while(!feof(arquivo))
     {
-        fscanf(arquivo, "%s %d %d", aux.nome, &(aux.x), &(aux.y));
-        if (!faccao_verifica_posicao(cabeca, aux.x, aux.y))
-            faccao_inserir(cabeca, aux.nome, aux.x, aux.y);
+        fscanf(arquivo, "%s %d %d", aux.nome, &(aux.x), &(aux.y));        
+        faccao_inserir(cabeca, aux.nome, aux.x, aux.y);
     }
     fclose(arquivo);    
-}
-
-void faccao_display(const CFaccao *cabeca)
-{
-    if (cfaccao_vazia(cabeca))
-    {
-        msg_erro("Faccao vazia.", "faccoes_display");
-        return;
-    }
-    TFaccao *aux = cabeca->ini;
-    while(aux){
-        printf("Faccao '%s', posicao '%d,%d', pts_poder '%d', pts_recurso '%d\n", aux->nome, aux->x, aux->y, aux->pts_poder, aux->pts_recurso);
-        
-        aux = aux->prox;
-    }
 }
 
 TFaccao *faccao_buscar(CFaccao *cabeca, char *nome)
@@ -236,8 +207,8 @@ void faccao_ataca(CFaccao *cabeca, char *f1, char *f2, const int x, const int y)
     gera_log("ataca", f1, f2, 0, 0, 0, x, y);       
     gera_log("defende", f2, f1, 0, 0, 0, x, y); 
 
-    // Faccao vencedora perde 20% dos pontos de poder e ganha 70% de pontos de recurso da fac. defensora
-    // Faccao perdedora metade dos postos de poder e perde 70% de pontos de recurso
+    // Facção vencedora perde 20% dos pontos de poder e ganha 70% de pontos de recurso da facção defensora
+    // Facção perdedora perde metade dos pontos de poder e perde 70% dos pontos de recurso
     if (faccao_atacante->pts_poder > faccao_defensora->pts_poder){
         faccao_defensora->pts_poder /= 2;
         faccao_defensora->pts_recurso *= 0.3;
@@ -254,6 +225,7 @@ void faccao_ataca(CFaccao *cabeca, char *f1, char *f2, const int x, const int y)
         faccao_atacante->pts_poder = (faccao_defensora->pts_poder) - (faccao_atacante->pts_poder);
         faccao_atacante->pts_recurso *= 0*2;
         gera_log("perde", f1, f2, 0, 0, 0, x, y); 
+
     } else {
         printf("Empate! Ambas perdem recursos e poder.\n");
         faccao_atacante->pts_poder *= 0.5;
@@ -278,7 +250,7 @@ void faccao_unidade_combate(CFaccao *cabeca, char *unidade_defensora)
     tunidade_desaloca(aux_faccao->proxunidade, id);
 }
 
-void faccao_ganha_postos_poder(CFaccao *cabeca, char *nome_faccao, const int qtd_pts_poder)
+void faccao_ganha_pontos_poder(CFaccao *cabeca, char *nome_faccao, const int qtd_pts_poder)
 {
     TFaccao *faccao = faccao_buscar(cabeca, nome_faccao);
 
@@ -301,7 +273,7 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
         return;
     }
     
-    if (faccao_1->pts_poder >= faccao_2->pts_poder) // f1 recebe tudo de f2 e se tornam uma faccao so
+    if (faccao_1->pts_poder >= faccao_2->pts_poder)
     { 
         printf("%s > %s", faccao_1->nome, faccao_2->nome);
         faccao_1->pts_poder += faccao_2->pts_poder;
@@ -312,7 +284,8 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
         unidade_merge(faccao_1->proxunidade, faccao_2->proxunidade);
 
         tfaccao_desaloca(cabeca, faccao_2->nome);
-    } else { // f2 recebe tudo de f1 e se tornam uma faccao so
+
+    } else { 
         printf("%s > %s", faccao_2->nome, faccao_1->nome);
 
         faccao_2->pts_poder += faccao_1->pts_poder;
@@ -344,7 +317,7 @@ void faccao_mapa_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensa
 void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, const int tipo, const int x, const int y)
 {    
     unidade_inserir(faccao->proxunidade, chave, id, tipo, x, y);
-    if (tipo == 2) faccao->pts_poder += 10; // a cada soldado criado a faccao ganha 10 pts de poder    
+    if (tipo == 2) faccao->pts_poder += 10;   
 }
 
 void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao)
@@ -391,15 +364,14 @@ void faccao_edificio_constroi(CFaccao *cabeca, char **mapa_edificio, char *ident
 {
     TFaccao *fac_aux = faccao_buscar(cabeca, identificador);   
 
-    if (tipo == 1) { // Edificio recurso: -3 pts
+    if (tipo == 1) { 
         fac_aux->pts_recurso -= (qtd * 3);
-    } else if (tipo == 2) { //Edificio campo: -4 pts
+    } else if (tipo == 2) { 
         fac_aux->pts_recurso -= (qtd * 4);
-    } else { // Edificio lab: -5 pts
+    } else { 
         fac_aux->pts_recurso -= (qtd * 5);
     }
 
-    // Adiciona no mapa
     mapa_edificio[x][y] = tolower(identificador[1]);
 
     edificio_constroi(fac_aux->proxedificio, identificador, qtd, tipo, x, y);

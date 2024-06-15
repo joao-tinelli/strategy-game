@@ -12,16 +12,15 @@ Dimensao *mapa_le_dimensao(const char *nome_arquivo)
 
     if (!arquivo){
         msg_erro("Nao foi possível abrir o arquivo.", "mapa_le_dimensao");
-        free(d);  // Libera a memória alocada
+        free(d);  
         return NULL;
     }
 
-    // Lê as dimensoes do mapa
     int n, m;
     if (fscanf(arquivo, "%d %d", &n, &m) != 2){
         msg_erro("Erro ao ler a dimensao do mapa", "mapa_inicializa");
         fclose(arquivo);
-        free(d);  // Libera a memória alocada
+        free(d); 
         return NULL;
     }
     fclose(arquivo);
@@ -45,12 +44,12 @@ char **mapa_aloca(Dimensao *d)
         msg_erro("Erro na alocação de memoria para linhas", "mapa_aloca");
         return NULL;
     }
-    // Aloca memória para cada linha
+    
     for (int i = 0; i < d->n; i++) {
         mapa[i] = (char*)malloc(d->m * sizeof(char));
         if (mapa[i] == NULL){
             msg_erro("Erro na alocação de memoria para coluna", "mapa_aloca");
-            // Libera todas as linhas já alocadas
+
             for (int j = 0; j < i; j++) {
                 free(mapa[j]);
             }
@@ -100,27 +99,25 @@ void desaloca_dimensao(Dimensao **d)
     *d = NULL;
 }
 
-
-// Função para verificar se uma matriz está vazia
 int mapa_vazio(char **mapa, Dimensao *dimensao)
 {
     if (mapa == NULL) {
-        return 1; // Ponteiro da matriz é NULL
+        return 1; 
     }
     if (dimensao->n == 0 || dimensao->m == 0) {
-        return 1; // Número de linhas ou colunas é zero
+        return 1; 
     }
     for (int i = 0; i < dimensao->n; i++) {
         if (mapa[i] == NULL) {
-            return 1; // Linha da matriz é NULL
+            return 1; 
         }
         for (int j = 0; j < dimensao->m; j++) {
             if (mapa[i][j] != 0) {
-                return 0; // Encontrou um elemento diferente de zero
+                return 0; 
             }
         }
     }
-    return 1; // Todos os elementos são zero
+    return 1; 
 }
 
 void mapa_display(char **mapa, Dimensao *d)

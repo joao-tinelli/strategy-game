@@ -78,21 +78,6 @@ void calianca_insere(CAlianca *cabeca, const char *nome)
     cabeca->tam++;
 }
 
-// pode remover essa funcao
-void calianca_display(const CAlianca *cabeca)
-{
-    if (calianca_vazia(cabeca))
-    {
-        msg_erro("Não há aliancas.", "calianca_display");
-        return;
-    }
-    TAlianca *aux = cabeca->ini;
-    while(aux){
-        printf("Nome: (%s).\n", aux->nome);
-        aux = aux->prox;
-    }
-}
-
 void alianca_aliados(const CAlianca *cabeca)
 {
     TAlianca *aux = cabeca->ini;

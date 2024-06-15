@@ -33,7 +33,6 @@ FA constroi 1 3 3 4
 FB constroi 1 1 1 5
 FB constroi 1 2 2 8
 FC constroi 3 1 1 6
-FB alianca FC
 B2 combate 1 A3 2 
 A4 combate 2 C2 2 
 FA ganha 10
@@ -45,4 +44,5 @@ C1 move 2 5 10
 C1 combate 1 A1 1
 FA constroi 1 2 7 10
 FB constroi 1 3 9 12
+FB alianca FC
 FA ataca FB 6 10

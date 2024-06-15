@@ -53,12 +53,6 @@ int cfaccao_vazia(const CFaccao *cabeca);
 */
 int faccao_existe(const CFaccao *cabeca, const char *nome);
 /**
- * @brief Verifica se a facção existe;
- * @param cabeca, x, y;
- * @return (0 ou 1);
-*/
-int faccao_verifica_posicao(CFaccao *cabeca, const int x, const int y);
-/**
  * @brief Insere uma nova facção na lista;
  * @param cabeca, nome, x, y;
  * @return void;
@@ -70,12 +64,7 @@ void faccao_inserir(CFaccao *cabeca, const char *nome, const int x, const int y)
  * @return void;
 */
 void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo);
-/**
- * @brief Verifica se a facção existe;
- * @param cabeca, nome;
- * @return (0 ou 1);
-*/
-void faccao_display(const CFaccao *cabeca);
+
 /**
  * @brief Busca alguma facção na lista;
  * @param cabeca, nome;
@@ -107,7 +96,7 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2);
  * @return void;
 */
 
-void faccao_ganha_postos_poder(CFaccao *cabeca,  char *nome_faccao, const int qtd_pts_poder);
+void faccao_ganha_pontos_poder(CFaccao *cabeca,  char *nome_faccao, const int qtd_pts_poder);
 void faccao_mapa_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao);
 void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, const int tipo, const int x, const int y);
 void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao);

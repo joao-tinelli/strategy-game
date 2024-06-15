@@ -10,40 +10,45 @@ int main(int argc, char const *argv[])
     char **mapa_oficial, **mapa_faccao, **mapa_edificio, **mapa_unidade;
     mapa_oficial = mapa_faccao = mapa_edificio = mapa_unidade = NULL;
 
-    //  Criando a cabeça da  lista de facçôes
+    //  Criando a cabeça da lista de facçôes
     CFaccao *cfaccao = cfaccao_cria();
-    //  Abrir arquivo de entrada
+    //  Abrindo arquivo de entrada
     FILE *arq = abrir_arquivo("./input/entrada.txt", "r");
     //  Lendo o tamanho do tabuleiro e setando a dimensão
     fscanf(arq, "%d %d", &dim_x, &dim_y); 
     dimensao = seta_dimensao(dim_x, dim_y);
     //  Construindo os mapas
     construir_mapas(&mapa_oficial, &mapa_faccao, &mapa_edificio, &mapa_unidade, dimensao);
-    //  Pegando a quantidade de faccoes do arquivo 
+    //  Pegando a quantidade de facções do arquivo 
     fscanf(arq,"%d", &numero_fac); 
    
+   // Lendo o arquivo de entrada
     while(fgets(linha_arquivo, sizeof(linha_arquivo), arq) != NULL)
     {   
         sscanf(linha_arquivo, "%s %s", linha_peca, linha_acao);
+
         if(strcmp(linha_acao, "pos") == 0){
             letra = linha_peca[0];            
             
-            if(letra == 'F'){ // posicionamento de faccao
+            if(letra == 'F'){ // Posicionamento de facção
                 sscanf(linha_arquivo, "%*s %*s %d %d", &linha_x, &linha_y); 
                 //  Insere a facção na lista e atualiza 'mapa_faccao'
                 faccao_inserir(cfaccao, linha_peca, linha_x, linha_y); 
                 faccao_mapa_atualiza(cfaccao, mapa_faccao, dimensao);
 
                 gera_log(linha_acao, linha_peca, "", 0, 0, 0, linha_x, linha_y);
-            } else { // posicionamento de unidade
+
+            } else { // Posicionamento de unidade
                 id = ((int) linha_peca[1])-48;
-                //  Monta o nome da facção e faz a busca ela na lista
+                //  Pega o nome da facção e faz a busca dela na lista
                 char aux[3];
                 strcpy(aux, linha_peca);
                 unidade_para_faccao(aux);
                 TFaccao *faccao_aux = faccao_buscar(cfaccao, aux); 
-                //  Lê o TIPO, X e Y da linha
+
+                //  Lê o tipo, x e y da linha
                 sscanf(linha_arquivo, "%*s %*s %d %d %d", &linha_tipo, &linha_x, &linha_y);
+
                 //  Insere a unidade e atualiza 'mapa_unidade'
                 faccao_unidade_inserir(faccao_aux, tolower(aux[1]), id, linha_tipo, linha_x, linha_y);   
                 faccao_mapa_unidade_atualiza(cfaccao, mapa_oficial, mapa_unidade, dimensao); 
@@ -51,7 +56,8 @@ int main(int argc, char const *argv[])
                 gera_log(linha_acao, linha_peca, "", linha_tipo, 0, 0, linha_x, linha_y);
             }
         }
-        if (strcmp(linha_acao,"move") == 0)
+
+        if (strcmp(linha_acao,"move") == 0) // Movimentação de unidades
         {
             sscanf(linha_arquivo, "%*s %*s %d %d %d", &linha_tipo, &linha_x, &linha_y);
             
@@ -61,7 +67,7 @@ int main(int argc, char const *argv[])
             gera_log(linha_acao, linha_peca, "", linha_tipo, 0, 0, linha_x, linha_y);
         }
 
-        if (strcmp(linha_acao, "coleta") == 0) 
+        if (strcmp(linha_acao, "coleta") == 0) // Coleta de pontos de recurso
         {
             sscanf(linha_arquivo, "%*s %*s %d %d", &linha_tipo, &linha_qtde);
 
@@ -70,7 +76,7 @@ int main(int argc, char const *argv[])
             gera_log(linha_acao, linha_peca, "", linha_tipo, 0, linha_qtde, 0, 0);
         }
         
-        if (strcmp(linha_acao, "constroi") == 0)
+        if (strcmp(linha_acao, "constroi") == 0) // Construção de edifícios
         {
             sscanf(linha_arquivo, "%*s %*s %d %d %d %d", &linha_qtde, &linha_tipo, &linha_x, &linha_y);
 
@@ -79,7 +85,7 @@ int main(int argc, char const *argv[])
             gera_log(linha_acao, linha_peca, "", linha_tipo, 0, linha_qtde, linha_x, linha_y);
         }
 
-        if(strcmp(linha_acao, "combate") == 0)
+        if(strcmp(linha_acao, "combate") == 0) // Combate entre unidades
         {
             int linha_tipo2;
             sscanf(linha_arquivo, "%*s %*s %d %s %d", &linha_tipo, linha_peca2, &linha_tipo2);
@@ -89,7 +95,7 @@ int main(int argc, char const *argv[])
             gera_log(linha_acao, linha_peca, linha_peca2, linha_tipo, linha_tipo2, 0, 0, 0);
         }
 
-        if(strcmp(linha_acao, "alianca") == 0)
+        if(strcmp(linha_acao, "alianca") == 0) // Aliança entre facções
         {
             sscanf(linha_arquivo, "%*s %*s %s", linha_peca2);
             
@@ -98,22 +104,23 @@ int main(int argc, char const *argv[])
             gera_log(linha_acao, linha_peca, linha_peca2, 0, 0, 0, -1, -1);
         } 
         
-        if(strcmp(linha_acao, "ataca") == 0)
+        if(strcmp(linha_acao, "ataca") == 0) // Ataque de facção
         {
             sscanf(linha_arquivo, "%*s %*s %s %d %d", linha_peca2, &linha_x, &linha_y);
             
             faccao_ataca(cfaccao, linha_peca, linha_peca2, linha_x, linha_y);     
         }
 
-        if(strcmp(linha_acao, "ganha") == 0)
+        if(strcmp(linha_acao, "ganha") == 0) // Coleta de pontos de poder de facções
         {
             sscanf(linha_arquivo, "%*s %*s %d", &linha_qtde);
             
-            faccao_ganha_postos_poder(cfaccao, linha_peca, linha_qtde);
+            faccao_ganha_pontos_poder(cfaccao, linha_peca, linha_qtde);
 
             gera_log(linha_acao, linha_peca, "", 0, 0, linha_qtde, 0, 0);
         }  
     }
+    
     //Fechando o arquivo
     fclose(arq);
 
@@ -125,10 +132,10 @@ int main(int argc, char const *argv[])
     puts("\nMAPA EDIFICIO");
     mapa_display(mapa_edificio, dimensao);
 
-    /*  verifica a faccao ganhadora */
+    /*  Verifica a facção vencedora */
     faccao_verifica_vencedor(cfaccao);
     
-    /*  Area de desalocação */
+    /*  Área de desalocação de memória */
     desaloca_mapa(&mapa_oficial, dimensao);
     desaloca_mapa(&mapa_faccao, dimensao);
     desaloca_mapa(&mapa_edificio, dimensao);
