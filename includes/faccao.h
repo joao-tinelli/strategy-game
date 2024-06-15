@@ -21,13 +21,13 @@ typedef struct _calianca CAlianca;
  * @param nome, x, y;
  * @return TFaccao;
 */
-TFaccao *Tfaccao_aloca(const char *nome, const int x, const int y);
+TFaccao *tfaccao_aloca(const char *nome, const int x, const int y);
 /**
  * @brief Cria a cabeça da lista;
  * @param void;
  * @return CFaccao;
 */
-CFaccao *Cfaccao_cria(void);
+CFaccao *cfaccao_cria(void);
 /**
  * @brief Desaloca a cabeça da lista;
  * @param cabeca;
@@ -45,7 +45,7 @@ void tfaccao_desaloca(CFaccao *cabeca, char *nome_faccao);
  * @param cabeca;
  * @return (0 ou 1);
 */
-int Cfaccao_vazia(const CFaccao *cabeca);
+int cfaccao_vazia(const CFaccao *cabeca);
 /**
  * @brief Verifica se a facção existe;
  * @param cabeca, nome;
@@ -76,12 +76,6 @@ void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo);
  * @return (0 ou 1);
 */
 void faccao_display(const CFaccao *cabeca);
-/**
- * @brief Posiciona as facções no mapa;
- * @param cabeca, mapa;
- * @return void;
-*/
-void faccoes_posicionar_mapa(const CFaccao *cabeca, char **mapa);
 /**
  * @brief Busca alguma facção na lista;
  * @param cabeca, nome;
@@ -114,7 +108,7 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2);
 */
 
 void faccao_ganha_postos_poder(CFaccao *cabeca,  char *nome_faccao, const int qtd_pts_poder);
-void mapa_faccao_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao);
+void faccao_mapa_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao);
 void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, const int tipo, const int x, const int y);
 void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao);
 void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao, char *nome, const int tipo, const int x, const int y);

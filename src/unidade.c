@@ -91,6 +91,7 @@ void unidade_display(const CUnidade *cabeca)
 
 void cunidade_desaloca(CUnidade **cabeca) 
 {
+    assert(cabeca);
    if (*cabeca == NULL) return;
 
     CUnidade *C = *cabeca;
@@ -151,14 +152,6 @@ TUnidade *unidade_buscar(CUnidade *cabeca, const int id)
     msg_erro("Não foi possível localizar a unidade.", "unidade_buscar");
 
     return NULL;
-}
-
-// Funcao principal de posicionamento
-void unidade_posiciona(CUnidade *cabeca, char *nome, const int tipo, const int x, const int y)
-{
-    char chave = tolower(nome[0]); 
-    int id = (int) nome[1] - 48; 
-    unidade_inserir(cabeca, chave, id, tipo, x, y);
 }
 
 // Funcao principal de movimento

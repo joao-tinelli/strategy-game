@@ -1,6 +1,5 @@
 #include "bibliotecas.h"
 
-
 int main(int argc, char const *argv[])
 {
     char letra;
@@ -12,9 +11,9 @@ int main(int argc, char const *argv[])
     mapa_oficial = mapa_faccao = mapa_edificio = mapa_unidade = NULL;
 
     //  Criando a cabeça da  lista de facçôes
-    CFaccao *cfaccao = Cfaccao_cria();
+    CFaccao *cfaccao = cfaccao_cria();
     //  Abrir arquivo de entrada
-    FILE *arq = abrir_arquivo("./input/entrada3.txt", "r");
+    FILE *arq = abrir_arquivo("./input/entrada.txt", "r");
     //  Lendo o tamanho do tabuleiro e setando a dimensão
     fscanf(arq, "%d %d", &dim_x, &dim_y); 
     dimensao = seta_dimensao(dim_x, dim_y);
@@ -33,7 +32,7 @@ int main(int argc, char const *argv[])
                 sscanf(linha_arquivo, "%*s %*s %d %d", &linha_x, &linha_y); 
                 //  Insere a facção na lista e atualiza 'mapa_faccao'
                 faccao_inserir(cfaccao, linha_peca, linha_x, linha_y); 
-                mapa_faccao_atualiza(cfaccao, mapa_faccao, dimensao);
+                faccao_mapa_atualiza(cfaccao, mapa_faccao, dimensao);
 
                 gera_log(linha_acao, linha_peca, "", 0, 0, 0, linha_x, linha_y);
             } else { // posicionamento de unidade
@@ -93,12 +92,10 @@ int main(int argc, char const *argv[])
         if(strcmp(linha_acao, "alianca") == 0)
         {
             sscanf(linha_arquivo, "%*s %*s %s", linha_peca2);
+            
+            faccao_alianca(cfaccao, linha_peca, linha_peca2);
 
-            CAlianca *aux1 = faccao_retorna_calianca(cfaccao, linha_peca);
-            CAlianca *aux2 = faccao_retorna_calianca(cfaccao, linha_peca2);
-
-            calianca_insere(aux1, linha_peca2);
-            calianca_insere(aux2, linha_peca);           
+            gera_log(linha_acao, linha_peca, linha_peca2, 0, 0, 0, -1, -1);
         } 
         
         if(strcmp(linha_acao, "ataca") == 0)

@@ -40,6 +40,7 @@ CAlianca *calianca_cria(void)
 
 void calianca_desaloca(CAlianca **cabeca)
 {
+    assert(cabeca);
     if (*cabeca == NULL) return;
 
     CAlianca *C = *cabeca;
