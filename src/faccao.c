@@ -16,7 +16,7 @@ typedef struct _cfaccao{
     int tam;
 } CFaccao;
 
-TFaccao *Tfaccao_aloca(const char *nome, const int x, const int y)
+TFaccao *tfaccao_aloca(const char *nome, const int x, const int y)
 {
     TFaccao *novo = (TFaccao*)malloc(sizeof(TFaccao));
     if(!novo){
@@ -34,7 +34,7 @@ TFaccao *Tfaccao_aloca(const char *nome, const int x, const int y)
     return novo;
 }
 
-CFaccao *Cfaccao_cria(void)
+CFaccao *cfaccao_cria(void)
 {
     CFaccao *novo = (CFaccao*) malloc(sizeof(CFaccao)); 
 
@@ -52,6 +52,7 @@ CFaccao *Cfaccao_cria(void)
 
 void cfaccao_desaloca(CFaccao **cabeca)
 {
+    assert(cabeca);
     if ((*cabeca)->ini == NULL)
     {
         free(*cabeca);
@@ -82,7 +83,7 @@ void cfaccao_desaloca(CFaccao **cabeca)
 
 void tfaccao_desaloca(CFaccao *cabeca, char *nome_faccao)
 {
-    if (Cfaccao_vazia(cabeca))
+    if (cfaccao_vazia(cabeca))
     {
         msg_erro("Faccao nao existe.", "tfaccao_desaloca");
         return;
@@ -111,14 +112,14 @@ void tfaccao_desaloca(CFaccao *cabeca, char *nome_faccao)
     }
 }
 
-int Cfaccao_vazia(const CFaccao *cabeca)
+int cfaccao_vazia(const CFaccao *cabeca)
 {
     return(cabeca == NULL || cabeca->tam == 0);
 }
 
 int faccao_existe(const CFaccao *cabeca, const char *nome)
 {
-    if(Cfaccao_vazia(cabeca)) return 0;
+    if(cfaccao_vazia(cabeca)) return 0;
     TFaccao *aux = cabeca->ini;
     while(aux){
         if(strcmp(aux->nome, nome) == 0){
@@ -131,7 +132,7 @@ int faccao_existe(const CFaccao *cabeca, const char *nome)
 
 int faccao_verifica_posicao(CFaccao *cabeca, const int x, const int y) 
 {
-    if (Cfaccao_vazia(cabeca)) return 0;
+    if (cfaccao_vazia(cabeca)) return 0;
 
     TFaccao *aux = cabeca->ini;
     while (aux)
@@ -145,13 +146,13 @@ int faccao_verifica_posicao(CFaccao *cabeca, const int x, const int y)
 
 void faccao_inserir(CFaccao *cabeca, const char *nome, const int x, const int y)
 {
-    TFaccao *novo = Tfaccao_aloca(nome, x, y);
+    TFaccao *novo = tfaccao_aloca(nome, x, y);
     if(!novo)
     {
         msg_erro("\nFalha ao inserir faccao.", "faccao_inserir");
         return;
     }
-    if (Cfaccao_vazia(cabeca)){
+    if (cfaccao_vazia(cabeca)){
         cabeca->ini = cabeca->fim = novo;
 
     } else {
@@ -182,7 +183,7 @@ void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo)
 
 void faccao_display(const CFaccao *cabeca)
 {
-    if (Cfaccao_vazia(cabeca))
+    if (cfaccao_vazia(cabeca))
     {
         msg_erro("Faccao vazia.", "faccoes_display");
         return;
@@ -191,23 +192,6 @@ void faccao_display(const CFaccao *cabeca)
     while(aux){
         printf("Faccao '%s', posicao '%d,%d', pts_poder '%d', pts_recurso '%d\n", aux->nome, aux->x, aux->y, aux->pts_poder, aux->pts_recurso);
         
-        aux = aux->prox;
-    }
-}
-
-void faccoes_posicionar_mapa(const CFaccao *cabeca, char **mapa)
-{
-    if (Cfaccao_vazia(cabeca))
-    {
-        msg_erro("Faccao vazia.", "faccoes_inicializar_mapa");
-        return;
-    }
-    TFaccao *aux = cabeca->ini;
-    int i, j;
-    char c = 'A';
-    while(aux){
-        i = aux->x, j = aux->y;
-        mapa[i][j] = c++;
         aux = aux->prox;
     }
 }
@@ -303,7 +287,7 @@ void faccao_ganha_postos_poder(CFaccao *cabeca, char *nome_faccao, const int qtd
 
 void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
 {
-    if(Cfaccao_vazia(cabeca))
+    if(cfaccao_vazia(cabeca))
     {
         msg_erro("Nao ha nehuma faccao.", "faccao_alianca");
         return;
@@ -316,18 +300,21 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
         msg_erro("Alguma faccao nao existe", "faccao_alianca");
         return;
     }
-
+    
     if (faccao_1->pts_poder >= faccao_2->pts_poder) // f1 recebe tudo de f2 e se tornam uma faccao so
     { 
+        printf("%s > %s", faccao_1->nome, faccao_2->nome);
         faccao_1->pts_poder += faccao_2->pts_poder;
         faccao_1->pts_recurso += faccao_2->pts_recurso;
         calianca_insere(faccao_1->proxalianca, f2);
+
         edificio_merge(faccao_1->proxedificio, faccao_2->proxedificio);
         unidade_merge(faccao_1->proxunidade, faccao_2->proxunidade);
 
         tfaccao_desaloca(cabeca, faccao_2->nome);
-
     } else { // f2 recebe tudo de f1 e se tornam uma faccao so
+        printf("%s > %s", faccao_2->nome, faccao_1->nome);
+
         faccao_2->pts_poder += faccao_1->pts_poder;
         faccao_2->pts_recurso += faccao_1->pts_recurso;
         calianca_insere(faccao_2->proxalianca, f1);
@@ -338,9 +325,9 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
     }
 }
 
-void mapa_faccao_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao)
+void faccao_mapa_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao)
 {
-    if(Cfaccao_vazia(cabeca) || mapa_vazio(mapa_faccao, dimensao))
+    if(cfaccao_vazia(cabeca) || mapa_vazio(mapa_faccao, dimensao))
     {
         msg_erro("Cfaccao vazia ou mapa vazio.", "mapa_faccao_atualiza");
         return;
@@ -362,7 +349,7 @@ void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, co
 
 void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao)
 {
-    if(Cfaccao_vazia(cabeca) || mapa_vazio(mapa_unidade, dimensao))
+    if(cfaccao_vazia(cabeca) || mapa_vazio(mapa_unidade, dimensao))
     {
         msg_erro("Nao ha faccoes ou o mapa unidade nao foi criado.", "mapa_unidade_atualiza");
         return;

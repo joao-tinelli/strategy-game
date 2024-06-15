@@ -49,7 +49,8 @@ CEdificio *cedificio_cria(void)
 
 void cedificio_desaloca(CEdificio **cabeca) 
 {
-   if (*cabeca == NULL) return;
+    assert(cabeca);
+    if (*cabeca == NULL) return;
 
     CEdificio *C = *cabeca;
     TEdificio *aux = C->ini, *temp = NULL;
@@ -105,12 +106,12 @@ void edificio_constroi(CEdificio *cabeca, char *identificador, int qtd, int tipo
 
 void edificio_merge(CEdificio *cabeca_1, CEdificio *cabeca_2) 
 {
-    TEdificio *aux_2 = cabeca_2->ini;
+    TEdificio *aux_2 = cabeca_2->ini, *temp = NULL;
 
-    while (aux_2)
+    while(aux_2 != NULL)
     {
-        edificio_insere(cabeca_1, aux_2);
+        temp = aux_2;
         aux_2 = aux_2->prox;
+        edificio_insere(cabeca_1, temp);
     }
-    
 }
