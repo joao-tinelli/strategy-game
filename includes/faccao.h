@@ -2,6 +2,7 @@
 #define FACCAO_H
 
 #include "mapa.h"
+#include "alianca.h"
 
 /**
  * @brief Nó da lista;
@@ -14,12 +15,6 @@ typedef struct _faccao TFaccao;
  * @typedef CFaccao;
 */
 typedef struct _cfaccao CFaccao;
-
-/**
- * @brief Cabeça da lista de alianças;
- * @typedef CAlianca;
-*/
-typedef struct _calianca CAlianca;
 
 /**
  * @brief Aloca uma struct do tipo TFaccao;
@@ -167,6 +162,5 @@ CAlianca *faccao_retorna_calianca(CFaccao *cabeca, char *identificador);
  * @return void;
 */
 void faccao_verifica_vencedor(CFaccao *cabeca);
-
 
 #endif

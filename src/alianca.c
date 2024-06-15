@@ -81,6 +81,7 @@ void calianca_insere(CAlianca *cabeca, const char *nome)
 void alianca_aliados(const CAlianca *cabeca)
 {
     TAlianca *aux = cabeca->ini;
+    
     if (aux)
     {
         printf("Faccoes aliadas: ");

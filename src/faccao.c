@@ -275,19 +275,14 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
     
     if (faccao_1->pts_poder >= faccao_2->pts_poder)
     { 
-        printf("%s > %s", faccao_1->nome, faccao_2->nome);
         faccao_1->pts_poder += faccao_2->pts_poder;
         faccao_1->pts_recurso += faccao_2->pts_recurso;
         calianca_insere(faccao_1->proxalianca, f2);
-
         edificio_merge(faccao_1->proxedificio, faccao_2->proxedificio);
         unidade_merge(faccao_1->proxunidade, faccao_2->proxunidade);
 
         tfaccao_desaloca(cabeca, faccao_2->nome);
-
     } else { 
-        printf("%s > %s", faccao_2->nome, faccao_1->nome);
-
         faccao_2->pts_poder += faccao_1->pts_poder;
         faccao_2->pts_recurso += faccao_1->pts_recurso;
         calianca_insere(faccao_2->proxalianca, f1);
@@ -400,9 +395,8 @@ void faccao_verifica_vencedor(CFaccao *cabeca)
         }
     }
     printf("Faccao vencedora: %s\n", aux->nome);
-    
-    CAlianca *aux1 = faccao_retorna_calianca(cabeca, aux->nome);
-    alianca_aliados(aux1);
+
+    alianca_aliados(aux->proxalianca);
 
     gera_log("vence", aux->nome, "", -1, -1, -1, -1, -1);
 }
