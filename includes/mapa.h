@@ -16,7 +16,7 @@ Dimensao *mapa_le_dimensao(const char *nome_arquivo);
 
 /**
  * @brief Seta linha e coluna na variável e retorna;
- * @param m, n;
+ * @param n, m;
  * @return Dimensao;
 */
 Dimensao *seta_dimensao(const int n, const int m);
@@ -37,7 +37,7 @@ void mapa_gera(char **mapa, Dimensao *d);
 
 /**
  * @brief Desaloca mapa;
- * @param mapa, dimensao;
+ * @param mapa, d;
  * @return void;
 */
 void desaloca_mapa(char ***mapa, Dimensao *d);
@@ -68,11 +68,20 @@ void mapa_display(char **mapa, Dimensao *d);
  * @param mapa_oficial, mapa_copia, d;
  * @return void;
 */
-
 void mapa_replica(char **mapa_oficial, char **mapa_copia, Dimensao *d);
 
+/**
+ * @brief Constroi os mapas;
+ * @param mapa_oficial, mapa_faccao, mapa_edificio, mapa_unidade, dimensao;
+ * @return void;
+*/
 void construir_mapas(char ***mapa_oficial, char ***mapa_faccao, char ***mapa_edificio, char ***mapa_unidade, Dimensao *dimensao);
 
+/**
+ * @brief Verifica o tipo de terreno do mapa;
+ * @param mapa, dimensao, x, y;
+ * @return char;
+*/
 char mapa_tipo_terreno(char **mapa, Dimensao *dimensao, const int x, const int y);
 
 
