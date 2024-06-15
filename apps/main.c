@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
     //  Criando a cabeça da lista de facçôes
     CFaccao *cfaccao = cfaccao_cria();
     //  Abrindo arquivo de entrada
-    FILE *arq = abrir_arquivo("./input/entrada.txt", "r");
+    FILE *arq = abrir_arquivo("./input/entrada3.txt", "r");
     //  Lendo o tamanho do tabuleiro e setando a dimensão
     fscanf(arq, "%d %d", &dim_x, &dim_y); 
     dimensao = seta_dimensao(dim_x, dim_y);
