@@ -20,7 +20,7 @@ libed: \
 	$(OBJ)/faccao.o \
 	$(OBJ)/mensagens.o \
 	$(OBJ)/unidade.o \
-	$(OBJ)/mapa.o \
+	$(OBJ)/map.o \
 	$(OBJ)/utilitario.o \
 	$(OBJ)/libraries.o \
 

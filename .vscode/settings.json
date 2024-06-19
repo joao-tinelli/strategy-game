@@ -3,6 +3,8 @@
         "faccao.h": "c",
         "edificio.h": "c",
         "stdio.h": "c",
-        "mapa.h": "c"
+        "mapa.h": "c",
+        "libraries.h": "c",
+        "unidade.h": "c"
     }
 }

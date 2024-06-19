@@ -1,7 +1,7 @@
 #ifndef FACCAO_H
 #define FACCAO_H
 
-#include "mapa.h"
+#include "map.h"
 #include "alliance.h"
 
 /**
@@ -112,7 +112,7 @@ void faccao_ganha_pontos_poder(CFaccao *cabeca,  char *nome_faccao, const int qt
  * @param cabeca, mapa_faccao, dimensao;
  * @return void;
 */
-void faccao_mapa_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao);
+void faccao_mapa_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimension *dimensao);
 
 /**
  * @brief Insere unidades na facção;
@@ -126,14 +126,14 @@ void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, co
  * @param cabeca, mapa_oficial, mapa_unidade, dimensao;
  * @return void;
 */
-void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao);
+void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimension *dimensao);
 
 /**
  * @brief Move as unidades no mapa;
  * @param cabeca, mapa_unidade, dimensao, nome, tipo, x, y;
  * @return void;
 */
-void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao, char *nome, const int tipo, const int x, const int y);
+void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimension *dimensao, char *nome, const int tipo, const int x, const int y);
 
 /**
  * @brief Constroi um edificio;

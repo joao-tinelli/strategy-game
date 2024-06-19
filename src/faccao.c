@@ -293,9 +293,9 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
     }
 }
 
-void faccao_mapa_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimensao *dimensao)
+void faccao_mapa_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimension *dimensao)
 {
-    if(cfaccao_vazia(cabeca) || mapa_vazio(mapa_faccao, dimensao))
+    if(cfaccao_vazia(cabeca) || is_map_empty(mapa_faccao, dimensao))
     {
         msg_erro("Cfaccao vazia ou mapa vazio.", "mapa_faccao_atualiza");
         return;
@@ -315,15 +315,15 @@ void faccao_unidade_inserir(TFaccao *faccao, const char chave, const char id, co
     if (tipo == 2) faccao->pts_poder += 10;   
 }
 
-void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimensao *dimensao)
+void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **mapa_unidade, Dimension *dimension)
 {
-    if(cfaccao_vazia(cabeca) || mapa_vazio(mapa_unidade, dimensao))
+    if(cfaccao_vazia(cabeca) || is_map_empty(mapa_unidade, dimension))
     {
         msg_erro("Nao ha faccoes ou o mapa unidade nao foi criado.", "mapa_unidade_atualiza");
         return;
     }
 
-    mapa_replica(mapa_oficial, mapa_unidade, dimensao);
+    map_replicates(mapa_oficial, mapa_unidade, dimension);
     
     TFaccao *aux = cabeca->ini;
     while(aux){
@@ -333,7 +333,7 @@ void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **m
     }
 }
 
-void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensao, char *nome, const int tipo, const int x, const int y) 
+void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimension *dimensao, char *nome, const int tipo, const int x, const int y) 
 {
     char nome_unidade[3];
     strcpy(nome_unidade, nome);
@@ -343,7 +343,7 @@ void faccao_unidade_move(CFaccao *cabeca, char **mapa_unidade, Dimensao *dimensa
 
     TFaccao *fac_aux = faccao_buscar(cabeca, nome);   
 
-    char tipo_terreno = mapa_tipo_terreno(mapa_unidade, dimensao, x, y);
+    char tipo_terreno = map_type_terrain(mapa_unidade, dimensao, x, y);
 
     // Coleta de recursos ao explorar novo territorio
     if (tipo_terreno == 'P')

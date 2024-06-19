@@ -1,7 +1,7 @@
 #ifndef BUILDING_H
 #define BUILDING_H
 
-#include "mapa.h"
+#include "map.h"
 
 /**
  * @brief List's node;

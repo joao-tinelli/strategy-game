@@ -12,7 +12,7 @@
 #include "alliance.h"
 #include "building.h"
 #include "unidade.h"
-#include "mapa.h"
+#include "map.h"
 #include "mensagens.h"
 #include "utilitario.h"
 

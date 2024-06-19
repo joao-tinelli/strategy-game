@@ -6,7 +6,7 @@ int main(int argc, char const *argv[])
     char linha_arquivo[25], linha_peca[3], linha_acao[9], linha_peca2[3];
     int linha_x, linha_y, linha_tipo, linha_qtde, dim_x, dim_y, numero_fac, id;
 
-    Dimensao *dimensao = NULL;
+    Dimension *dimensao = NULL;
     char **mapa_oficial, **mapa_faccao, **mapa_edificio, **mapa_unidade;
     mapa_oficial = mapa_faccao = mapa_edificio = mapa_unidade = NULL;
 
@@ -16,9 +16,9 @@ int main(int argc, char const *argv[])
     FILE *arq = abrir_arquivo("./input/entrada3.txt", "r");
     //  Lendo o tamanho do tabuleiro e setando a dimensão
     fscanf(arq, "%d %d", &dim_x, &dim_y); 
-    dimensao = seta_dimensao(dim_x, dim_y);
+    dimensao = sets_dimension(dim_x, dim_y);
     //  Construindo os mapas
-    construir_mapas(&mapa_oficial, &mapa_faccao, &mapa_edificio, &mapa_unidade, dimensao);
+    map_makes(&mapa_oficial, &mapa_faccao, &mapa_edificio, &mapa_unidade, dimensao);
     //  Pegando a quantidade de facções do arquivo 
     fscanf(arq,"%d", &numero_fac); 
    
@@ -126,20 +126,20 @@ int main(int argc, char const *argv[])
 
     /*  Visualizaçãp final dos mapas */
     puts("\nMAPA FACCAO");
-    mapa_display(mapa_faccao, dimensao);
+    map_display(mapa_faccao, dimensao);
     puts("\nMAPA UNIDADE");
-    mapa_display(mapa_unidade, dimensao);
+    map_display(mapa_unidade, dimensao);
     puts("\nMAPA EDIFICIO");
-    mapa_display(mapa_edificio, dimensao);
+    map_display(mapa_edificio, dimensao);
 
     /*  Verifica a facção vencedora */
     faccao_verifica_vencedor(cfaccao);
     
     /*  Área de desalocação de memória */
-    desaloca_mapa(&mapa_oficial, dimensao);
-    desaloca_mapa(&mapa_faccao, dimensao);
-    desaloca_mapa(&mapa_edificio, dimensao);
-    desaloca_dimensao(&dimensao);   
+    map_deallocates(&mapa_oficial, dimensao);
+    map_deallocates(&mapa_faccao, dimensao);
+    map_deallocates(&mapa_edificio, dimensao);
+    map_dimension_deallocates(&dimensao);   
     cfaccao_desaloca(&cfaccao);
 
     return 0;
