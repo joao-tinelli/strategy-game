@@ -7,7 +7,7 @@ typedef struct _faccao{
     int x, y; 
     struct _faccao *prox;
     HAlliance *proxalianca;
-    CEdificio *proxedificio;
+    Hbuilding *proxedificio;
     CUnidade *proxunidade;
 } TFaccao;
 
@@ -29,7 +29,7 @@ TFaccao *tfaccao_aloca(const char *nome, const int x, const int y)
     novo->pts_recurso = 20;
     novo->pts_poder = 20;
     novo->proxunidade = cunidade_cria();
-    novo->proxedificio = cedificio_cria();
+    novo->proxedificio = hbuilding_creates();
     novo->proxalianca = halliance_creates();   
     return novo;
 }
@@ -62,7 +62,7 @@ void cfaccao_desaloca(CFaccao **cabeca)
     
     TFaccao *aux = (*cabeca)->ini, *temp;
     CUnidade *aux_unidade = (*cabeca)->ini->proxunidade;
-    CEdificio *aux_edificio = (*cabeca)->ini->proxedificio;
+    Hbuilding *aux_edificio = (*cabeca)->ini->proxedificio;
     HAlliance *aux_alianca = (*cabeca)->ini->proxalianca;
 
     while(aux){
@@ -70,7 +70,7 @@ void cfaccao_desaloca(CFaccao **cabeca)
         aux = temp->prox;
 
         cunidade_desaloca(&aux_unidade);
-        cedificio_desaloca(&aux_edificio);  
+        hbuilding_deallocates(&aux_edificio);  
         halliance_deallocates(&aux_alianca);
 
         free(temp);
@@ -278,7 +278,7 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
         faccao_1->pts_poder += faccao_2->pts_poder;
         faccao_1->pts_recurso += faccao_2->pts_recurso;
         halliance_insert(faccao_1->proxalianca, f2);
-        edificio_merge(faccao_1->proxedificio, faccao_2->proxedificio);
+        building_merge(faccao_1->proxedificio, faccao_2->proxedificio);
         unidade_merge(faccao_1->proxunidade, faccao_2->proxunidade);
 
         tfaccao_desaloca(cabeca, faccao_2->nome);
@@ -286,7 +286,7 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
         faccao_2->pts_poder += faccao_1->pts_poder;
         faccao_2->pts_recurso += faccao_1->pts_recurso;
         halliance_insert(faccao_2->proxalianca, f1);
-        edificio_merge(faccao_2->proxedificio, faccao_1->proxedificio);
+        building_merge(faccao_2->proxedificio, faccao_1->proxedificio);
         unidade_merge(faccao_2->proxunidade, faccao_1->proxunidade);
 
         tfaccao_desaloca(cabeca, faccao_1->nome);
@@ -369,7 +369,7 @@ void faccao_edificio_constroi(CFaccao *cabeca, char **mapa_edificio, char *ident
 
     mapa_edificio[x][y] = tolower(identificador[1]);
 
-    edificio_constroi(fac_aux->proxedificio, identificador, qtd, tipo, x, y);
+    building_makes(fac_aux->proxedificio, identificador, qtd, tipo, x, y);
 }
 
 void faccao_verifica_vencedor(CFaccao *cabeca)

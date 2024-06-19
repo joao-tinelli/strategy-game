@@ -10,7 +10,7 @@
 
 #include "faccao.h"
 #include "alliance.h"
-#include "edificio.h"
+#include "building.h"
 #include "unidade.h"
 #include "mapa.h"
 #include "mensagens.h"

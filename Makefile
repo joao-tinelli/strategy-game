@@ -16,7 +16,7 @@ create:
 
 libed: \
 	$(OBJ)/alliance.o \
-	$(OBJ)/edificio.o \
+	$(OBJ)/building.o \
 	$(OBJ)/faccao.o \
 	$(OBJ)/mensagens.o \
 	$(OBJ)/unidade.o \
