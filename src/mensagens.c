@@ -1,4 +1,4 @@
-#include "bibliotecas.h"
+#include "libraries.h"
 
 void msg_erro(char *S, char *funcao)
 {

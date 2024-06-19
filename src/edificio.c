@@ -1,4 +1,4 @@
-#include "bibliotecas.h"
+#include "libraries.h"
 // Estrutura para representar um edifício
 typedef struct edificio
 {

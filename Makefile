@@ -22,7 +22,7 @@ libed: \
 	$(OBJ)/unidade.o \
 	$(OBJ)/mapa.o \
 	$(OBJ)/utilitario.o \
-	$(OBJ)/bibliotecas.o \
+	$(OBJ)/libraries.o \
 
 app: clean_apps \
 	$(OUTPUT)/main 

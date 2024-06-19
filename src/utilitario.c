@@ -1,4 +1,4 @@
-#include "bibliotecas.h"
+#include "libraries.h"
 
 FILE *abrir_arquivo(char *path_arquivo, char *operacao) 
 {
