@@ -15,7 +15,7 @@ create:
 	mkdir lib
 
 libed: \
-	$(OBJ)/alianca.o \
+	$(OBJ)/alliance.o \
 	$(OBJ)/edificio.o \
 	$(OBJ)/faccao.o \
 	$(OBJ)/mensagens.o \

@@ -6,7 +6,7 @@ typedef struct _faccao{
     int pts_recurso, pts_poder;
     int x, y; 
     struct _faccao *prox;
-    CAlianca *proxalianca;
+    HAlliance *proxalianca;
     CEdificio *proxedificio;
     CUnidade *proxunidade;
 } TFaccao;
@@ -30,7 +30,7 @@ TFaccao *tfaccao_aloca(const char *nome, const int x, const int y)
     novo->pts_poder = 20;
     novo->proxunidade = cunidade_cria();
     novo->proxedificio = cedificio_cria();
-    novo->proxalianca = calianca_cria();   
+    novo->proxalianca = halliance_creates();   
     return novo;
 }
 
@@ -63,7 +63,7 @@ void cfaccao_desaloca(CFaccao **cabeca)
     TFaccao *aux = (*cabeca)->ini, *temp;
     CUnidade *aux_unidade = (*cabeca)->ini->proxunidade;
     CEdificio *aux_edificio = (*cabeca)->ini->proxedificio;
-    CAlianca *aux_alianca = (*cabeca)->ini->proxalianca;
+    HAlliance *aux_alianca = (*cabeca)->ini->proxalianca;
 
     while(aux){
         temp = aux;
@@ -71,7 +71,7 @@ void cfaccao_desaloca(CFaccao **cabeca)
 
         cunidade_desaloca(&aux_unidade);
         cedificio_desaloca(&aux_edificio);  
-        calianca_desaloca(&aux_alianca);
+        halliance_deallocates(&aux_alianca);
 
         free(temp);
     }
@@ -277,7 +277,7 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
     { 
         faccao_1->pts_poder += faccao_2->pts_poder;
         faccao_1->pts_recurso += faccao_2->pts_recurso;
-        calianca_insere(faccao_1->proxalianca, f2);
+        halliance_insert(faccao_1->proxalianca, f2);
         edificio_merge(faccao_1->proxedificio, faccao_2->proxedificio);
         unidade_merge(faccao_1->proxunidade, faccao_2->proxunidade);
 
@@ -285,7 +285,7 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
     } else { 
         faccao_2->pts_poder += faccao_1->pts_poder;
         faccao_2->pts_recurso += faccao_1->pts_recurso;
-        calianca_insere(faccao_2->proxalianca, f1);
+        halliance_insert(faccao_2->proxalianca, f1);
         edificio_merge(faccao_2->proxedificio, faccao_1->proxedificio);
         unidade_merge(faccao_2->proxunidade, faccao_1->proxunidade);
 
@@ -391,7 +391,7 @@ void faccao_verifica_vencedor(CFaccao *cabeca)
     printf("Faccao vencedora: %s\n", aux->nome);
 
     printf("Faccoes aliadas: ");
-    alianca_aliados(aux->proxalianca);
+    alliance_allies(aux->proxalianca);
 
     gera_log("vence", aux->nome, "", -1, -1, -1, -1, -1);
 }

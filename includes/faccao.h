@@ -2,7 +2,7 @@
 #define FACCAO_H
 
 #include "mapa.h"
-#include "alianca.h"
+#include "alliance.h"
 
 /**
  * @brief Nó da lista;
@@ -154,7 +154,7 @@ void faccao_unidade_combate(CFaccao *cabeca, char * unidade_defensora);
  * @param cabeca, mapa_unidade, indentificador;
  * @return CAlianca;
 */
-CAlianca *faccao_retorna_calianca(CFaccao *cabeca, char *identificador);
+HAlliance *faccao_retorna_calianca(CFaccao *cabeca, char *identificador);
 
 /**
  * @brief Verifica qual facção foi vencedora no combate;
