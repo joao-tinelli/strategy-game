@@ -18,7 +18,7 @@ libed: \
 	$(OBJ)/alliance.o \
 	$(OBJ)/building.o \
 	$(OBJ)/faccao.o \
-	$(OBJ)/mensagens.o \
+	$(OBJ)/message.o \
 	$(OBJ)/unidade.o \
 	$(OBJ)/map.o \
 	$(OBJ)/utilitario.o \

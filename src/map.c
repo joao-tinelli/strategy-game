@@ -12,14 +12,14 @@ Dimension *map_reads_dimension(const char *file_name)
 
     if (!file)
     {
-        msg_erro("Could not open the file.", "map_reads_dimension");
+        msg_error("Could not open the file.", "map_reads_dimension");
         free(d);  
         return NULL;
     }
 
     int n, m;
     if (fscanf(file, "%d %d", &n, &m) != 2){
-        msg_erro("Could not read the map's dimension", "map_reads_dimension");
+        msg_error("Could not read the map's dimension", "map_reads_dimension");
         fclose(file);
         free(d); 
         return NULL;
@@ -42,14 +42,14 @@ char **map_allocates(Dimension *d)
 {
     char **map = (char **)malloc(d->n * sizeof(char*));
     if (map == NULL){
-        msg_erro("Failed to allocate the map", "map_allocates");
+        msg_error("Failed to allocate the map", "map_allocates");
         return NULL;
     }
     
     for (int i = 0; i < d->n; i++) {
         map[i] = (char*)malloc(d->m * sizeof(char));
         if (map[i] == NULL){
-            msg_erro("Failed to allocate the map", "map_allocates");
+            msg_error("Failed to allocate the map", "map_allocates");
 
             for (int j = 0; j < i; j++) {
                 free(map[j]);
@@ -125,7 +125,7 @@ void map_display(char **map, Dimension *d)
 {
     if(is_map_empty(map, d))
     {
-        msg_erro("Empty map.", "map_display");
+        msg_error("Empty map.", "map_display");
         return;
     }
 
@@ -166,7 +166,7 @@ char map_type_terrain(char **map, Dimension *dimension, const int x, const int y
 {
     if (is_map_empty(map, dimension))
     {
-        msg_erro("Empty map.", "map_type_terrain");
+        msg_error("Empty map.", "map_type_terrain");
         return '\0';
     }
 

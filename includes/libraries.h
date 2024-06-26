@@ -13,7 +13,7 @@
 #include "building.h"
 #include "unidade.h"
 #include "map.h"
-#include "mensagens.h"
+#include "message.h"
 #include "utilitario.h"
 
 #endif

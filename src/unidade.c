@@ -20,7 +20,7 @@ TUnidade *tunidade_aloca(const char chave, const int id, const int tipo, const i
 {
     TUnidade *novo = (TUnidade*)malloc(sizeof(TUnidade));
     if(!novo){
-        msg_erro("Falha ao alocar memoria.\n", "tunidade_aloca");
+        msg_error("Falha ao alocar memoria.\n", "tunidade_aloca");
         return NULL;
     }
 
@@ -39,7 +39,7 @@ CUnidade *cunidade_cria(void)
     CUnidade *novo = (CUnidade*) malloc(sizeof(CUnidade));
     if(!novo)
     {
-        msg_erro("Falha ao alocar memoria.\n", "cunidade_cria");
+        msg_error("Falha ao alocar memoria.\n", "cunidade_cria");
         return NULL;
     }
 
@@ -59,7 +59,7 @@ void unidade_inserir(CUnidade *cabeca, const char chave, const char id, const in
     TUnidade *novo = tunidade_aloca(chave, id, tipo, x, y);
     if(!novo)
     {
-        msg_erro("\nFalha ao inserir unidade.", "unidade_inserir");
+        msg_error("\nFalha ao inserir unidade.", "unidade_inserir");
         return;
     }
     if (unidade_vazia(cabeca)){
@@ -95,7 +95,7 @@ void tunidade_desaloca(CUnidade *cabeca, const int id)
     assert(cabeca);
     if (unidade_vazia(cabeca))
     {
-        msg_erro("Unidade nao existe.", "tunidade_desaloca");
+        msg_error("Unidade nao existe.", "tunidade_desaloca");
         return;
     }
 
@@ -118,7 +118,7 @@ void tunidade_desaloca(CUnidade *cabeca, const int id)
             temp = aux;
             aux = aux->prox;            
         }
-        msg_erro("Unidade nao encontrada!", "tunidade_desaloca");
+        msg_error("Unidade nao encontrada!", "tunidade_desaloca");
     }
 }
 
@@ -133,7 +133,7 @@ TUnidade *unidade_buscar(CUnidade *cabeca, const int id)
         }
         aux = aux->prox;
     }
-    msg_erro("Não foi possível localizar a unidade.", "unidade_buscar");
+    msg_error("Não foi possível localizar a unidade.", "unidade_buscar");
 
     return NULL;
 }

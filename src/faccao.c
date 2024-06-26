@@ -20,7 +20,7 @@ TFaccao *tfaccao_aloca(const char *nome, const int x, const int y)
 {
     TFaccao *novo = (TFaccao*)malloc(sizeof(TFaccao));
     if(!novo){
-        msg_erro("Falha ao criar a faccao.", "Tfaccao_aloca");
+        msg_error("Falha ao criar a faccao.", "Tfaccao_aloca");
         return NULL;
     }
     strcpy(novo->nome, nome);
@@ -40,7 +40,7 @@ CFaccao *cfaccao_cria(void)
 
     if(!novo)
     {
-        msg_erro("Falha ao criar a faccao.", "faccao_cria");
+        msg_error("Falha ao criar a faccao.", "faccao_cria");
         return NULL;
     }
 
@@ -85,7 +85,7 @@ void tfaccao_desaloca(CFaccao *cabeca, char *nome_faccao)
 {
     if (cfaccao_vazia(cabeca))
     {
-        msg_erro("Faccao nao existe.", "tfaccao_desaloca");
+        msg_error("Faccao nao existe.", "tfaccao_desaloca");
         return;
     }
 
@@ -108,7 +108,7 @@ void tfaccao_desaloca(CFaccao *cabeca, char *nome_faccao)
             temp = aux;
             aux = aux->prox;            
         }
-        msg_erro("Faccao nao encontrada!", "tfaccao_desaloca");
+        msg_error("Faccao nao encontrada!", "tfaccao_desaloca");
     }
 }
 
@@ -136,7 +136,7 @@ void faccao_inserir(CFaccao *cabeca, const char *nome, const int x, const int y)
     TFaccao *novo = tfaccao_aloca(nome, x, y);
     if(!novo)
     {
-        msg_erro("\nFalha ao inserir faccao.", "faccao_inserir");
+        msg_error("\nFalha ao inserir faccao.", "faccao_inserir");
         return;
     }
     if (cfaccao_vazia(cabeca)){
@@ -153,7 +153,7 @@ void faccoes_converte_txt_lista(CFaccao *cabeca, const char *nome_arquivo)
 {
     FILE *arquivo = fopen(nome_arquivo, "r");
     if (!arquivo){
-        msg_erro("Erro ao abrir arquivo.", "faccoes_converte_txt_lista");
+        msg_error("Erro ao abrir arquivo.", "faccoes_converte_txt_lista");
         return;
     }
 
@@ -190,7 +190,7 @@ void faccao_coleta(CFaccao *cabeca, const char chave, const int qtd)
     if (faccao)        
         faccao->pts_recurso += qtd;
     else 
-        msg_erro("Erro ao encontrar faccao", "faccao_buscar");    
+        msg_error("Erro ao encontrar faccao", "faccao_buscar");    
      
 }
 
@@ -200,7 +200,7 @@ void faccao_ataca(CFaccao *cabeca, char *f1, char *f2, const int x, const int y)
     TFaccao *faccao_defensora = faccao_buscar(cabeca, f2);
 
     if (!faccao_atacante || !faccao_defensora){
-        msg_erro("Alguma faccao nao encontrada.", "faccao_combate");
+        msg_error("Alguma faccao nao encontrada.", "faccao_combate");
         return;
     }
 
@@ -261,7 +261,7 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
 {
     if(cfaccao_vazia(cabeca))
     {
-        msg_erro("Nao ha nehuma faccao.", "faccao_alianca");
+        msg_error("Nao ha nehuma faccao.", "faccao_alianca");
         return;
     }
     TFaccao *faccao_1 = faccao_buscar(cabeca, f1);
@@ -269,7 +269,7 @@ void faccao_alianca(CFaccao *cabeca, char *f1, char *f2)
 
     if (!faccao_1 || !faccao_2)
     {
-        msg_erro("Alguma faccao nao existe", "faccao_alianca");
+        msg_error("Alguma faccao nao existe", "faccao_alianca");
         return;
     }
     
@@ -297,7 +297,7 @@ void faccao_mapa_atualiza(CFaccao *cabeca, char **mapa_faccao, Dimension *dimens
 {
     if(cfaccao_vazia(cabeca) || is_map_empty(mapa_faccao, dimensao))
     {
-        msg_erro("Cfaccao vazia ou mapa vazio.", "mapa_faccao_atualiza");
+        msg_error("Cfaccao vazia ou mapa vazio.", "mapa_faccao_atualiza");
         return;
     }
     TFaccao *aux = cabeca->ini;
@@ -319,7 +319,7 @@ void faccao_mapa_unidade_atualiza(CFaccao *cabeca, char **mapa_oficial, char **m
 {
     if(cfaccao_vazia(cabeca) || is_map_empty(mapa_unidade, dimension))
     {
-        msg_erro("Nao ha faccoes ou o mapa unidade nao foi criado.", "mapa_unidade_atualiza");
+        msg_error("Nao ha faccoes ou o mapa unidade nao foi criado.", "mapa_unidade_atualiza");
         return;
     }
 

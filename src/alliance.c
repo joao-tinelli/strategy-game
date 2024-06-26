@@ -16,7 +16,7 @@ TAlliance *alliance_allocates(const char *name)
     TAlliance *new = (TAlliance*)malloc(sizeof(TAlliance));
     if(!new)
     {
-        msg_erro("Failed to allocate memory.", "alliance_allocates");
+        msg_error("Failed to allocate memory.", "alliance_allocates");
         return NULL;
     }
     strcpy(new->nome, name);
@@ -28,7 +28,7 @@ HAlliance *halliance_creates(void)
 {
     HAlliance *new = (HAlliance*) malloc(sizeof(HAlliance));
     if(!new){
-        msg_erro("Failed to allocate memory.", "halliance_creates");
+        msg_error("Failed to allocate memory.", "halliance_creates");
         return NULL;
     }
 
@@ -65,7 +65,7 @@ void halliance_insert(HAlliance *head, const char *name)
     TAlliance *new = alliance_allocates(name);
     if(!new)
     {
-        msg_erro("Failed to insert an alliance.", "halliance_insert");
+        msg_error("Failed to insert an alliance.", "halliance_insert");
         return;
     }
     if (is_halliance_empty(head)){

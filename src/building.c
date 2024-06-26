@@ -19,7 +19,7 @@ TBuilding *tbuilding_allocates(const char key, const int amount, const int type,
     TBuilding *new = (TBuilding*)malloc(sizeof(TBuilding));
     if(!new)
     {
-        msg_erro("Failed to create building.", "building_allocates");
+        msg_error("Failed to create building.", "building_allocates");
         return NULL;
     }
     new->key = key;
@@ -37,7 +37,7 @@ Hbuilding *hbuilding_creates(void)
 
     if(!new)
     {
-        msg_erro("Failed to create building's list.", "hbuilding_creates");
+        msg_error("Failed to create building's list.", "hbuilding_creates");
         return NULL;
     }
 
